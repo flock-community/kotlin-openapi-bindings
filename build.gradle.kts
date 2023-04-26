@@ -1,34 +1,34 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
+    id("maven-publish")
+    kotlin("multiplatform") version "1.8.21"
     kotlin("plugin.serialization") version "1.5.21"
-    kotlin("jvm") version "1.7.22"
 }
 
 group = "community.flock.kotlinx.openapi.bindings"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
-    runtimeOnly("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.5.0")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testImplementation("org.skyscreamer:jsonassert:1.2.3")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "17"
+kotlin {
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+            }
+        }
+        commonTest {
+            dependencies {
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+                implementation(kotlin("test-junit"))
+                implementation("io.kotest:kotest-framework-engine:5.6.1")
+                implementation("io.kotest:kotest-assertions-core:5.6.1")
+                implementation("io.kotest:kotest-assertions-json:5.6.1")
+            }
+        }
     }
+    jvm()
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
