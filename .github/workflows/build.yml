@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  build-gradle-project:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project sources
