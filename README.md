@@ -2,9 +2,25 @@
 
 kotlin-openapi-bindings is a multiplatform library that provides bindings for OpenAPI JSON files. The library can parse and serialize to Kotlin data classes, and it takes care of union types and handles the x- properties.
 
+# Installation
+Add the dependency to your build.gradle.kts or build.gradle file:
+
+```kotlin
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("community.flock.community.flock.kotlinx.openapi.bindings:kotlin-openapi-bindings:VERSION")
+}
+```
+
 Usage
 To use kotlin-openapi-bindings, add it as a dependency to your project. Then, you can create an instance of OpenAPIObject by parsing an OpenAPI JSON file using the provided Json.decodeFromString() function:
 
+
+# Usage
+Here's a simple example of how to use kotlin-openapi-bindings:
 ```kotlin
 import com.github.jacklt.kotlin.openapi.model.OpenAPI
 
