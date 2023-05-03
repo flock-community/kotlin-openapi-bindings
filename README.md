@@ -1,3 +1,5 @@
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/community.flock.community.flock.kotlinx.openapi.bindings/kotlin-openapi-binding/badge.svg)](https://maven-badges.herokuapp.com/maven-central/community.flock.community.flock.kotlinx.openapi.bindings/kotlin-openapi-binding)
+
 # kotlin-openapi-bindings
 
 kotlin-openapi-bindings is a multiplatform library that provides bindings for OpenAPI JSON files. The library can parse and serialize to Kotlin data classes, and it takes care of union types and handles the x- properties.
