@@ -22,7 +22,7 @@ val regex = """
    \|properties\|[^\|]*\|x-[^\|]*\|$
    \|parameters\|[^\|]*\|x-[^\|]*\|$
    \|paths\|[^\|]*\|[^\|]*\|x-[^\|]*\|${'$'}
-""".trimIndent().split("\n").map { it.toRegex() }.also { println(it) }
+""".trimIndent().split("\n").map { it.toRegex() }
 
 sealed class OpenAPI(
     val json: Json = Json{ prettyPrint = true }
