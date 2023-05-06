@@ -11,19 +11,21 @@ import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.jsonObject
 
-val regex = listOf(
-    listOf("x-[^|]*"),
-    listOf("info", "x-[^|]*"),
-    listOf("paths", "[^|]*", "[^|]*", "x-[^|]*"),
-    listOf("paths", "[^|]*", "[^|]*", "responses", "x-[^|]*"),
-    listOf("paths", "[^|]*", "[^|]*", "responses", "[^|]*", "content", "[^|]*", "schema", "x-[^|]*"),
-    listOf("paths", "[^|]*", "[^|]*", "responses", "[^|]*", "content", "[^|]*", "schema", "properties", "data", "items", "x-[^|]*"),
-    listOf("components", "schemas", "[^|]*", "x-.*"),
-    listOf("components", "schemas", "[^|]*", "properties", "[^|]*", "x-.*"),
-).map { Regex("^\\|${it.joinToString("\\|")}\\|") }
+val regex = """
+   ^\|x-[^\|]*\|
+   ^\|info\|x-[^\|]*\|$
+   \|responses\|x-[^\|]*\|$
+   \|responses\|x-[^\|]*\|$
+   \|items\|x-[^\|]*\|$
+   \|schema\|x-[^\|]*\|$
+   \|schemas\|[^\|]*\|x-[^\|]*\|$
+   \|properties\|[^\|]*\|x-[^\|]*\|$
+   \|parameters\|[^\|]*\|x-[^\|]*\|$
+   \|paths\|[^\|]*\|[^\|]*\|x-[^\|]*\|${'$'}
+""".trimIndent().split("\n").map { it.toRegex() }.also { println(it) }
 
 sealed class OpenAPI(
-    val json: Json = Json
+    val json: Json = Json{ prettyPrint = true }
 ) {
 
     fun decodeFromString(string: String): OpenAPIObject {

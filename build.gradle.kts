@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "community.flock.kotlinx.openapi.bindings"
-version = "0.0.1"
+version = "0.0.3"
 
 
 val dokkaOutputDir = "$buildDir/dokka"
@@ -84,6 +84,16 @@ publishing {
 
 
 kotlin {
+    macosX64()
+    macosArm64()
+    linuxX64()
+    mingwX64()
+    js(IR) {
+        nodejs()
+    }
+    jvm {
+        withJava()
+    }
     sourceSets {
         commonMain {
             dependencies {
@@ -101,6 +111,5 @@ kotlin {
             }
         }
     }
-    jvm()
 }
 

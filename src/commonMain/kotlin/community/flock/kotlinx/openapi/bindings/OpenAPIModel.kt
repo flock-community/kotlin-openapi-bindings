@@ -5,8 +5,10 @@ package community.flock.kotlinx.openapi.bindings
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
+import kotlinx.serialization.SerializationStrategy
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.descriptors.PolymorphicKind
@@ -21,13 +23,15 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.serializer
 
 @Serializable(with = ResponseOrReferenceObjectSerializer::class)
 sealed interface ResponseOrReferenceObject
 
 @Serializable(with = HeaderOrReferenceObjectSerializer::class)
 sealed interface HeaderOrReferenceObject
+
+@Serializable(with = ParameterOrReferenceObjectSerializer::class)
+sealed interface ParameterOrReferenceObject
 
 @Serializable(with = SchemaOrReferenceObjectSerializer::class)
 sealed interface SchemaOrReferenceObject
@@ -86,7 +90,7 @@ data class PathItemObject(
     val patch: OperationObject? = null,
     val trace: OperationObject? = null,
     val servers: List<ServerObject>? = null,
-    val parameters: List<JsonElement>? = null,
+    val parameters: List<ParameterOrReferenceObject>? = null,
     val xProperties: Map<String, JsonElement>? = null
 )
 
@@ -97,7 +101,7 @@ data class OperationObject(
     val description: String? = null,
     val externalDocs: ExternalDocumentationObject? = null,
     val operationId: String? = null,
-    val parameters: List<JsonElement>? = null,
+    val parameters: List<ParameterOrReferenceObject>? = null,
     val requestBody: JsonElement? = null,
     val responses: Map<String, ResponseOrReferenceObject>,
     val callbacks: Map<String, CallbackOrReferenceObject>? = null,
@@ -108,12 +112,12 @@ data class OperationObject(
 )
 
 @Serializable(with = CallbacksObjectSerializer::class)
-class CallbacksObject(map: Map<String, PathItemObject>) : CallbackOrReferenceObject,
-    HashMap<String, PathItemObject>(map)
+class CallbacksObject(override val entries: Set<Map.Entry<String, PathItemObject>>) : CallbackOrReferenceObject,
+    AbstractMap<String, PathItemObject>()
 
 @Serializable(with = LinksObjectSerializer::class)
-class LinksObject(map: Map<String, LinkOrReferenceObject>) : LinkOrReferenceObject,
-    HashMap<String, LinkOrReferenceObject>(map)
+class LinksObject(override val entries: Set<Map.Entry<String, LinkOrReferenceObject>>
+) : AbstractMap<String, LinkOrReferenceObject>()
 
 @Serializable
 data class LinkObject(
@@ -135,7 +139,7 @@ data class ResponseObject(
 ) : ResponseOrReferenceObject
 
 @Serializable
-data class BaseParameterObject(
+data class HeaderObject(
     val description: String? = null,
     val required: Boolean? = null,
     val deprecated: Boolean? = null,
@@ -143,11 +147,41 @@ data class BaseParameterObject(
     val style: String? = null, // "matrix" | "label" | "form" | "simple" | "spaceDelimited" | "pipeDelimited" | "deepObject"
     val explode: Boolean? = null,
     val allowReserved: Boolean? = null,
-    val schema: SchemaObject? = null,
+    val schema: SchemaOrReferenceObject? = null,
     val examples: Map<String, ExampleObject>? = null,
     val example: JsonElement? = null,
 //    val content: ContentObject?
+    val xProperties: Map<String, JsonElement>? = null,
 ) : HeaderOrReferenceObject
+
+@Serializable
+data class ParameterObject(
+    val description: String? = null,
+    val required: Boolean? = null,
+    val deprecated: Boolean? = null,
+    val allowEmptyValue: Boolean? = null,
+    val style: String? = null, // "matrix" | "label" | "form" | "simple" | "spaceDelimited" | "pipeDelimited" | "deepObject"
+    val explode: Boolean? = null,
+    val allowReserved: Boolean? = null,
+    val schema: SchemaOrReferenceObject? = null,
+    val examples: Map<String, ExampleObject>? = null,
+    val example: JsonElement? = null,
+//    val content: ContentObject?
+    val name: String,
+    val `in`: ParameterLocation,
+    val xProperties: Map<String, JsonElement>? = null,
+) : ParameterOrReferenceObject
+
+enum class ParameterLocation {
+    @SerialName("query")
+    QUERY,
+    @SerialName("header")
+    HEADER,
+    @SerialName("path")
+    PATH,
+    @SerialName("cookie")
+    COOKIE,
+}
 
 @Serializable
 data class MediaTypeObject(
@@ -162,7 +196,7 @@ data class ExampleObject(
     val summary: String? = null,
     val description: String? = null,
     val value: JsonElement? = null,
-    val externalValue: String?
+    val externalValue: String? = null,
 )
 
 @Serializable
@@ -194,7 +228,7 @@ data class ServerVariableObject(
 
 @Serializable
 data class ComponentsObject(
-    val schemas: Map<String, JsonElement>? = null,
+    val schemas: Map<String, SchemaOrReferenceObject>? = null,
     val responses: Map<String, JsonElement>? = null,
     val parameters: Map<String, JsonElement>? = null,
     val examples: Map<String, JsonElement>? = null,
@@ -262,9 +296,10 @@ data class SchemaObject(
 
 @Serializable
 data class ReferenceObject(
-    val `$ref`: String
+    @SerialName("\$ref")
+    val ref: String
 ) : SchemaOrReferenceObject, SchemaOrReferenceOrBooleanObject, ResponseOrReferenceObject, HeaderOrReferenceObject,
-    CallbackOrReferenceObject, LinkOrReferenceObject
+    CallbackOrReferenceObject, LinkOrReferenceObject, ParameterOrReferenceObject
 
 
 object CallbacksObjectSerializer : KSerializer<CallbacksObject> {
@@ -285,7 +320,7 @@ object CallbacksObjectSerializer : KSerializer<CallbacksObject> {
                 PathItemObject.serializer(),
                 it.value
             )
-        })
+        }.entries)
     }
 }
 
@@ -307,7 +342,7 @@ object LinksObjectSerializer : KSerializer<LinksObject> {
                 LinkOrReferenceObject.serializer(),
                 it.value
             )
-        })
+        }.entries)
     }
 }
 
@@ -317,8 +352,11 @@ object ResponseOrReferenceObjectSerializer : KSerializer<ResponseOrReferenceObje
         buildSerialDescriptor("ResponseOrReferenceObject", PolymorphicKind.SEALED)
 
     override fun serialize(encoder: Encoder, value: ResponseOrReferenceObject) {
-        val serializer = serializer(value::class.javaObjectType)
-        encoder.encodeSerializableValue(serializer, value)
+        val serializer = when(value) {
+            is ResponseObject -> ResponseObject.serializer()
+            is ReferenceObject -> ReferenceObject.serializer()
+        } as SerializationStrategy<ResponseOrReferenceObject>
+        encoder.encodeSerializableValue(serializer , value)
     }
 
     override fun deserialize(decoder: Decoder): ResponseOrReferenceObject {
@@ -336,8 +374,11 @@ object LinkOrReferenceObjectSerializer : KSerializer<LinkOrReferenceObject> {
     override val descriptor: SerialDescriptor = buildSerialDescriptor("LinkOrReferenceObject", PolymorphicKind.SEALED)
 
     override fun serialize(encoder: Encoder, value: LinkOrReferenceObject) {
-        val serializer = serializer(value::class.javaObjectType)
-        encoder.encodeSerializableValue(serializer, value)
+        val serializer = when(value) {
+            is LinkObject -> LinkObject.serializer()
+            is ReferenceObject -> ReferenceObject.serializer()
+        } as SerializationStrategy<LinkOrReferenceObject>
+        encoder.encodeSerializableValue(serializer , value)
     }
 
     override fun deserialize(decoder: Decoder): LinkOrReferenceObject {
@@ -356,8 +397,11 @@ object CallbackOrReferenceObjectSerializer : KSerializer<CallbackOrReferenceObje
         buildSerialDescriptor("CallbackOrReferenceObject", PolymorphicKind.SEALED)
 
     override fun serialize(encoder: Encoder, value: CallbackOrReferenceObject) {
-        val serializer = serializer(value::class.javaObjectType)
-        encoder.encodeSerializableValue(serializer, value)
+        val serializer = when(value) {
+            is CallbacksObject -> CallbacksObject.serializer()
+            is ReferenceObject -> ReferenceObject.serializer()
+        } as SerializationStrategy<CallbackOrReferenceObject>
+        encoder.encodeSerializableValue(serializer , value)
     }
 
     override fun deserialize(decoder: Decoder): CallbackOrReferenceObject {
@@ -375,8 +419,11 @@ object SchemaOrReferenceObjectSerializer : KSerializer<SchemaOrReferenceObject> 
     override val descriptor: SerialDescriptor = buildSerialDescriptor("SchemaOrReferenceObject", PolymorphicKind.SEALED)
 
     override fun serialize(encoder: Encoder, value: SchemaOrReferenceObject) {
-        val serializer = serializer(value::class.javaObjectType)
-        encoder.encodeSerializableValue(serializer, value)
+        val serializer = when(value) {
+            is SchemaObject -> SchemaObject.serializer()
+            is ReferenceObject -> ReferenceObject.serializer()
+        } as SerializationStrategy<SchemaOrReferenceObject>
+        encoder.encodeSerializableValue(serializer , value)
     }
 
     override fun deserialize(decoder: Decoder): SchemaOrReferenceObject {
@@ -394,8 +441,11 @@ object HeaderOrReferenceObjectSerializer : KSerializer<HeaderOrReferenceObject> 
     override val descriptor: SerialDescriptor = buildSerialDescriptor("HeaderOrReferenceObject", PolymorphicKind.SEALED)
 
     override fun serialize(encoder: Encoder, value: HeaderOrReferenceObject) {
-        val serializer = serializer(value::class.javaObjectType)
-        encoder.encodeSerializableValue(serializer, value)
+        val serializer = when(value) {
+            is HeaderObject -> HeaderObject.serializer()
+            is ReferenceObject -> ReferenceObject.serializer()
+        } as SerializationStrategy<HeaderOrReferenceObject>
+        encoder.encodeSerializableValue(serializer , value)
     }
 
     override fun deserialize(decoder: Decoder): HeaderOrReferenceObject {
@@ -403,7 +453,29 @@ object HeaderOrReferenceObjectSerializer : KSerializer<HeaderOrReferenceObject> 
         val tree = input.decodeJsonElement().jsonObject
         return when {
             tree.containsKey("\$ref") -> input.json.decodeFromJsonElement(ReferenceObject.serializer(), tree)
-            else -> input.json.decodeFromJsonElement(BaseParameterObject.serializer(), tree)
+            else -> input.json.decodeFromJsonElement(HeaderObject.serializer(), tree)
+        }
+    }
+}
+
+object ParameterOrReferenceObjectSerializer : KSerializer<ParameterOrReferenceObject> {
+
+    override val descriptor: SerialDescriptor = buildSerialDescriptor("ParameterOrReferenceObject", PolymorphicKind.SEALED)
+
+    override fun serialize(encoder: Encoder, value: ParameterOrReferenceObject) {
+        val serializer = when(value) {
+            is ParameterObject -> ParameterObject.serializer()
+            is ReferenceObject -> ReferenceObject.serializer()
+        } as SerializationStrategy<ParameterOrReferenceObject>
+        encoder.encodeSerializableValue(serializer , value)
+    }
+
+    override fun deserialize(decoder: Decoder): ParameterOrReferenceObject {
+        val input = decoder as? JsonDecoder ?: throw SerializationException("This class can be loaded only by Json")
+        val tree = input.decodeJsonElement().jsonObject
+        return when {
+            tree.containsKey("\$ref") -> input.json.decodeFromJsonElement(ReferenceObject.serializer(), tree)
+            else -> input.json.decodeFromJsonElement(ParameterObject.serializer(), tree)
         }
     }
 }
@@ -414,7 +486,11 @@ object SchemaOrReferenceOrBooleanObjectSerializer : KSerializer<SchemaOrReferenc
         buildSerialDescriptor("SchemaOrReferenceOrBooleanObject", PolymorphicKind.SEALED)
 
     override fun serialize(encoder: Encoder, value: SchemaOrReferenceOrBooleanObject) {
-        val serializer = serializer(value::class.javaObjectType)
+        val serializer = when (value) {
+            is BooleanObject -> Boolean.serializer()
+            is SchemaObject -> SchemaObject.serializer()
+            is ReferenceObject -> ReferenceObject.serializer()
+        } as SerializationStrategy<SchemaOrReferenceOrBooleanObject>
         when (value) {
             is BooleanObject -> encoder.encodeSerializableValue(Boolean.serializer(), value.value)
             else -> encoder.encodeSerializableValue(serializer, value)
