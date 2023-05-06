@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "community.flock.kotlinx.openapi.bindings"
-version = "0.0.3"
+version = "0.0.4"
 
 
 val dokkaOutputDir = "$buildDir/dokka"
