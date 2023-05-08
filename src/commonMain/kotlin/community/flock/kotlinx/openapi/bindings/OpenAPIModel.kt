@@ -203,6 +203,26 @@ enum class ParameterLocation {
     COOKIE,
 }
 
+enum class Type {
+    @SerialName("string")
+    STRING,
+
+    @SerialName("number")
+    NUMBER,
+
+    @SerialName("integer")
+    INTEGER,
+
+    @SerialName("boolean")
+    BOOLEAN,
+
+    @SerialName("array")
+    ARRAY,
+
+    @SerialName("object")
+    OBJECT,
+}
+
 @Serializable
 data class MediaTypeObject(
     val schema: SchemaOrReferenceObject? = null,
@@ -324,7 +344,7 @@ data class SchemaObject(
     val examples: Array<JsonElement>? = null,
     val deprecated: Boolean? = null,
 
-    val type: String? = null,
+    val type: Type? = null,
     val allOf: Array<SchemaOrReferenceObject>? = null,
     val oneOf: Array<SchemaOrReferenceObject>? = null,
     val anyOf: Array<SchemaOrReferenceObject>? = null,
