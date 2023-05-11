@@ -71,6 +71,76 @@ value class MediaType(val value: String)
 @Serializable
 value class StatusCode(val value: String)
 
+enum class Style {
+    @SerialName("matrix")
+    MATRIX,
+
+    @SerialName("label")
+    LABEL,
+
+    @SerialName("form")
+    FORM,
+
+    @SerialName("simple")
+    SIMPLE,
+    @SerialName("spaceDelimited")
+    SPACE_DELIMITED,
+
+    @SerialName("pipeDelimited")
+    PIPE_DELIMITED,
+
+    @SerialName("deepObject")
+    DEEP_OBJECT
+}
+
+enum class ParameterLocation {
+    @SerialName("query")
+    QUERY,
+
+    @SerialName("header")
+    HEADER,
+
+    @SerialName("path")
+    PATH,
+
+    @SerialName("cookie")
+    COOKIE,
+}
+
+enum class Type {
+    @SerialName("string")
+    STRING,
+
+    @SerialName("number")
+    NUMBER,
+
+    @SerialName("integer")
+    INTEGER,
+
+    @SerialName("boolean")
+    BOOLEAN,
+
+    @SerialName("array")
+    ARRAY,
+
+    @SerialName("object")
+    OBJECT,
+}
+
+enum class SecuritySchemeType {
+    @SerialName("apiKey")
+    API_KEY,
+
+    @SerialName("http")
+    HTTP,
+
+    @SerialName("oauth2")
+    OAUTH2,
+
+    @SerialName("openIdConnect")
+    OPEN_ID_CONNECT,
+}
+
 @Serializable
 data class OpenAPIObject(
     val openapi: String,
@@ -178,7 +248,7 @@ data class HeaderObject(
     val required: Boolean? = null,
     val deprecated: Boolean? = null,
     val allowEmptyValue: Boolean? = null,
-    val style: String? = null, // "matrix" | "label" | "form" | "simple" | "spaceDelimited" | "pipeDelimited" | "deepObject"
+    val style: Style? = null,
     val explode: Boolean? = null,
     val allowReserved: Boolean? = null,
     val schema: SchemaOrReferenceObject? = null,
@@ -194,7 +264,7 @@ data class ParameterObject(
     val required: Boolean? = null,
     val deprecated: Boolean? = null,
     val allowEmptyValue: Boolean? = null,
-    val style: String? = null, // "matrix" | "label" | "form" | "simple" | "spaceDelimited" | "pipeDelimited" | "deepObject"
+    val style: Style? = null,
     val explode: Boolean? = null,
     val allowReserved: Boolean? = null,
     val schema: SchemaOrReferenceObject? = null,
@@ -205,40 +275,6 @@ data class ParameterObject(
     val `in`: ParameterLocation,
     val xProperties: Map<String, JsonElement>? = null,
 ) : ParameterOrReferenceObject
-
-enum class ParameterLocation {
-    @SerialName("query")
-    QUERY,
-
-    @SerialName("header")
-    HEADER,
-
-    @SerialName("path")
-    PATH,
-
-    @SerialName("cookie")
-    COOKIE,
-}
-
-enum class Type {
-    @SerialName("string")
-    STRING,
-
-    @SerialName("number")
-    NUMBER,
-
-    @SerialName("integer")
-    INTEGER,
-
-    @SerialName("boolean")
-    BOOLEAN,
-
-    @SerialName("array")
-    ARRAY,
-
-    @SerialName("object")
-    OBJECT,
-}
 
 @Serializable
 data class MediaTypeObject(
@@ -333,20 +369,6 @@ data class OAuthFlowObject(
     val scopes: Map<String, String>? = null,
 )
 
-enum class SecuritySchemeType {
-    @SerialName("apiKey")
-    API_KEY,
-
-    @SerialName("http")
-    HTTP,
-
-    @SerialName("oauth2")
-    OAUTH2,
-
-    @SerialName("openIdConnect")
-    OPEN_ID_CONNECT,
-}
-
 @Serializable
 data class ExternalDocumentationObject(
     val description: String? = null,
@@ -367,13 +389,13 @@ data class SchemaObject(
     val xml: XmlObject? = null,
     val externalDocs: ExternalDocumentationObject? = null,
     val example: JsonElement? = null,
-    val examples: Array<JsonElement>? = null,
+    val examples: List<JsonElement>? = null,
     val deprecated: Boolean? = null,
 
     val type: Type? = null,
-    val allOf: Array<SchemaOrReferenceObject>? = null,
-    val oneOf: Array<SchemaOrReferenceObject>? = null,
-    val anyOf: Array<SchemaOrReferenceObject>? = null,
+    val allOf: List<SchemaOrReferenceObject>? = null,
+    val oneOf: List<SchemaOrReferenceObject>? = null,
+    val anyOf: List<SchemaOrReferenceObject>? = null,
     val not: SchemaOrReferenceObject? = null,
     val items: SchemaOrReferenceObject? = null,
     val properties: Map<String, SchemaOrReferenceObject>? = null,
