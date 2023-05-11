@@ -23,6 +23,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.jsonObject
+import kotlin.jvm.JvmInline
 
 @Serializable(with = ResponseOrReferenceObjectSerializer::class)
 sealed interface ResponseOrReferenceObject
@@ -54,12 +55,28 @@ sealed interface RequestBodyOrReferenceObject
 @Serializable(with = SecuritySchemeOrReferenceObjectSerializer::class)
 sealed interface SecuritySchemeOrReferenceObject
 
+@JvmInline
+@Serializable
+value class Ref(val value: String)
+
+@JvmInline
+@Serializable
+value class Path(val value: String)
+
+@JvmInline
+@Serializable
+value class MediaType(val value: String)
+
+@JvmInline
+@Serializable
+value class StatusCode(val value: String)
+
 @Serializable
 data class OpenAPIObject(
     val openapi: String,
     val info: InfoObject,
     val servers: List<ServerObject>? = null,
-    val paths: Map<String, PathItemObject>,
+    val paths: Map<Path, PathItemObject>,
     val components: ComponentsObject? = null,
     val security: List<Map<String, List<String>>>? = null,
     val tags: List<TagObject>? = null,
@@ -112,10 +129,10 @@ data class OperationObject(
     val operationId: String? = null,
     val parameters: List<ParameterOrReferenceObject>? = null,
     val requestBody: JsonElement? = null,
-    val responses: Map<String, ResponseOrReferenceObject>? = null,
+    val responses: Map<StatusCode, ResponseOrReferenceObject>? = null,
     val callbacks: Map<String, CallbackOrReferenceObject>? = null,
     val deprecated: Boolean? = null,
-//    val security: List<SecurityRequirementObject>? = null,
+    val security: Map<String, List<String>>? = null,
     val servers: List<ServerObject>? = null,
     val xProperties: Map<String, JsonElement>? = null
 )
@@ -123,7 +140,7 @@ data class OperationObject(
 @Serializable
 data class RequestBodyObject(
     val description: String? = null,
-    val content: Map<String, MediaTypeObject>? = null,
+    val content: Map<MediaType, MediaTypeObject>? = null,
     val required: Boolean
 ) : RequestBodyOrReferenceObject
 
@@ -150,7 +167,7 @@ data class LinkObject(
 data class ResponseObject(
     val description: String? = null,
     val headers: Map<String, HeaderOrReferenceObject>? = null,
-    val content: Map<String, MediaTypeObject>? = null,
+    val content: Map<MediaType, MediaTypeObject>? = null,
     val links: LinksObject? = null,
     val xProperties: Map<String, JsonElement>? = null
 ) : ResponseOrReferenceObject
@@ -167,7 +184,7 @@ data class HeaderObject(
     val schema: SchemaOrReferenceObject? = null,
     val examples: Map<String, ExampleOrReferenceObject>? = null,
     val example: JsonElement? = null,
-//    val content: ContentObject?
+    val content: Map<MediaType, MediaTypeObject>? = null,
     val xProperties: Map<String, JsonElement>? = null,
 ) : HeaderOrReferenceObject
 
@@ -183,7 +200,7 @@ data class ParameterObject(
     val schema: SchemaOrReferenceObject? = null,
     val examples: Map<String, ExampleOrReferenceObject>? = null,
     val example: JsonElement? = null,
-//    val content: ContentObject?
+    val content: Map<MediaType, MediaTypeObject>? = null,
     val name: String,
     val `in`: ParameterLocation,
     val xProperties: Map<String, JsonElement>? = null,
@@ -228,7 +245,16 @@ data class MediaTypeObject(
     val schema: SchemaOrReferenceObject? = null,
     val examples: Map<String, JsonElement>? = null,
     val example: JsonElement? = null,
-//    val encoding: EncodingObject?
+    val encoding: Map<String, EncodingPropertyObject>? = null
+)
+
+@Serializable
+data class EncodingPropertyObject (
+    val contentType: String? = null,
+    val headers: Map<String, HeaderOrReferenceObject>? = null,
+    val style: String? = null,
+    val explode: Boolean? = null,
+    val allowReserved: Boolean? = null,
 )
 
 @Serializable
@@ -335,10 +361,10 @@ data class BooleanObject(
 @Serializable
 data class SchemaObject(
     val nullable: Boolean? = null,
-//    val discriminator: DiscriminatorObject? = null,
+    val discriminator: DiscriminatorObject? = null,
     val readOnly: Boolean? = null,
     val writeOnly: Boolean? = null,
-//    val xml: XmlObject? = null,
+    val xml: XmlObject? = null,
     val externalDocs: ExternalDocumentationObject? = null,
     val example: JsonElement? = null,
     val examples: Array<JsonElement>? = null,
@@ -377,9 +403,24 @@ data class SchemaObject(
 ) : SchemaOrReferenceObject, SchemaOrReferenceOrBooleanObject
 
 @Serializable
+data class DiscriminatorObject (
+    val propertyName: String? = null,
+    val mapping: Map<String, String>
+)
+
+@Serializable
+data class XmlObject (
+    val name: String? = null,
+    val namespace: String? = null,
+    val prefix: String? = null,
+    val attribute: Boolean? = null,
+    val wrapped: Boolean? = null,
+)
+
+@Serializable
 data class ReferenceObject(
     @SerialName("\$ref")
-    val ref: String
+    val ref: Ref
 ) : SchemaOrReferenceObject, SchemaOrReferenceOrBooleanObject, ResponseOrReferenceObject, HeaderOrReferenceObject,
     CallbackOrReferenceObject, LinkOrReferenceObject, ParameterOrReferenceObject, ExampleOrReferenceObject,
     RequestBodyOrReferenceObject, SecuritySchemeOrReferenceObject
