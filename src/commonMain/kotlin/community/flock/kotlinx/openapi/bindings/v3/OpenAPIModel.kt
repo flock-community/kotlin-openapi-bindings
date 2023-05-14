@@ -198,7 +198,7 @@ data class OperationObject(
     val externalDocs: ExternalDocumentationObject? = null,
     val operationId: String? = null,
     val parameters: List<ParameterOrReferenceObject>? = null,
-    val requestBody: JsonElement? = null,
+    val requestBody: RequestBodyOrReferenceObject? = null,
     val responses: Map<StatusCode, ResponseOrReferenceObject>? = null,
     val callbacks: Map<String, CallbackOrReferenceObject>? = null,
     val deprecated: Boolean? = null,
@@ -211,7 +211,7 @@ data class OperationObject(
 data class RequestBodyObject(
     val description: String? = null,
     val content: Map<MediaType, MediaTypeObject>? = null,
-    val required: Boolean
+    val required: Boolean? = null
 ) : RequestBodyOrReferenceObject
 
 @Serializable(with = CallbacksObjectSerializer::class)
