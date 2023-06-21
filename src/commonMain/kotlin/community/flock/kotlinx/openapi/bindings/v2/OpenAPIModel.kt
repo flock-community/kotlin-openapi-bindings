@@ -153,7 +153,7 @@ data class OpenAPIObject(
     val consumes: List<String>? = null,
     val produces: List<String>? = null,
     val paths: Map<Path, PathItemObject>,
-    val definitions: Map<Path, SchemaObject>? = null,
+    val definitions: Map<String, SchemaObject>? = null,
     val parameters: Map<String, ParameterObject>? = null,
     val responses: Map<String, ResponseObject>? = null,
     val securityDefinitions: Map<String, SecuritySchemeObject>? = null,
