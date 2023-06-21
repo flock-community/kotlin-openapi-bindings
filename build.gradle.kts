@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "community.flock.kotlinx.openapi.bindings"
-version = "0.0.8"
+version = "0.0.9"
 
 
 val dokkaOutputDir = "$buildDir/dokka"
@@ -55,7 +55,7 @@ publishing {
             artifact(javadocJar)
             pom {
                 name.set("Flock. community")
-                description.set("KODEIN Dependency Injection Core")
+                description.set("Kotlin openapi bindings")
                 licenses {
                     license {
                         name.set("MIT")
