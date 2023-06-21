@@ -1,12 +1,10 @@
-package community.flock.kotlinx.openapi.bindings
+package community.flock.kotlinx.openapi.bindings.v3
 
+import community.flock.kotlinx.openapi.bindings.IO
+import community.flock.kotlinx.openapi.bindings.Version
 import io.kotest.assertions.json.shouldEqualJson
 
 import kotlin.test.Test
-
-expect object IO {
-    fun readFile(fileName: String):String
-}
 
 class OpenAPITests {
 
@@ -32,7 +30,7 @@ class OpenAPITests {
     fun `uspto`() = runTest("uspto.json")
 
     private fun runTest(fileName:String) {
-        val input = IO.readFile(fileName)
+        val input = IO.readFile(fileName, Version.V3)
         val openapi = OpenAPI.decodeFromString(input)
         val string = OpenAPI.encodeToString(openapi)
         input shouldEqualJson string

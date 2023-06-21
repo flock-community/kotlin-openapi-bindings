@@ -1,4 +1,4 @@
-package community.flock.kotlinx.openapi.bindings
+package community.flock.kotlinx.openapi.bindings.v3
 
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -20,6 +20,7 @@ val regex = """
    \|schema\|x-[^\|]*\|$
    \|schemas\|[^\|]*\|x-[^\|]*\|$
    \|properties\|[^\|]*\|x-[^\|]*\|$
+   \|properties\|[^\|]*\|[^\|]*\|x-[^\|]*\|$
    \|parameters\|[^\|]*\|x-[^\|]*\|$
    \|paths\|[^\|]*\|[^\|]*\|x-[^\|]*\|${'$'}
 """.trimIndent().split("\n").map { it.toRegex() }
