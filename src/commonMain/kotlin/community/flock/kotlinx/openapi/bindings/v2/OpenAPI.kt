@@ -29,14 +29,14 @@ sealed class OpenAPI(
     val json: Json = Json{ prettyPrint = true }
 ) {
 
-    fun decodeFromString(string: String): OpenAPIObject {
+    fun decodeFromString(string: String): SwaggerObject {
         return json
             .decodeFromString<JsonElement>(string)
             .traverse({ path, obj -> obj.encodeExtensions(path) })
             .let { json.decodeFromJsonElement(it) }
     }
 
-    fun encodeToString(value: OpenAPIObject): String {
+    fun encodeToString(value: SwaggerObject): String {
         return json
             .encodeToJsonElement(value)
             .traverse({ _, obj -> obj.decodeExtensions() })

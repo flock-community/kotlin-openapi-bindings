@@ -16,7 +16,6 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonDecoder
 import kotlinx.serialization.json.JsonElement
@@ -130,6 +129,9 @@ enum class Type {
 
     @SerialName("object")
     OBJECT,
+
+    @SerialName("file")
+    FILE,
 }
 
 enum class SecuritySchemeType {
@@ -144,7 +146,7 @@ enum class SecuritySchemeType {
 }
 
 @Serializable
-data class OpenAPIObject(
+data class SwaggerObject(
     val swagger: String,
     val info: InfoObject,
     val host: String? = null,
@@ -283,7 +285,7 @@ data class ParameterObject(
     val description: String? = null,
     val required: Boolean? = null,
     val schema: SchemaOrReferenceObject? = null,
-    val type: String? = null,
+    val type: Type? = null,
     val items: SchemaOrReferenceObject? = null,
     val format: String? = null,
     val allowEmptyValue: Boolean? = null,
