@@ -46,9 +46,6 @@ sealed interface CallbackOrReferenceObject
 @Serializable(with = LinkOrReferenceObjectSerializer::class)
 sealed interface LinkOrReferenceObject
 
-@Serializable(with = ExampleOrReferenceObjectSerializer::class)
-sealed interface ExampleOrReferenceObject
-
 @Serializable(with = RequestBodyOrReferenceObjectSerializer::class)
 sealed interface RequestBodyOrReferenceObject
 
@@ -251,7 +248,7 @@ data class ResponseObject(
     val schema: SchemaOrReferenceObject? = null,
     val headers: Map<String, HeaderOrReferenceObject>? = null,
     val links: LinksObject? = null,
-    val examples: Map<String, ExampleOrReferenceObject>? = null,
+    val examples: Map<String, JsonElement>? = null,
     val xProperties: Map<String, JsonElement>? = null
 ) : ResponseOrReferenceObject
 
@@ -322,14 +319,6 @@ data class EncodingPropertyObject(
     val explode: Boolean? = null,
     val allowReserved: Boolean? = null,
 )
-
-@Serializable
-data class ExampleObject(
-    val summary: String? = null,
-    val description: String? = null,
-    val value: JsonElement? = null,
-    val externalValue: String? = null,
-) : ExampleOrReferenceObject
 
 @Serializable
 data class ContactObject(
@@ -440,7 +429,7 @@ data class ReferenceObject(
     val ref: Ref,
     val xml: XmlObject? = null,
 ) : SchemaOrReferenceObject, SchemaOrReferenceOrBooleanObject, ResponseOrReferenceObject, HeaderOrReferenceObject,
-    CallbackOrReferenceObject, LinkOrReferenceObject, ParameterOrReferenceObject, ExampleOrReferenceObject,
+    CallbackOrReferenceObject, LinkOrReferenceObject, ParameterOrReferenceObject,
     RequestBodyOrReferenceObject, SecuritySchemeOrReferenceObject
 
 
@@ -619,29 +608,6 @@ object ParameterOrReferenceObjectSerializer : KSerializer<ParameterOrReferenceOb
         return when {
             tree.containsKey("\$ref") -> input.json.decodeFromJsonElement(ReferenceObject.serializer(), tree)
             else -> input.json.decodeFromJsonElement(ParameterObject.serializer(), tree)
-        }
-    }
-}
-
-object ExampleOrReferenceObjectSerializer : KSerializer<ExampleOrReferenceObject> {
-
-    override val descriptor: SerialDescriptor =
-        buildSerialDescriptor("ExampleOrReferenceObject", PolymorphicKind.SEALED)
-
-    override fun serialize(encoder: Encoder, value: ExampleOrReferenceObject) {
-        val serializer = when (value) {
-            is ExampleObject -> ExampleObject.serializer()
-            is ReferenceObject -> ReferenceObject.serializer()
-        } as SerializationStrategy<ExampleOrReferenceObject>
-        encoder.encodeSerializableValue(serializer, value)
-    }
-
-    override fun deserialize(decoder: Decoder): ExampleOrReferenceObject {
-        val input = decoder as? JsonDecoder ?: throw SerializationException("This class can be loaded only by Json")
-        val tree = input.decodeJsonElement().jsonObject
-        return when {
-            tree.containsKey("\$ref") -> input.json.decodeFromJsonElement(ReferenceObject.serializer(), tree)
-            else -> input.json.decodeFromJsonElement(ExampleObject.serializer(), tree)
         }
     }
 }
