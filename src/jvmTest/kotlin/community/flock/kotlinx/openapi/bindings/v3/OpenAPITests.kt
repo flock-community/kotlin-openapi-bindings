@@ -3,6 +3,9 @@ package community.flock.kotlinx.openapi.bindings.v3
 import community.flock.kotlinx.openapi.bindings.IO
 import community.flock.kotlinx.openapi.bindings.Version
 import io.kotest.assertions.json.shouldEqualJson
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
 
 import kotlin.test.Test
 
@@ -31,9 +34,9 @@ class OpenAPITests {
 
     private fun runTest(fileName:String) {
         val input = IO.readFile(fileName, Version.V3)
-        val openapi = OpenAPI.decodeFromString(input)
-        val string = OpenAPI.encodeToString(openapi)
-        input shouldEqualJson string
+        val json = Json.decodeFromString<JsonElement>(input)
+        input shouldEqualJson OpenAPI.encodeToString(OpenAPI.decodeFromString(input))
+        input shouldEqualJson OpenAPI.encodeToString(OpenAPI.decodeFromJsonElement(json))
     }
 }
 
