@@ -397,7 +397,7 @@ data class SchemaObject(
     val maxProperties: Int? = null,
     val minProperties: Int? = null,
     val required: Array<String>? = null,
-    val enum: Array<JsonElement>? = null,
+    val enum: Array<JsonPrimitive>? = null,
     val type: Type? = null,
 
     val items: SchemaOrReferenceObject? = null,

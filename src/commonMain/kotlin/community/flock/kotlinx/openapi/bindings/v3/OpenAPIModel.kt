@@ -202,7 +202,7 @@ data class OperationObject(
     val responses: Map<StatusCode, ResponseOrReferenceObject>? = null,
     val callbacks: Map<String, CallbackOrReferenceObject>? = null,
     val deprecated: Boolean? = null,
-    val security: Map<String, List<String>>? = null,
+    val security: List<Map<String, List<String>>>? = null,
     val servers: List<ServerObject>? = null,
     val xProperties: Map<String, JsonElement>? = null
 )
@@ -418,8 +418,8 @@ data class SchemaObject(
     val uniqueItems: Boolean? = null,
     val maxProperties: Int? = null,
     val minProperties: Int? = null,
-    val required: Array<String>? = null,
-    val enum: Array<JsonElement>? = null,
+    val required: List<String>? = null,
+    val enum: List<JsonPrimitive>? = null,
 
     val xProperties: Map<String, JsonElement>? = null
 ) : SchemaOrReferenceObject, SchemaOrReferenceOrBooleanObject
