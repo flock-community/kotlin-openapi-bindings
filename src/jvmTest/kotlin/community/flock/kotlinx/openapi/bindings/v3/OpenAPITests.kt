@@ -24,6 +24,9 @@ class OpenAPITests {
     fun `petstore`() = runTest("petstore.json")
 
     @Test
+    fun `petstore_custom`() = runTest("petstore_custom.json")
+
+    @Test
     fun `stripe`() = runTest("stripe.json")
 
     @Test
