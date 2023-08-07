@@ -323,7 +323,7 @@ data class ServerObject(
 
 @Serializable
 data class ServerVariableObject(
-    val enum: List<JsonElement>? = null,
+    val enum: List<JsonPrimitive>? = null,
     val default: JsonElement? = null,
     val description: String? = null
 )

@@ -270,7 +270,7 @@ data class HeaderObject(
     val maxItems: Int? = null,
     val minItems: Int? = null,
     val uniqueItems: Boolean? = null,
-    val enum: JsonElement? = null,
+    val enum: List<JsonPrimitive>? = null,
     val multipleOf: Int? = null,
     val xProperties: Map<String, JsonElement>? = null,
 ) : HeaderOrReferenceObject
@@ -298,7 +298,7 @@ data class ParameterObject(
     val maxItems: Int? = null,
     val minItems: Int? = null,
     val uniqueItems: Boolean? = null,
-    val enum: JsonElement? = null,
+    val enum: List<JsonPrimitive>? = null,
     val multipleOf: Int? = null,
     val xProperties: Map<String, JsonElement>? = null,
 ) : ParameterOrReferenceObject
@@ -342,7 +342,7 @@ data class ServerObject(
 
 @Serializable
 data class ServerVariableObject(
-    val enum: List<JsonElement>? = null,
+    val enum: List<JsonPrimitive>? = null,
     val default: JsonElement? = null,
     val description: String? = null
 )
@@ -396,8 +396,8 @@ data class SchemaObject(
     val uniqueItems: Boolean? = null,
     val maxProperties: Int? = null,
     val minProperties: Int? = null,
-    val required: Array<String>? = null,
-    val enum: Array<JsonPrimitive>? = null,
+    val required: List<String>? = null,
+    val enum: List<JsonPrimitive>? = null,
     val type: Type? = null,
 
     val items: SchemaOrReferenceObject? = null,
