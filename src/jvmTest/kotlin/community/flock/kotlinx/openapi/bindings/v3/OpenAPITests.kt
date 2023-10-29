@@ -18,6 +18,9 @@ class OpenAPITests {
     fun `gh`() = runTest("gh.json")
 
     @Test
+    fun `keto`() = runTest("keto.json")
+
+    @Test
     fun `link_example`() = runTest("link-example.json")
 
     @Test
@@ -31,6 +34,9 @@ class OpenAPITests {
 
     @Test
     fun `uspto`() = runTest("uspto.json")
+
+    @Test
+    fun `workday`() = runTest("workday.json")
 
     private fun runTest(fileName:String) {
         val input = IO.readFile(fileName, Version.V3)

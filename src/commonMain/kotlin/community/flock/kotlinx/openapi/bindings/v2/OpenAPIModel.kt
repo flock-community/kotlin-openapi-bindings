@@ -220,7 +220,8 @@ data class OperationObject(
 data class RequestBodyObject(
     val description: String? = null,
     val content: Map<MediaType, MediaTypeObject>? = null,
-    val required: Boolean
+    val required: Boolean,
+    val xProperties: Map<String, JsonElement>? = null
 ) : RequestBodyOrReferenceObject
 
 @Serializable(with = CallbacksObjectSerializer::class)
@@ -409,9 +410,9 @@ data class SchemaObject(
 ) : SchemaOrReferenceObject, SchemaOrReferenceOrBooleanObject
 
 @Serializable
-data class DiscriminatorObject(
-    val propertyName: String? = null,
-    val mapping: Map<String, String>
+data class DiscriminatorObject (
+    val propertyName: String,
+    val mapping: Map<String, String>? = null,
 )
 
 @Serializable

@@ -1,0 +1,4694 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/api/workdays/{code}": {
+      "get": {
+        "tags": [
+          "workday-controller"
+        ],
+        "operationId": "findByCode",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkDay"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "workday-controller"
+        ],
+        "operationId": "put",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkDayForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkDay"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "workday-controller"
+        ],
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sickdays/{code}": {
+      "get": {
+        "tags": [
+          "sickday-controller"
+        ],
+        "operationId": "findByCode_1",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SickDay"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "sickday-controller"
+        ],
+        "operationId": "put_1",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SickDayForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SickDay"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "sickday-controller"
+        ],
+        "operationId": "delete_1",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects/{code}": {
+      "get": {
+        "tags": [
+          "project-controller"
+        ],
+        "operationId": "findByCode_2",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "project-controller"
+        ],
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "project-controller"
+        ],
+        "operationId": "delete_2",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/persons/{code}": {
+      "put": {
+        "tags": [
+          "person-controller"
+        ],
+        "operationId": "put_2",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Person"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leave-days/{code}": {
+      "get": {
+        "tags": [
+          "leave-day-controller"
+        ],
+        "operationId": "findByCode_3",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaveDay"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "leave-day-controller"
+        ],
+        "operationId": "put_3",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeaveDayForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaveDay"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "leave-day-controller"
+        ],
+        "operationId": "delete_4",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/expenses-travel/{id}": {
+      "put": {
+        "tags": [
+          "travel-expense-controller"
+        ],
+        "operationId": "putTravelExpense",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TravelExpenseInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TravelExpense"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/expenses-cost/{id}": {
+      "put": {
+        "tags": [
+          "cost-expense-controller"
+        ],
+        "operationId": "putCostExpense",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CostExpenseInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CostExpense"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/events/{code}": {
+      "get": {
+        "tags": [
+          "event-controller"
+        ],
+        "operationId": "findByCode_4",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "event-controller"
+        ],
+        "operationId": "put_4",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "event-controller"
+        ],
+        "operationId": "delete_5",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contracts-service/{code}": {
+      "put": {
+        "tags": [
+          "contract-controller"
+        ],
+        "operationId": "putService",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractServiceForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractService"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contracts-management/{code}": {
+      "put": {
+        "tags": [
+          "contract-controller"
+        ],
+        "operationId": "putManagement",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractManagementForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractManagement"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contracts-internal/{code}": {
+      "put": {
+        "tags": [
+          "contract-controller"
+        ],
+        "operationId": "putInternal",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractInternalForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractInternal"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contracts-external/{code}": {
+      "put": {
+        "tags": [
+          "contract-controller"
+        ],
+        "operationId": "putExternal",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractExternalForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractExternal"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clients/{code}": {
+      "get": {
+        "tags": [
+          "client-controller"
+        ],
+        "operationId": "findByCode_6",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Client"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "client-controller"
+        ],
+        "operationId": "put_5",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Client"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "client-controller"
+        ],
+        "operationId": "delete_7",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/assignments/{code}": {
+      "get": {
+        "tags": [
+          "assignment-controller"
+        ],
+        "operationId": "findByCode_7",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Assignment"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "assignment-controller"
+        ],
+        "operationId": "put_6",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignmentForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Assignment"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "assignment-controller"
+        ],
+        "operationId": "delete_8",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/export/workday/{code}": {
+      "post": {
+        "tags": [
+          "google-export-controller"
+        ],
+        "operationId": "exportWorkday",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workdays": {
+      "get": {
+        "tags": [
+          "workday-controller"
+        ],
+        "operationId": "getAll",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "pageable",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkDay"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "workday-controller"
+        ],
+        "operationId": "post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkDayForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkDay"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workdays/sheets": {
+      "post": {
+        "tags": [
+          "workday-controller"
+        ],
+        "operationId": "postSheets",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "file"
+                ],
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sickdays": {
+      "get": {
+        "tags": [
+          "sickday-controller"
+        ],
+        "operationId": "getAll_1_1",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "pageable",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/SickDay"
+                      }
+                    },
+                    {
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "sickday-controller"
+        ],
+        "operationId": "post_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SickDayForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SickDay"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects": {
+      "get": {
+        "tags": [
+          "project-controller"
+        ],
+        "operationId": "findAll",
+        "parameters": [
+          {
+            "name": "pageable",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Project"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "project-controller"
+        ],
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/persons": {
+      "get": {
+        "tags": [
+          "person-controller"
+        ],
+        "operationId": "findAll_1_1",
+        "parameters": [
+          {
+            "name": "pageable",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          },
+          {
+            "name": "active",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Person"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "person-controller"
+        ],
+        "operationId": "post_2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Person"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leave-days": {
+      "get": {
+        "tags": [
+          "leave-day-controller"
+        ],
+        "operationId": "getAll_1",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "pageable",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LeaveDay"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "leave-day-controller"
+        ],
+        "operationId": "post_3",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeaveDayForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaveDay"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/invoices/upload_invoice": {
+      "post": {
+        "tags": [
+          "invoice-controller"
+        ],
+        "operationId": "uploadToExactonline",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadInvoice"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonoListObjectNode"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/expenses/files": {
+      "post": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "postFiles",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "file"
+                ],
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/expenses-travel": {
+      "post": {
+        "tags": [
+          "travel-expense-controller"
+        ],
+        "operationId": "postTravelExpense",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TravelExpenseInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TravelExpense"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/expenses-cost": {
+      "post": {
+        "tags": [
+          "cost-expense-controller"
+        ],
+        "operationId": "postCostExpense",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CostExpenseInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CostExpense"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/events": {
+      "get": {
+        "tags": [
+          "event-controller"
+        ],
+        "operationId": "getAll_2",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Event"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "event-controller"
+        ],
+        "operationId": "post_4",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/events/{code}/ratings": {
+      "get": {
+        "tags": [
+          "event-controller"
+        ],
+        "operationId": "findEventRatings",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EventRating"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "event-controller"
+        ],
+        "operationId": "postRating",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventRatingForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventRating"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contracts-service": {
+      "post": {
+        "tags": [
+          "contract-controller"
+        ],
+        "operationId": "postService",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractServiceForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractService"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contracts-management": {
+      "post": {
+        "tags": [
+          "contract-controller"
+        ],
+        "operationId": "postManagement",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractManagementForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractManagement"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contracts-internal": {
+      "post": {
+        "tags": [
+          "contract-controller"
+        ],
+        "operationId": "postInternal",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractInternalForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractInternal"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contracts-external": {
+      "post": {
+        "tags": [
+          "contract-controller"
+        ],
+        "operationId": "postExternal",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractExternalForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractExternal"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clients": {
+      "get": {
+        "tags": [
+          "client-controller"
+        ],
+        "operationId": "findAll_1",
+        "parameters": [
+          {
+            "name": "pageable",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Client"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "client-controller"
+        ],
+        "operationId": "post_5",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Client"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/assignments": {
+      "get": {
+        "tags": [
+          "assignment-controller"
+        ],
+        "operationId": "findAllByToAfterOrToNull_1_1",
+        "parameters": [
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          },
+          {
+            "name": "projectCode",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "personId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AssignmentWithHours"
+                      }
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Assignment"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "assignment-controller"
+        ],
+        "operationId": "post_6",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignmentForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Assignment"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/reminder": {
+      "get": {
+        "tags": [
+          "task-controller"
+        ],
+        "operationId": "reminder",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/login/type": {
+      "get": {
+        "tags": [
+          "login-config-controller"
+        ],
+        "operationId": "getType",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bootstrap": {
+      "get": {
+        "tags": [
+          "bootstrap-controller"
+        ],
+        "operationId": "bootstrap",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bootstrap"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workdays/sheets/{file}/{name}": {
+      "get": {
+        "tags": [
+          "workday-controller"
+        ],
+        "operationId": "getSheets",
+        "parameters": [
+          {
+            "name": "file",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "byte"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/todos": {
+      "get": {
+        "tags": [
+          "todo-controller"
+        ],
+        "operationId": "getTodoAll",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Todo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/persons/{uuid}": {
+      "get": {
+        "tags": [
+          "person-controller"
+        ],
+        "operationId": "findByUui",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Person"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/persons/specialDates": {
+      "get": {
+        "tags": [
+          "person-controller"
+        ],
+        "operationId": "specialDates",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonEvent"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/persons/me": {
+      "get": {
+        "tags": [
+          "person-controller"
+        ],
+        "operationId": "findByMe",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Person"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/invoices": {
+      "get": {
+        "tags": [
+          "invoice-controller"
+        ],
+        "operationId": "getInvoiceAll",
+        "parameters": [
+          {
+            "name": "pageable",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Invoice"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ext/calendar/calendar.ics": {
+      "get": {
+        "tags": [
+          "calendar-controller"
+        ],
+        "operationId": "get",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/calendar": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/expenses": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "getExpenseAll",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "pageable",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Expense"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/expenses/{id}": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "getExpenseById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Expense"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "deleteExpenseById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/expenses/files/{file}/{name}": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "getFiles",
+        "parameters": [
+          {
+            "name": "file",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "byte"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contracts": {
+      "get": {
+        "tags": [
+          "contract-controller"
+        ],
+        "operationId": "findAll_1_2_1_1",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "personId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Contract"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contracts/{code}": {
+      "get": {
+        "tags": [
+          "contract-controller"
+        ],
+        "operationId": "findByCode_5",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contract"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "contract-controller"
+        ],
+        "operationId": "delete_6",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/aggregations/total-per-person": {
+      "get": {
+        "tags": [
+          "aggregation-controller"
+        ],
+        "operationId": "totalsPerPersonByYear_1",
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AggregationPerson"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/aggregations/total-per-person-me": {
+      "get": {
+        "tags": [
+          "aggregation-controller"
+        ],
+        "operationId": "totalsPerPersonMeByYearMonth",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/AggregationPerson"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/aggregations/total-per-month": {
+      "get": {
+        "tags": [
+          "aggregation-controller"
+        ],
+        "operationId": "totalsPerMonthByYear",
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AggregationMonth"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/aggregations/total-per-client": {
+      "get": {
+        "tags": [
+          "aggregation-controller"
+        ],
+        "operationId": "revenuePerClientByYear",
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AggregationClient"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/aggregations/person-nonproductive-hours-per-day": {
+      "get": {
+        "tags": [
+          "aggregation-controller"
+        ],
+        "operationId": "personNonProductiveHoursPerDay",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NonProductiveHours"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/aggregations/leave-day-report": {
+      "get": {
+        "tags": [
+          "aggregation-controller"
+        ],
+        "operationId": "leaveDayReportByYear",
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AggregationLeaveDay"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/aggregations/leave-day-report-me": {
+      "get": {
+        "tags": [
+          "aggregation-controller"
+        ],
+        "operationId": "leaveDayReportMeByYear",
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AggregationLeaveDay"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/aggregations/client-hour-overview": {
+      "get": {
+        "tags": [
+          "aggregation-controller"
+        ],
+        "operationId": "hourClientOverviewEmployee",
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AggregationClientPersonOverview"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/aggregations/client-assignment-hour-overview": {
+      "get": {
+        "tags": [
+          "aggregation-controller"
+        ],
+        "operationId": "hourAssignmentClientOverviewEmployee",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AggregationClientPersonAssignmentOverview"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/_ah/start": {
+      "get": {
+        "tags": [
+          "ah-controller"
+        ],
+        "operationId": "start",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/persons/{personId}": {
+      "delete": {
+        "tags": [
+          "person-controller"
+        ],
+        "operationId": "delete_3",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/events/{eventCode}/ratings/{personId}": {
+      "delete": {
+        "tags": [
+          "event-controller"
+        ],
+        "operationId": "deleteRatings",
+        "parameters": [
+          {
+            "name": "eventCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "personId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unit"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "WorkDayForm": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "hours": {
+            "type": "number",
+            "format": "double"
+          },
+          "days": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "REQUESTED",
+              "APPROVED",
+              "REJECTED",
+              "DONE"
+            ]
+          },
+          "assignmentCode": {
+            "type": "string"
+          },
+          "sheets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkDaySheetForm"
+            }
+          }
+        }
+      },
+      "WorkDaySheetForm": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "Assignment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "hourlyRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "hoursPerWeek": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "client": {
+            "$ref": "#/components/schemas/Client"
+          },
+          "person": {
+            "$ref": "#/components/schemas/Person"
+          },
+          "project": {
+            "$ref": "#/components/schemas/Project"
+          }
+        }
+      },
+      "Client": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Person": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "position": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date"
+          },
+          "joinDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "lastActiveAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reminders": {
+            "type": "boolean"
+          },
+          "shoeSize": {
+            "type": "string"
+          },
+          "shirtSize": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "fullName": {
+            "type": "string"
+          }
+        }
+      },
+      "Project": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "authorities": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "accounts": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/UserAccountKey"
+                },
+                {
+                  "$ref": "#/components/schemas/UserAccountOauth"
+                },
+                {
+                  "$ref": "#/components/schemas/UserAccountPassword"
+                }
+              ]
+            }
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UserAccount": {
+        "required": [
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "discriminator": {
+          "propertyName": "type"
+        }
+      },
+      "UserAccountKey": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/UserAccount"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "UserAccountOauth": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/UserAccount"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "reference": {
+                "type": "string"
+              },
+              "provider": {
+                "type": "string",
+                "enum": [
+                  "GOOGLE",
+                  "FACEBOOK",
+                  "GITHUB",
+                  "KRATOS"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "UserAccountPassword": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/UserAccount"
+          }
+        ]
+      },
+      "WorkDay": {
+        "required": [
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "hours": {
+            "type": "number",
+            "format": "double"
+          },
+          "days": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          "assignment": {
+            "$ref": "#/components/schemas/Assignment"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "REQUESTED",
+              "APPROVED",
+              "REJECTED",
+              "DONE"
+            ]
+          },
+          "sheets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkDaySheet"
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "discriminator": {
+          "propertyName": "type"
+        }
+      },
+      "WorkDaySheet": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "SickDayForm": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "hours": {
+            "type": "number",
+            "format": "double"
+          },
+          "days": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "REQUESTED",
+              "APPROVED",
+              "REJECTED",
+              "DONE"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "personId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "SickDay": {
+        "required": [
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "string",
+            "format": "uuid",
+            "writeOnly": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "hours": {
+            "type": "number",
+            "format": "double"
+          },
+          "days": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          "description": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "REQUESTED",
+              "APPROVED",
+              "REJECTED",
+              "DONE"
+            ]
+          },
+          "person": {
+            "$ref": "#/components/schemas/Person"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "discriminator": {
+          "propertyName": "type"
+        }
+      },
+      "ProjectForm": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "PersonForm": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "position": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date"
+          },
+          "joinDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "userCode": {
+            "type": "string"
+          },
+          "reminders": {
+            "type": "boolean"
+          },
+          "shoeSize": {
+            "type": "string"
+          },
+          "shirtSize": {
+            "type": "string"
+          }
+        }
+      },
+      "LeaveDayForm": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "hours": {
+            "type": "number",
+            "format": "double"
+          },
+          "days": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "REQUESTED",
+              "APPROVED",
+              "REJECTED",
+              "DONE"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "HOLIDAY",
+              "PLUSDAY",
+              "PAID_PARENTAL_LEAVE",
+              "UNPAID_PARENTAL_LEAVE"
+            ]
+          },
+          "personId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "LeaveDay": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "string",
+            "format": "uuid",
+            "writeOnly": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "hours": {
+            "type": "number",
+            "format": "double"
+          },
+          "days": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          "description": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "HOLIDAY",
+              "PLUSDAY",
+              "PAID_PARENTAL_LEAVE",
+              "UNPAID_PARENTAL_LEAVE"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "REQUESTED",
+              "APPROVED",
+              "REJECTED",
+              "DONE"
+            ]
+          },
+          "person": {
+            "$ref": "#/components/schemas/Person"
+          }
+        },
+        "discriminator": {
+          "propertyName": "type"
+        }
+      },
+      "TravelExpenseInput": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "REQUESTED",
+              "APPROVED",
+              "REJECTED",
+              "DONE"
+            ]
+          },
+          "distance": {
+            "type": "number",
+            "format": "float"
+          },
+          "allowance": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      },
+      "TravelExpense": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "description": {
+            "type": "string"
+          },
+          "person": {
+            "$ref": "#/components/schemas/Person"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "REQUESTED",
+              "APPROVED",
+              "REJECTED",
+              "DONE"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "COST",
+              "TRAVEL"
+            ]
+          },
+          "distance": {
+            "type": "number",
+            "format": "double"
+          },
+          "allowance": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "CostExpenseFileInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "CostExpenseInput": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "REQUESTED",
+              "APPROVED",
+              "REJECTED",
+              "DONE"
+            ]
+          },
+          "amount": {
+            "type": "number",
+            "format": "float"
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CostExpenseFileInput"
+            }
+          }
+        }
+      },
+      "CostExpense": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "description": {
+            "type": "string"
+          },
+          "person": {
+            "$ref": "#/components/schemas/Person"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "REQUESTED",
+              "APPROVED",
+              "REJECTED",
+              "DONE"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "COST",
+              "TRAVEL"
+            ]
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Document"
+            }
+          }
+        }
+      },
+      "Document": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "EventForm": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "hours": {
+            "type": "number",
+            "format": "double"
+          },
+          "days": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          "personIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "Event": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "hours": {
+            "type": "number",
+            "format": "double"
+          },
+          "days": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          "persons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Person"
+            }
+          }
+        }
+      },
+      "ContractServiceForm": {
+        "type": "object",
+        "properties": {
+          "monthlyCosts": {
+            "type": "number",
+            "format": "double"
+          },
+          "description": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "ContractService": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "person": {
+            "$ref": "#/components/schemas/Person"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "INTERNAL",
+              "EXTERNAL",
+              "MANAGEMENT",
+              "SERVICE"
+            ]
+          },
+          "monthlyCosts": {
+            "type": "number",
+            "format": "double"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "ContractManagementForm": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "monthlyFee": {
+            "type": "number",
+            "format": "double"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "ContractManagement": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "person": {
+            "$ref": "#/components/schemas/Person"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "INTERNAL",
+              "EXTERNAL",
+              "MANAGEMENT",
+              "SERVICE"
+            ]
+          },
+          "monthlyFee": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "ContractInternalForm": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "monthlySalary": {
+            "type": "number",
+            "format": "double"
+          },
+          "hoursPerWeek": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "leaveHours": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "billable": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ContractInternal": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "person": {
+            "$ref": "#/components/schemas/Person"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "INTERNAL",
+              "EXTERNAL",
+              "MANAGEMENT",
+              "SERVICE"
+            ]
+          },
+          "monthlySalary": {
+            "type": "number",
+            "format": "double"
+          },
+          "hoursPerWeek": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "holidayHours": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "billable": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ContractExternalForm": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "hourlyRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "hoursPerWeek": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "billable": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ContractExternal": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "person": {
+            "$ref": "#/components/schemas/Person"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "INTERNAL",
+              "EXTERNAL",
+              "MANAGEMENT",
+              "SERVICE"
+            ]
+          },
+          "hourlyRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "hoursPerWeek": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "billable": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ClientForm": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "AssignmentForm": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "clientCode": {
+            "type": "string"
+          },
+          "projectCode": {
+            "type": "string"
+          },
+          "hourlyRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "hoursPerWeek": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "role": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "ExportResponse": {
+        "type": "object",
+        "properties": {
+          "link": {
+            "type": "string"
+          }
+        }
+      },
+      "UploadInvoice": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "MonoListObjectNode": {
+        "type": "object"
+      },
+      "EventRatingForm": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "eventCode": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "EventRating": {
+        "type": "object",
+        "properties": {
+          "person": {
+            "$ref": "#/components/schemas/Person"
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "LoginType": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "Bootstrap": {
+        "type": "object",
+        "properties": {
+          "authorities": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "userId": {
+            "type": "string"
+          },
+          "personId": {
+            "type": "string"
+          },
+          "loggedIn": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Pageable": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32"
+          },
+          "size": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Todo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "WORKDAY",
+              "SICKDAY",
+              "HOLIDAY",
+              "PAID_PARENTAL_LEAVE",
+              "UNPAID_PARENTAL_LEAVE",
+              "EXPENSE",
+              "PLUSDAY"
+            ]
+          },
+          "personId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "personName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "PersonEvent": {
+        "type": "object",
+        "properties": {
+          "person": {
+            "$ref": "#/components/schemas/Person"
+          },
+          "eventType": {
+            "type": "string",
+            "enum": [
+              "JOIN_DAY",
+              "BIRTHDAY"
+            ]
+          },
+          "eventDate": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "Invoice": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": {
+            "type": "string"
+          },
+          "reference": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "EXPENSE"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "NEW",
+              "PROCESSED"
+            ]
+          },
+          "documents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Document"
+            }
+          }
+        }
+      },
+      "Expense": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "description": {
+            "type": "string"
+          },
+          "person": {
+            "$ref": "#/components/schemas/Person"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "REQUESTED",
+              "APPROVED",
+              "REJECTED",
+              "DONE"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "COST",
+              "TRAVEL"
+            ]
+          }
+        }
+      },
+      "Contract": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "person": {
+            "$ref": "#/components/schemas/Person"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "INTERNAL",
+              "EXTERNAL",
+              "MANAGEMENT",
+              "SERVICE"
+            ]
+          }
+        }
+      },
+      "AssignmentWithHours": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "hourlyRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "hoursPerWeek": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "client": {
+            "$ref": "#/components/schemas/Client"
+          },
+          "person": {
+            "$ref": "#/components/schemas/Person"
+          },
+          "project": {
+            "$ref": "#/components/schemas/Project"
+          },
+          "totalHours": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCosts": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "AggregationIdentifier": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "AggregationPerson": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "contractTypes": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sickDays": {
+            "type": "number"
+          },
+          "workDays": {
+            "type": "number"
+          },
+          "assignment": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "event": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "leaveDayUsed": {
+            "type": "number"
+          },
+          "leaveDayBalance": {
+            "type": "number"
+          },
+          "paidParentalLeaveUsed": {
+            "type": "number"
+          },
+          "unpaidParentalLeaveUsed": {
+            "type": "number"
+          },
+          "revenue": {
+            "$ref": "#/components/schemas/AggregationPersonClientRevenueOverview"
+          },
+          "cost": {
+            "type": "number"
+          }
+        }
+      },
+      "AggregationPersonClientRevenueItem": {
+        "type": "object",
+        "properties": {
+          "client": {
+            "$ref": "#/components/schemas/AggregationIdentifier"
+          },
+          "revenue": {
+            "type": "number"
+          }
+        }
+      },
+      "AggregationPersonClientRevenueOverview": {
+        "type": "object",
+        "properties": {
+          "clients": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AggregationPersonClientRevenueItem"
+            }
+          },
+          "total": {
+            "type": "number"
+          }
+        }
+      },
+      "AggregationMonth": {
+        "type": "object",
+        "properties": {
+          "yearMonth": {
+            "type": "string"
+          },
+          "countContractInternal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "countContractManagement": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "countContractExternal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "forecastRevenueGross": {
+            "type": "number"
+          },
+          "forecastRevenueNet": {
+            "type": "number"
+          },
+          "forecastHoursGross": {
+            "type": "number"
+          },
+          "actualRevenue": {
+            "type": "number"
+          },
+          "actualHours": {
+            "type": "number"
+          },
+          "actualCostContractInternal": {
+            "type": "number"
+          },
+          "actualCostContractExternal": {
+            "type": "number"
+          },
+          "actualCostContractManagement": {
+            "type": "number"
+          },
+          "actualCostContractService": {
+            "type": "number"
+          },
+          "actualRevenueInternal": {
+            "type": "number"
+          },
+          "actualRevenueExternal": {
+            "type": "number"
+          },
+          "actualRevenueManagement": {
+            "type": "number"
+          }
+        }
+      },
+      "AggregationClient": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "revenueGross": {
+            "type": "number"
+          }
+        }
+      },
+      "NonProductiveHours": {
+        "type": "object",
+        "properties": {
+          "sickHours": {
+            "type": "number",
+            "format": "double"
+          },
+          "holidayHours": {
+            "type": "number",
+            "format": "double"
+          },
+          "paidParentalLeaveHours": {
+            "type": "number",
+            "format": "double"
+          },
+          "unpaidParentalLeaveHours": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "AggregationLeaveDay": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "contractHours": {
+            "type": "number"
+          },
+          "plusHours": {
+            "type": "number"
+          },
+          "holidayHours": {
+            "type": "number"
+          },
+          "paidParentalLeaveHours": {
+            "type": "number"
+          },
+          "unpaidParentalLeaveHours": {
+            "type": "number"
+          }
+        }
+      },
+      "AggregationClientPersonItem": {
+        "type": "object",
+        "properties": {
+          "person": {
+            "$ref": "#/components/schemas/AggregationIdentifier"
+          },
+          "hours": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "float"
+            }
+          },
+          "total": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      },
+      "AggregationClientPersonOverview": {
+        "type": "object",
+        "properties": {
+          "client": {
+            "$ref": "#/components/schemas/AggregationIdentifier"
+          },
+          "aggregationPerson": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AggregationClientPersonItem"
+            }
+          },
+          "totals": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "float"
+            }
+          }
+        }
+      },
+      "AggregationClientPersonAssignmentItem": {
+        "type": "object",
+        "properties": {
+          "person": {
+            "$ref": "#/components/schemas/AggregationIdentifier"
+          },
+          "assignment": {
+            "$ref": "#/components/schemas/AggregationIdentifier"
+          },
+          "hours": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "float"
+            }
+          },
+          "total": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      },
+      "AggregationClientPersonAssignmentOverview": {
+        "type": "object",
+        "properties": {
+          "client": {
+            "$ref": "#/components/schemas/AggregationIdentifier"
+          },
+          "aggregationPersonAssignment": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AggregationClientPersonAssignmentItem"
+            }
+          },
+          "totals": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "float"
+            }
+          }
+        }
+      },
+      "Unit": {
+        "type": "object"
+      }
+    }
+  }
+}

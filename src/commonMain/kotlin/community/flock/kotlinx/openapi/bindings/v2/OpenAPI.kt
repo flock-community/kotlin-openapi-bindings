@@ -14,7 +14,7 @@ import kotlinx.serialization.json.jsonObject
 val regex = """
    ^\|x-[^\|]*\|
    ^\|info\|x-[^\|]*\|$
-   \|responses\|x-[^\|]*\|$
+   \|requestBody\|x-[^\|]*\|$
    \|responses\|x-[^\|]*\|$
    \|items\|x-[^\|]*\|$
    \|schema\|x-[^\|]*\|$
