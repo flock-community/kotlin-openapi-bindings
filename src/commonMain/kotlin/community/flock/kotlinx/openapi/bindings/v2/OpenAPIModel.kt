@@ -152,7 +152,7 @@ data class SwaggerObject(
     val consumes: List<String>? = null,
     val produces: List<String>? = null,
     val paths: Map<Path, PathItemObject>,
-    val definitions: Map<String, SchemaObject>? = null,
+    val definitions: Map<String, SchemaOrReferenceObject>? = null,
     val parameters: Map<String, ParameterObject>? = null,
     val responses: Map<String, ResponseObject>? = null,
     val securityDefinitions: Map<String, SecuritySchemeObject>? = null,
