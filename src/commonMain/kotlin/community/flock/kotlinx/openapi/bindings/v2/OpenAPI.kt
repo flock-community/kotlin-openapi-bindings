@@ -31,7 +31,8 @@ sealed class OpenAPI(
 
     fun decodeFromString(string: String): SwaggerObject {
         return json
-            .decodeFromString<JsonElement>(string)
+            .decodeFromString<JsonObject>(string)
+            .validate()
             .traverse({ path, obj -> obj.encodeExtensions(path) })
             .let { json.decodeFromJsonElement(it) }
     }
@@ -45,6 +46,12 @@ sealed class OpenAPI(
     }
 
     companion object Default : OpenAPI()
+}
+
+private fun JsonObject.validate() = apply {
+    if (!containsKey("swagger")){
+        error("No valid openapi v2 element 'swagger' is missing")
+    }
 }
 
 private fun JsonObject.encodeExtensions(path: String): JsonObject {
