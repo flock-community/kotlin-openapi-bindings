@@ -18,11 +18,12 @@ val regex = """
    \|responses\|x-[^\|]*\|$
    \|items\|x-[^\|]*\|$
    \|schema\|x-[^\|]*\|$
+   \|headers\|[^\|]*\|x-[^\|]*\|$
    \|schemas\|[^\|]*\|x-[^\|]*\|$
    \|properties\|[^\|]*\|x-[^\|]*\|$
    \|properties\|[^\|]*\|[^\|]*\|x-[^\|]*\|$
    \|parameters\|[^\|]*\|x-[^\|]*\|$
-   \|paths\|[^\|]*\|[^\|]*\|x-[^\|]*\|${'$'}
+   \|paths\|[^\|]*\|[^\|]*\|x-[^\|]*\|$
 """.trimIndent().split("\n").map { it.toRegex() }
 
 sealed class OpenAPI(
