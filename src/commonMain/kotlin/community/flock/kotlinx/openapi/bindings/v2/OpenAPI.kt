@@ -19,10 +19,11 @@ val regex = """
    \|items\|x-[^\|]*\|$
    \|schema\|x-[^\|]*\|$
    \|schemas\|[^\|]*\|x-[^\|]*\|$
+   \|headers\|[^\|]*\|x-[^\|]*\|$
    \|properties\|[^\|]*\|x-[^\|]*\|$
    \|properties\|[^\|]*\|[^\|]*\|x-[^\|]*\|$
    \|parameters\|[^\|]*\|x-[^\|]*\|$
-   \|paths\|[^\|]*\|[^\|]*\|x-[^\|]*\|${'$'}
+   \|paths\|[^\|]*\|[^\|]*\|x-[^\|]*\|$
 """.trimIndent().split("\n").map { it.toRegex() }
 
 sealed class OpenAPI(
