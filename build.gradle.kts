@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "community.flock.kotlinx.openapi.bindings"
-version = "0.0.20"
+version = "0.0.24"
 
 
 val dokkaOutputDir = "$buildDir/dokka"
@@ -32,10 +32,10 @@ repositories {
     mavenCentral()
 }
 
-//signing {
-//    useGpgCmd()
-//    sign(publishing.publications)
-//}
+signing {
+    useGpgCmd()
+    sign(publishing.publications)
+}
 
 publishing {
     publications {
