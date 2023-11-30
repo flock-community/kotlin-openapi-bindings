@@ -26,7 +26,7 @@ val regex = """
    \|paths\|[^\|]*\|[^\|]*\|x-[^\|]*\|$
 """.trimIndent().split("\n").map { it.toRegex() }
 
-sealed class OpenAPI(
+open class OpenAPI(
     val json: Json = Json{ prettyPrint = true }
 ) {
 
