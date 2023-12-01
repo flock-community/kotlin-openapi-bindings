@@ -373,7 +373,7 @@ data class BooleanObject(
 
 @Serializable
 data class SchemaObject(
-    val discriminator: DiscriminatorObject? = null,
+    val discriminator: String? = null,
     val readOnly: Boolean? = null,
     val xml: XmlObject? = null,
     val externalDocs: ExternalDocumentationObject? = null,
@@ -408,12 +408,6 @@ data class SchemaObject(
 
     val xProperties: Map<String, JsonElement>? = null
 ) : SchemaOrReferenceObject, SchemaOrReferenceOrBooleanObject
-
-@Serializable
-data class DiscriminatorObject (
-    val propertyName: String,
-    val mapping: Map<String, String>? = null,
-)
 
 @Serializable
 data class XmlObject(
