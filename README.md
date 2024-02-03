@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation("community.flock.community.flock.kotlinx.openapi.bindings:kotlin-openapi-bindings:VERSION")
+    implementation("community.flock.kotlinx.openapi.bindings:kotlin-openapi-bindings:VERSION")
 }
 ```
 
@@ -24,7 +24,7 @@ To use kotlin-openapi-bindings, add it as a dependency to your project. Then, yo
 # Usage
 Here's a simple example of how to use kotlin-openapi-bindings:
 ```kotlin
-import com.github.jacklt.kotlin.openapi.model.OpenAPI
+community.flock.kotlinx.openapi.bindings.v3.OpenAPI
 
 val json = """
 {
