@@ -68,6 +68,7 @@ value class MediaType(val value: String)
 @Serializable
 value class StatusCode(val value: String)
 
+@Serializable
 enum class Style {
     @SerialName("matrix")
     MATRIX,
@@ -91,6 +92,7 @@ enum class Style {
     DEEP_OBJECT
 }
 
+@Serializable
 enum class ParameterLocation {
     @SerialName("query")
     QUERY,
@@ -108,6 +110,7 @@ enum class ParameterLocation {
     BODY,
 }
 
+@Serializable
 enum class Type {
     @SerialName("string")
     STRING,
@@ -131,6 +134,7 @@ enum class Type {
     FILE,
 }
 
+@Serializable
 enum class SecuritySchemeType {
     @SerialName("basic")
     BASIC,
