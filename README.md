@@ -1,4 +1,5 @@
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/community.flock.kotlinx.openapi.bindings/kotlin-openapi-binding/badge.svg)](https://maven-badges.herokuapp.com/maven-central/community.flock.kotlinx.openapi.bindings/kotlin-openapi-binding)
+![Maven Central Version](https://img.shields.io/maven-central/v/community.flock.kotlinx.openapi.bindings/kotlin-openapi-bindings)
+
 
 # kotlin-openapi-bindings
 
