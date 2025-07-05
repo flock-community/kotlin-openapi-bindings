@@ -1,10 +1,6 @@
-import org.jetbrains.dokka.gradle.DokkaTask
-import java.time.Duration
-
 plugins {
     id("maven-publish")
     id("signing")
-    id("org.jetbrains.dokka") version "1.8.10"
     id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
     kotlin("multiplatform") version "1.9.25"
     kotlin("plugin.serialization") version "1.5.21"
@@ -12,22 +8,6 @@ plugins {
 
 group = "community.flock.kotlinx.openapi.bindings"
 version = "0.1.1"
-
-val dokkaOutputDir = "$buildDir/dokka"
-
-tasks.getByName<DokkaTask>("dokkaHtml") {
-    outputDirectory.set(file(dokkaOutputDir))
-}
-
-val deleteDokkaOutputDir by tasks.register<Delete>("deleteDokkaOutputDirectory") {
-    delete(dokkaOutputDir)
-}
-
-val javadocJar = tasks.register<Jar>("javadocJar") {
-    dependsOn(deleteDokkaOutputDir, tasks.dokkaHtml)
-    archiveClassifier.set("javadoc")
-    from(dokkaOutputDir)
-}
 
 repositories {
     mavenCentral()
@@ -57,7 +37,12 @@ signing {
 publishing {
     publications {
         withType<MavenPublication> {
-            artifact(javadocJar)
+            artifact(
+                tasks.register("${name}JavadocJar", Jar::class) {
+                    archiveClassifier.set("javadoc")
+                    archiveAppendix.set(this@withType.name)
+                },
+            )
             pom {
                 name.set("Flock. community")
                 description.set("Kotlin openapi bindings")
