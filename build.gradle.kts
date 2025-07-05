@@ -1,16 +1,17 @@
 import org.jetbrains.dokka.gradle.DokkaTask
+import java.time.Duration
 
 plugins {
     id("maven-publish")
     id("signing")
     id("org.jetbrains.dokka") version "1.8.10"
-    kotlin("multiplatform") version "1.8.21"
+    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
+    kotlin("multiplatform") version "1.9.25"
     kotlin("plugin.serialization") version "1.5.21"
 }
 
 group = "community.flock.kotlinx.openapi.bindings"
-version = "0.0.25"
-
+version = "0.1.1-SNAPSHOT"
 
 val dokkaOutputDir = "$buildDir/dokka"
 
@@ -32,25 +33,29 @@ repositories {
     mavenCentral()
 }
 
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
+            username.set(System.getenv("SONATYPE_USERNAME"))
+            password.set(System.getenv("SONATYPE_PASSWORD"))
+            stagingProfileId.set(System.getenv("SONATYPE_STAGING_PROFILE_ID"))
+        }
+    }
+}
+
 signing {
-    useGpgCmd()
+    setRequired { System.getenv("GPG_PRIVATE_KEY") != null }
+    useInMemoryPgpKeys(
+        System.getenv("GPG_PRIVATE_KEY"),
+        System.getenv("GPG_PASSPHRASE"),
+    )
     sign(publishing.publications)
 }
 
 publishing {
     publications {
-        repositories {
-            maven {
-                name="oss"
-                val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-                val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-                url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
-                credentials {
-                    username = System.getenv("SONATYPE_USERNAME")
-                    password = System.getenv("SONATYPE_PASSWORD")
-                }
-            }
-        }
         withType<MavenPublication> {
             artifact(javadocJar)
             pom {

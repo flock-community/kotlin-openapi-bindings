@@ -146,6 +146,20 @@ enum class SecuritySchemeType {
     OAUTH2,
 }
 
+interface BaseObject {
+    val type: Type?
+    val format: String?
+    val pattern: String?
+    val maximum: Double?
+    val exclusiveMaximum: Boolean?
+    val minimum: Double?
+    val exclusiveMinimum: Boolean?
+    val maxLength: Int?
+    val minLength: Int?
+    val maxItems: Int?
+    val minItems: Int?
+}
+
 @Serializable
 data class SwaggerObject(
     val swagger: String,
@@ -260,25 +274,25 @@ data class ResponseObject(
 @Serializable
 data class HeaderObject(
     val description: String? = null,
-    val type: String,
-    val format: String? = null,
+    override val type: Type,
+    override val format: String? = null,
     val items: SchemaOrReferenceObject? = null,
     val collectionFormat: String? = null,
     val default: JsonElement? = null,
-    val maximum: Int? = null,
-    val exclusiveMaximum: Boolean? = null,
-    val minimum: Int? = null,
-    val exclusiveMinimum: Boolean? = null,
-    val maxLength: Int? = null,
-    val minLength: Int? = null,
-    val pattern: String? = null,
-    val maxItems: Int? = null,
-    val minItems: Int? = null,
+    override val maximum: Double? = null,
+    override val exclusiveMaximum: Boolean? = null,
+    override val minimum: Double? = null,
+    override val exclusiveMinimum: Boolean? = null,
+    override val maxLength: Int? = null,
+    override val minLength: Int? = null,
+    override val pattern: String? = null,
+    override val maxItems: Int? = null,
+    override val minItems: Int? = null,
     val uniqueItems: Boolean? = null,
     val enum: List<JsonPrimitive>? = null,
     val multipleOf: Int? = null,
     val xProperties: Map<String, JsonElement>? = null,
-) : HeaderOrReferenceObject
+) : BaseObject, HeaderOrReferenceObject
 
 @Serializable
 data class ParameterObject(
@@ -287,26 +301,26 @@ data class ParameterObject(
     val description: String? = null,
     val required: Boolean? = null,
     val schema: SchemaOrReferenceObject? = null,
-    val type: Type? = null,
+    override val type: Type? = null,
     val items: SchemaOrReferenceObject? = null,
-    val format: String? = null,
+    override val format: String? = null,
     val allowEmptyValue: Boolean? = null,
     val collectionFormat: String? = null,
     val default: JsonElement? = null,
-    val maximum: Int? = null,
-    val exclusiveMaximum: Boolean? = null,
-    val minimum: Int? = null,
-    val exclusiveMinimum: Boolean? = null,
-    val maxLength: Int? = null,
-    val minLength: Int? = null,
-    val pattern: String? = null,
-    val maxItems: Int? = null,
-    val minItems: Int? = null,
+    override val maximum: Double? = null,
+    override val exclusiveMaximum: Boolean? = null,
+    override val minimum: Double? = null,
+    override val exclusiveMinimum: Boolean? = null,
+    override val maxLength: Int? = null,
+    override val minLength: Int? = null,
+    override val pattern: String? = null,
+    override val maxItems: Int? = null,
+    override val minItems: Int? = null,
     val uniqueItems: Boolean? = null,
     val enum: List<JsonPrimitive>? = null,
     val multipleOf: Int? = null,
     val xProperties: Map<String, JsonElement>? = null,
-) : ParameterOrReferenceObject
+) : BaseObject, ParameterOrReferenceObject
 
 @Serializable
 data class MediaTypeObject(
@@ -382,28 +396,26 @@ data class SchemaObject(
     val xml: XmlObject? = null,
     val externalDocs: ExternalDocumentationObject? = null,
     val example: JsonElement? = null,
-
-
-    val format: String? = null,
+    override val format: String? = null,
     val title: String? = null,
     val description: String? = null,
     val default: JsonElement? = null,
     val multipleOf: Double? = null,
-    val maximum: Double? = null,
-    val exclusiveMaximum: Boolean? = null,
-    val minimum: Double? = null,
-    val exclusiveMinimum: Boolean? = null,
-    val maxLength: Int? = null,
-    val minLength: Int? = null,
-    val pattern: String? = null,
-    val maxItems: Int? = null,
-    val minItems: Int? = null,
+    override val maximum: Double? = null,
+    override val exclusiveMaximum: Boolean? = null,
+    override val minimum: Double? = null,
+    override val exclusiveMinimum: Boolean? = null,
+    override val maxLength: Int? = null,
+    override val minLength: Int? = null,
+    override val pattern: String? = null,
+    override val maxItems: Int? = null,
+    override val minItems: Int? = null,
     val uniqueItems: Boolean? = null,
     val maxProperties: Int? = null,
     val minProperties: Int? = null,
     val required: List<String>? = null,
     val enum: List<JsonPrimitive>? = null,
-    val type: Type? = null,
+    override val type: Type? = null,
 
     val items: SchemaOrReferenceObject? = null,
     val allOf: List<SchemaOrReferenceObject>? = null,
@@ -411,7 +423,7 @@ data class SchemaObject(
     val additionalProperties: SchemaOrReferenceOrBooleanObject? = null,
 
     val xProperties: Map<String, JsonElement>? = null
-) : SchemaOrReferenceObject, SchemaOrReferenceOrBooleanObject
+) : BaseObject, SchemaOrReferenceObject, SchemaOrReferenceOrBooleanObject
 
 @Serializable
 data class XmlObject(
