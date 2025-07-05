@@ -7,10 +7,47 @@ plugins {
 }
 
 group = "community.flock.kotlinx.openapi.bindings"
-version = "0.1.2"
+version = "0.1.3"
 
 repositories {
     mavenCentral()
+}
+
+kotlin {
+    macosX64()
+    macosArm64()
+    linuxX64()
+    mingwX64()
+    js(IR) {
+        nodejs()
+    }
+    jvm {
+        jvm {
+            withJava()
+            java {
+                toolchain {
+                    languageVersion.set(JavaLanguageVersion.of(17))
+                }
+            }
+        }
+    }
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+            }
+        }
+        commonTest {
+            dependencies {
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+                implementation(kotlin("test-junit"))
+                implementation("io.kotest:kotest-framework-engine:5.6.1")
+                implementation("io.kotest:kotest-assertions-core:5.6.1")
+                implementation("io.kotest:kotest-assertions-json:5.6.1")
+            }
+        }
+    }
 }
 
 nexusPublishing {
@@ -71,35 +108,3 @@ publishing {
         }
     }
 }
-
-
-kotlin {
-    macosX64()
-    macosArm64()
-    linuxX64()
-    mingwX64()
-    js(IR) {
-        nodejs()
-    }
-    jvm {
-        withJava()
-    }
-    sourceSets {
-        commonMain {
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
-            }
-        }
-        commonTest {
-            dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
-                implementation(kotlin("test-junit"))
-                implementation("io.kotest:kotest-framework-engine:5.6.1")
-                implementation("io.kotest:kotest-assertions-core:5.6.1")
-                implementation("io.kotest:kotest-assertions-json:5.6.1")
-            }
-        }
-    }
-}
-
