@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "community.flock.kotlinx.openapi.bindings"
-version = "0.1.1-SNAPSHOT"
+version = "0.1.1"
 
 val dokkaOutputDir = "$buildDir/dokka"
 
