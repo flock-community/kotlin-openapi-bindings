@@ -1,5 +1,5 @@
 plugins {
-    id("root.publication")
+    id("module.publication")
     id("module.spotless")
     alias(libs.plugins.kotest.multiplatform)
     alias(libs.plugins.kotlin.multiplatform)
