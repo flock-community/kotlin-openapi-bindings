@@ -89,7 +89,7 @@ enum class Style {
     PIPE_DELIMITED,
 
     @SerialName("deepObject")
-    DEEP_OBJECT
+    DEEP_OBJECT,
 }
 
 @Serializable
@@ -177,7 +177,7 @@ data class SwaggerObject(
     val security: List<Map<String, List<String>>>? = null,
     val tags: List<TagObject>? = null,
     val externalDocs: ExternalDocumentationObject? = null,
-    val xProperties: Map<String, JsonElement>? = null
+    val xProperties: Map<String, JsonElement>? = null,
 )
 
 @Serializable
@@ -195,7 +195,7 @@ data class InfoObject(
     val contact: ContactObject? = null,
     val license: LicenseObject? = null,
     val version: String,
-    val xProperties: Map<String, JsonElement>? = null
+    val xProperties: Map<String, JsonElement>? = null,
 )
 
 @Serializable
@@ -213,7 +213,7 @@ data class PathItemObject(
     val trace: OperationObject? = null,
     val servers: List<ServerObject>? = null,
     val parameters: List<ParameterOrReferenceObject>? = null,
-    val xProperties: Map<String, JsonElement>? = null
+    val xProperties: Map<String, JsonElement>? = null,
 )
 
 @Serializable
@@ -231,7 +231,7 @@ data class OperationObject(
     val deprecated: Boolean? = null,
     val security: List<Map<String, List<String>>>? = null,
     val servers: List<ServerObject>? = null,
-    val xProperties: Map<String, JsonElement>? = null
+    val xProperties: Map<String, JsonElement>? = null,
 )
 
 @Serializable
@@ -239,16 +239,17 @@ data class RequestBodyObject(
     val description: String? = null,
     val content: Map<MediaType, MediaTypeObject>? = null,
     val required: Boolean,
-    val xProperties: Map<String, JsonElement>? = null
+    val xProperties: Map<String, JsonElement>? = null,
 ) : RequestBodyOrReferenceObject
 
 @Serializable(with = CallbacksObjectSerializer::class)
-class CallbacksObject(override val entries: Set<Map.Entry<String, PathItemObject>>) : CallbackOrReferenceObject,
-    AbstractMap<String, PathItemObject>()
+class CallbacksObject(override val entries: Set<Map.Entry<String, PathItemObject>>) :
+    AbstractMap<String, PathItemObject>(),
+    CallbackOrReferenceObject
 
 @Serializable(with = LinksObjectSerializer::class)
 class LinksObject(
-    override val entries: Set<Map.Entry<String, LinkOrReferenceObject>>
+    override val entries: Set<Map.Entry<String, LinkOrReferenceObject>>,
 ) : AbstractMap<String, LinkOrReferenceObject>()
 
 @Serializable
@@ -268,7 +269,7 @@ data class ResponseObject(
     val headers: Map<String, HeaderOrReferenceObject>? = null,
     val links: LinksObject? = null,
     val examples: Map<String, JsonElement>? = null,
-    val xProperties: Map<String, JsonElement>? = null
+    val xProperties: Map<String, JsonElement>? = null,
 ) : ResponseOrReferenceObject
 
 @Serializable
@@ -292,7 +293,8 @@ data class HeaderObject(
     val enum: List<JsonPrimitive>? = null,
     val multipleOf: Int? = null,
     val xProperties: Map<String, JsonElement>? = null,
-) : BaseObject, HeaderOrReferenceObject
+) : BaseObject,
+    HeaderOrReferenceObject
 
 @Serializable
 data class ParameterObject(
@@ -320,14 +322,15 @@ data class ParameterObject(
     val enum: List<JsonPrimitive>? = null,
     val multipleOf: Int? = null,
     val xProperties: Map<String, JsonElement>? = null,
-) : BaseObject, ParameterOrReferenceObject
+) : BaseObject,
+    ParameterOrReferenceObject
 
 @Serializable
 data class MediaTypeObject(
     val schema: SchemaOrReferenceObject? = null,
     val examples: Map<String, JsonElement>? = null,
     val example: JsonElement? = null,
-    val encoding: Map<String, EncodingPropertyObject>? = null
+    val encoding: Map<String, EncodingPropertyObject>? = null,
 )
 
 @Serializable
@@ -343,27 +346,27 @@ data class EncodingPropertyObject(
 data class ContactObject(
     val name: String? = null,
     val url: String? = null,
-    val email: String? = null
+    val email: String? = null,
 )
 
 @Serializable
 data class LicenseObject(
     val name: String,
-    val url: String? = null
+    val url: String? = null,
 )
 
 @Serializable
 data class ServerObject(
     val url: String,
     val description: String? = null,
-    val variables: Map<String, ServerVariableObject>? = null
+    val variables: Map<String, ServerVariableObject>? = null,
 )
 
 @Serializable
 data class ServerVariableObject(
     val enum: List<JsonPrimitive>? = null,
     val default: JsonElement? = null,
-    val description: String? = null
+    val description: String? = null,
 )
 
 @Serializable
@@ -386,7 +389,7 @@ data class ExternalDocumentationObject(
 
 @Serializable
 data class BooleanObject(
-    val value: Boolean
+    val value: Boolean,
 ) : SchemaOrReferenceOrBooleanObject
 
 @Serializable
@@ -422,8 +425,10 @@ data class SchemaObject(
     val properties: Map<String, SchemaOrReferenceObject>? = null,
     val additionalProperties: SchemaOrReferenceOrBooleanObject? = null,
 
-    val xProperties: Map<String, JsonElement>? = null
-) : BaseObject, SchemaOrReferenceObject, SchemaOrReferenceOrBooleanObject
+    val xProperties: Map<String, JsonElement>? = null,
+) : BaseObject,
+    SchemaOrReferenceObject,
+    SchemaOrReferenceOrBooleanObject
 
 @Serializable
 data class XmlObject(
@@ -439,10 +444,15 @@ data class ReferenceObject(
     @SerialName("\$ref")
     val ref: Ref,
     val xml: XmlObject? = null,
-) : SchemaOrReferenceObject, SchemaOrReferenceOrBooleanObject, ResponseOrReferenceObject, HeaderOrReferenceObject,
-    CallbackOrReferenceObject, LinkOrReferenceObject, ParameterOrReferenceObject,
-    RequestBodyOrReferenceObject, SecuritySchemeOrReferenceObject
-
+) : SchemaOrReferenceObject,
+    SchemaOrReferenceOrBooleanObject,
+    ResponseOrReferenceObject,
+    HeaderOrReferenceObject,
+    CallbackOrReferenceObject,
+    LinkOrReferenceObject,
+    ParameterOrReferenceObject,
+    RequestBodyOrReferenceObject,
+    SecuritySchemeOrReferenceObject
 
 object CallbacksObjectSerializer : KSerializer<CallbacksObject> {
 
@@ -457,12 +467,14 @@ object CallbacksObjectSerializer : KSerializer<CallbacksObject> {
     override fun deserialize(decoder: Decoder): CallbacksObject {
         val input = decoder as? JsonDecoder ?: throw SerializationException("This class can be loaded only by Json")
         val tree = input.decodeJsonElement().jsonObject
-        return CallbacksObject(tree.mapValues {
-            input.json.decodeFromJsonElement(
-                PathItemObject.serializer(),
-                it.value
-            )
-        }.entries)
+        return CallbacksObject(
+            tree.mapValues {
+                input.json.decodeFromJsonElement(
+                    PathItemObject.serializer(),
+                    it.value,
+                )
+            }.entries,
+        )
     }
 }
 
@@ -479,12 +491,14 @@ object LinksObjectSerializer : KSerializer<LinksObject> {
     override fun deserialize(decoder: Decoder): LinksObject {
         val input = decoder as? JsonDecoder ?: throw SerializationException("This class can be loaded only by Json")
         val tree = input.decodeJsonElement().jsonObject
-        return LinksObject(tree.mapValues {
-            input.json.decodeFromJsonElement(
-                LinkOrReferenceObject.serializer(),
-                it.value
-            )
-        }.entries)
+        return LinksObject(
+            tree.mapValues {
+                input.json.decodeFromJsonElement(
+                    LinkOrReferenceObject.serializer(),
+                    it.value,
+                )
+            }.entries,
+        )
     }
 }
 

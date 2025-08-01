@@ -27,30 +27,25 @@ val regex = """
 """.trimIndent().split("\n").map { it.toRegex() }
 
 open class OpenAPI(
-    val json: Json = Json{ prettyPrint = true }
+    val json: Json = Json { prettyPrint = true },
 ) {
 
-    fun decodeFromString(string: String): SwaggerObject {
-        return json
-            .decodeFromString<JsonObject>(string)
-            .validate()
-            .traverse({ path, obj -> obj.encodeExtensions(path) })
-            .let { json.decodeFromJsonElement(it) }
-    }
+    fun decodeFromString(string: String): SwaggerObject = json
+        .decodeFromString<JsonObject>(string)
+        .validate()
+        .traverse({ path, obj -> obj.encodeExtensions(path) })
+        .let { json.decodeFromJsonElement(it) }
 
-    fun encodeToString(value: SwaggerObject): String {
-        return json
-            .encodeToJsonElement(value)
-            .traverse({ _, obj -> obj.decodeExtensions() })
-            .let { json.encodeToString(it) }
-
-    }
+    fun encodeToString(value: SwaggerObject): String = json
+        .encodeToJsonElement(value)
+        .traverse({ _, obj -> obj.decodeExtensions() })
+        .let { json.encodeToString(it) }
 
     companion object Default : OpenAPI()
 }
 
 private fun JsonObject.validate() = apply {
-    if (!containsKey("swagger")){
+    if (!containsKey("swagger")) {
         error("No valid openapi v2 element 'swagger' is missing")
     }
 }
@@ -65,24 +60,20 @@ private fun JsonObject.encodeExtensions(path: String): JsonObject {
     }
 }
 
-private fun JsonObject.decodeExtensions(): JsonObject {
-    return JsonObject(filter { it.key != "xProperties" } + (get("xProperties")?.jsonObject ?: emptyMap()))
-}
+private fun JsonObject.decodeExtensions(): JsonObject = JsonObject(filter { it.key != "xProperties" } + (get("xProperties")?.jsonObject ?: emptyMap()))
 
-private fun JsonElement.traverse(func: (String, JsonObject) -> JsonObject, path: String = "|"): JsonElement {
-    return when (this) {
-        is JsonObject -> {
-            val content = map { it.key to it.value.traverse(func, "$path${it.key}|") }.toMap()
-            func(path, JsonObject(content))
-        }
+private fun JsonElement.traverse(func: (String, JsonObject) -> JsonObject, path: String = "|"): JsonElement = when (this) {
+    is JsonObject -> {
+        val content = map { it.key to it.value.traverse(func, "$path${it.key}|") }.toMap()
+        func(path, JsonObject(content))
+    }
 
-        is JsonArray -> {
-            JsonArray(mapIndexed { idx, value -> value.traverse(func, "$path$idx|") })
-        }
+    is JsonArray -> {
+        JsonArray(mapIndexed { idx, value -> value.traverse(func, "$path$idx|") })
+    }
 
-        is JsonPrimitive -> {
-            this
-        }
+    is JsonPrimitive -> {
+        this
     }
 }
 
@@ -94,4 +85,3 @@ private fun List<Regex>.hasMatchedRegex(path: String): Boolean {
     }
     return false
 }
-

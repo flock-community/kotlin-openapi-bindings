@@ -1,0 +1,29 @@
+[versions]
+default = "0.1.4"
+from_env = "VERSION"
+group_id = "community.flock.kotlinx.openapi.bindings"
+java = "17"
+kotest = "5.9.1"
+kotlin = "1.9.25"
+kotlinx_serialization = "1.5.0"
+nexus-publish = "2.0.0"
+spotless = "7.0.4"
+
+[libraries]
+nexus_publish = { module = "io.github.gradle-nexus.publish-plugin:io.github.gradle-nexus.publish-plugin.gradle.plugin", version.ref = "nexus-publish" }
+kotest_assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest_assertions_json = { module = "io.kotest:kotest-assertions-json", version.ref = "kotest" }
+kotlin_test_common = { module = "org.jetbrains.kotlin:kotlin-test-common", version.ref = "kotlin" }
+kotlin_test_annotations_common = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common", version.ref = "kotlin" }
+kotlin_test_junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+kotlinx_serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx_serialization" }
+spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
+
+[bundles]
+kotlin_test = ["kotlin_test_common", "kotlin_test_annotations_common", "kotlin_test_junit"]
+kotest = [ "kotest_assertions", "kotest_assertions_json"]
+
+[plugins]
+kotest_multiplatform = { id ="io.kotest.multiplatform", version.ref = "kotest" }
+kotlin_multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinx_serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
