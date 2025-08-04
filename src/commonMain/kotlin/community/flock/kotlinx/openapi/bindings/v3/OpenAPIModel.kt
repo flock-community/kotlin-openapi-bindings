@@ -2,6 +2,14 @@
 
 package community.flock.kotlinx.openapi.bindings.v3
 
+import community.flock.kotlinx.openapi.bindings.common.CommonModel
+import community.flock.kotlinx.openapi.bindings.common.ExternalDocumentationObject
+import community.flock.kotlinx.openapi.bindings.common.InfoObject
+import community.flock.kotlinx.openapi.bindings.common.OperationObject
+import community.flock.kotlinx.openapi.bindings.common.Path
+import community.flock.kotlinx.openapi.bindings.common.PathItemObject
+import community.flock.kotlinx.openapi.bindings.common.ServerObject
+import community.flock.kotlinx.openapi.bindings.common.TagObject
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.KSerializer
@@ -58,10 +66,6 @@ sealed interface SecuritySchemeOrReferenceObject
 @JvmInline
 @Serializable
 value class Ref(val value: String)
-
-@JvmInline
-@Serializable
-value class Path(val value: String)
 
 @JvmInline
 @Serializable
@@ -149,68 +153,50 @@ enum class SecuritySchemeType {
 @Serializable
 data class OpenAPIObject(
     val openapi: String,
-    val info: InfoObject,
     val servers: List<ServerObject>? = null,
-    val paths: Map<Path, PathItemObject>,
     val components: ComponentsObject? = null,
-    val security: List<Map<String, List<String>>>? = null,
-    val tags: List<TagObject>? = null,
-    val externalDocs: ExternalDocumentationObject? = null,
-    val xProperties: Map<String, JsonElement>? = null,
-)
+    override val info: InfoObject,
+    override val paths: Map<Path, OpenAPIPathItemObject>,
+    override val security: List<Map<String, List<String>>>? = null,
+    override val tags: List<TagObject>? = null,
+    override val externalDocs: ExternalDocumentationObject? = null,
+    override val xProperties: Map<String, JsonElement>? = null,
+) : CommonModel
 
 @Serializable
-data class TagObject(
-    val name: String,
-    val description: String? = null,
-    val externalDocs: ExternalDocumentationObject? = null,
-)
-
-@Serializable
-data class InfoObject(
-    val title: String,
-    val description: String? = null,
-    val termsOfService: String? = null,
-    val contact: ContactObject? = null,
-    val license: LicenseObject? = null,
-    val version: String,
-    val xProperties: Map<String, JsonElement>? = null,
-)
-
-@Serializable
-data class PathItemObject(
-    val ref: String? = null,
-    val summary: String? = null,
-    val description: String? = null,
-    val get: OperationObject? = null,
-    val put: OperationObject? = null,
-    val post: OperationObject? = null,
-    val delete: OperationObject? = null,
-    val options: OperationObject? = null,
-    val head: OperationObject? = null,
-    val patch: OperationObject? = null,
-    val trace: OperationObject? = null,
-    val servers: List<ServerObject>? = null,
+data class OpenAPIPathItemObject(
     val parameters: List<ParameterOrReferenceObject>? = null,
-    val xProperties: Map<String, JsonElement>? = null,
-)
+    override val ref: String? = null,
+    override val summary: String? = null,
+    override val description: String? = null,
+    override val get: OpenAPIOperationObject? = null,
+    override val put: OpenAPIOperationObject? = null,
+    override val post: OpenAPIOperationObject? = null,
+    override val delete: OpenAPIOperationObject? = null,
+    override val options: OpenAPIOperationObject? = null,
+    override val head: OpenAPIOperationObject? = null,
+    override val patch: OpenAPIOperationObject? = null,
+    override val trace: OpenAPIOperationObject? = null,
+    override val servers: List<ServerObject>? = null,
+    override val xProperties: Map<String, JsonElement>? = null,
+) : PathItemObject
 
 @Serializable
-data class OperationObject(
-    val tags: List<String?>? = null,
-    val summary: String? = null,
-    val description: String? = null,
-    val externalDocs: ExternalDocumentationObject? = null,
-    val operationId: String? = null,
+data class OpenAPIOperationObject(
     val parameters: List<ParameterOrReferenceObject>? = null,
     val requestBody: RequestBodyOrReferenceObject? = null,
     val responses: Map<StatusCode, ResponseOrReferenceObject>? = null,
     val callbacks: Map<String, CallbackOrReferenceObject>? = null,
-    val deprecated: Boolean? = null,
-    val security: List<Map<String, List<String>>>? = null,
-    val servers: List<ServerObject>? = null,
-    val xProperties: Map<String, JsonElement>? = null,
-)
+    override val tags: List<String?>? = null,
+    override val summary: String? = null,
+    override val description: String? = null,
+    override val externalDocs: ExternalDocumentationObject? = null,
+    override val operationId: String? = null,
+    override val deprecated: Boolean? = null,
+    override val security: List<Map<String, List<String>>>? = null,
+    override val servers: List<ServerObject>? = null,
+    override val xProperties: Map<String, JsonElement>? = null,
+) : OperationObject
 
 @Serializable
 data class RequestBodyObject(
@@ -221,8 +207,8 @@ data class RequestBodyObject(
 ) : RequestBodyOrReferenceObject
 
 @Serializable(with = CallbacksObjectSerializer::class)
-class CallbacksObject(override val entries: Set<Map.Entry<String, PathItemObject>>) :
-    AbstractMap<String, PathItemObject>(),
+class CallbacksObject(override val entries: Set<Map.Entry<String, OpenAPIPathItemObject>>) :
+    AbstractMap<String, OpenAPIPathItemObject>(),
     CallbackOrReferenceObject
 
 @Serializable(with = LinksObjectSerializer::class)
@@ -309,33 +295,6 @@ data class ExampleObject(
 ) : ExampleOrReferenceObject
 
 @Serializable
-data class ContactObject(
-    val name: String? = null,
-    val url: String? = null,
-    val email: String? = null,
-)
-
-@Serializable
-data class LicenseObject(
-    val name: String,
-    val url: String? = null,
-)
-
-@Serializable
-data class ServerObject(
-    val url: String,
-    val description: String? = null,
-    val variables: Map<String, ServerVariableObject>? = null,
-)
-
-@Serializable
-data class ServerVariableObject(
-    val enum: List<JsonPrimitive>? = null,
-    val default: JsonElement? = null,
-    val description: String? = null,
-)
-
-@Serializable
 data class ComponentsObject(
     val schemas: Map<String, SchemaOrReferenceObject>? = null,
     val responses: Map<String, ResponseOrReferenceObject>? = null,
@@ -374,12 +333,6 @@ data class OAuthFlowObject(
     val tokenUrl: String? = null,
     val refreshUrl: String? = null,
     val scopes: Map<String, String>? = null,
-)
-
-@Serializable
-data class ExternalDocumentationObject(
-    val description: String? = null,
-    val url: String,
 )
 
 @Serializable
@@ -465,10 +418,10 @@ data class ReferenceObject(
 object CallbacksObjectSerializer : KSerializer<CallbacksObject> {
 
     override val descriptor: SerialDescriptor =
-        MapSerializer(String.serializer(), PathItemObject.serializer()).descriptor
+        MapSerializer(String.serializer(), OpenAPIPathItemObject.serializer()).descriptor
 
     override fun serialize(encoder: Encoder, value: CallbacksObject) {
-        val serializer = MapSerializer(String.serializer(), PathItemObject.serializer())
+        val serializer = MapSerializer(String.serializer(), OpenAPIPathItemObject.serializer())
         encoder.encodeSerializableValue(serializer, value)
     }
 
@@ -478,7 +431,7 @@ object CallbacksObjectSerializer : KSerializer<CallbacksObject> {
         return CallbacksObject(
             tree.mapValues {
                 input.json.decodeFromJsonElement(
-                    PathItemObject.serializer(),
+                    OpenAPIPathItemObject.serializer(),
                     it.value,
                 )
             }.entries,

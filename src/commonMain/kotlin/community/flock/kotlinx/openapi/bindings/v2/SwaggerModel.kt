@@ -2,6 +2,14 @@
 
 package community.flock.kotlinx.openapi.bindings.v2
 
+import community.flock.kotlinx.openapi.bindings.common.CommonModel
+import community.flock.kotlinx.openapi.bindings.common.ExternalDocumentationObject
+import community.flock.kotlinx.openapi.bindings.common.InfoObject
+import community.flock.kotlinx.openapi.bindings.common.OperationObject
+import community.flock.kotlinx.openapi.bindings.common.Path
+import community.flock.kotlinx.openapi.bindings.common.PathItemObject
+import community.flock.kotlinx.openapi.bindings.common.ServerObject
+import community.flock.kotlinx.openapi.bindings.common.TagObject
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.KSerializer
@@ -55,10 +63,6 @@ sealed interface SecuritySchemeOrReferenceObject
 @JvmInline
 @Serializable
 value class Ref(val value: String)
-
-@JvmInline
-@Serializable
-value class Path(val value: String)
 
 @JvmInline
 @Serializable
@@ -163,76 +167,59 @@ interface BaseObject {
 @Serializable
 data class SwaggerObject(
     val swagger: String,
-    val info: InfoObject,
     val host: String? = null,
     val basePath: String? = null,
     val schemes: List<String>? = null,
     val consumes: List<String>? = null,
     val produces: List<String>? = null,
-    val paths: Map<Path, PathItemObject>,
     val definitions: Map<String, SchemaOrReferenceObject>? = null,
     val parameters: Map<String, ParameterObject>? = null,
     val responses: Map<String, ResponseObject>? = null,
     val securityDefinitions: Map<String, SecuritySchemeObject>? = null,
-    val security: List<Map<String, List<String>>>? = null,
-    val tags: List<TagObject>? = null,
-    val externalDocs: ExternalDocumentationObject? = null,
-    val xProperties: Map<String, JsonElement>? = null,
-)
+    override val info: InfoObject,
+    override val paths: Map<Path, SwaggerPathItemObject>,
+    override val security: List<Map<String, List<String>>>? = null,
+    override val tags: List<TagObject>? = null,
+    override val externalDocs: ExternalDocumentationObject? = null,
+    override val xProperties: Map<String, JsonElement>? = null,
+) : CommonModel
 
 @Serializable
-data class TagObject(
-    val name: String,
-    val description: String? = null,
-    val externalDocs: ExternalDocumentationObject? = null,
-)
-
-@Serializable
-data class InfoObject(
-    val title: String,
-    val description: String? = null,
-    val termsOfService: String? = null,
-    val contact: ContactObject? = null,
-    val license: LicenseObject? = null,
-    val version: String,
-    val xProperties: Map<String, JsonElement>? = null,
-)
-
-@Serializable
-data class PathItemObject(
-    val ref: String? = null,
-    val summary: String? = null,
-    val description: String? = null,
-    val get: OperationObject? = null,
-    val put: OperationObject? = null,
-    val post: OperationObject? = null,
-    val delete: OperationObject? = null,
-    val options: OperationObject? = null,
-    val head: OperationObject? = null,
-    val patch: OperationObject? = null,
-    val trace: OperationObject? = null,
-    val servers: List<ServerObject>? = null,
+data class SwaggerPathItemObject(
     val parameters: List<ParameterOrReferenceObject>? = null,
-    val xProperties: Map<String, JsonElement>? = null,
-)
+    override val ref: String? = null,
+    override val summary: String? = null,
+    override val description: String? = null,
+    override val get: SwaggerOperationObject? = null,
+    override val put: SwaggerOperationObject? = null,
+    override val post: SwaggerOperationObject? = null,
+    override val delete: SwaggerOperationObject? = null,
+    override val options: SwaggerOperationObject? = null,
+    override val head: SwaggerOperationObject? = null,
+    override val patch: SwaggerOperationObject? = null,
+    override val trace: SwaggerOperationObject? = null,
+    override val servers: List<ServerObject>? = null,
+    override val xProperties: Map<String, JsonElement>? = null,
+) : PathItemObject
 
 @Serializable
-data class OperationObject(
-    val tags: List<String?>? = null,
-    val summary: String? = null,
-    val description: String? = null,
-    val externalDocs: ExternalDocumentationObject? = null,
-    val operationId: String? = null,
+data class SwaggerOperationObject(
     val consumes: List<String>? = null,
     val produces: List<String>? = null,
     val parameters: List<ParameterOrReferenceObject>? = null,
+    val requestBody: RequestBodyOrReferenceObject? = null,
     val responses: Map<StatusCode, ResponseOrReferenceObject>? = null,
     val callbacks: Map<String, CallbackOrReferenceObject>? = null,
-    val deprecated: Boolean? = null,
-    val security: List<Map<String, List<String>>>? = null,
-    val servers: List<ServerObject>? = null,
-    val xProperties: Map<String, JsonElement>? = null,
-)
+    override val tags: List<String?>? = null,
+    override val summary: String? = null,
+    override val description: String? = null,
+    override val externalDocs: ExternalDocumentationObject? = null,
+    override val operationId: String? = null,
+    override val deprecated: Boolean? = null,
+    override val security: List<Map<String, List<String>>>? = null,
+    override val servers: List<ServerObject>? = null,
+    override val xProperties: Map<String, JsonElement>? = null,
+) : OperationObject
 
 @Serializable
 data class RequestBodyObject(
@@ -243,8 +230,8 @@ data class RequestBodyObject(
 ) : RequestBodyOrReferenceObject
 
 @Serializable(with = CallbacksObjectSerializer::class)
-class CallbacksObject(override val entries: Set<Map.Entry<String, PathItemObject>>) :
-    AbstractMap<String, PathItemObject>(),
+class CallbacksObject(override val entries: Set<Map.Entry<String, SwaggerPathItemObject>>) :
+    AbstractMap<String, SwaggerPathItemObject>(),
     CallbackOrReferenceObject
 
 @Serializable(with = LinksObjectSerializer::class)
@@ -343,33 +330,6 @@ data class EncodingPropertyObject(
 )
 
 @Serializable
-data class ContactObject(
-    val name: String? = null,
-    val url: String? = null,
-    val email: String? = null,
-)
-
-@Serializable
-data class LicenseObject(
-    val name: String,
-    val url: String? = null,
-)
-
-@Serializable
-data class ServerObject(
-    val url: String,
-    val description: String? = null,
-    val variables: Map<String, ServerVariableObject>? = null,
-)
-
-@Serializable
-data class ServerVariableObject(
-    val enum: List<JsonPrimitive>? = null,
-    val default: JsonElement? = null,
-    val description: String? = null,
-)
-
-@Serializable
 data class SecuritySchemeObject(
     val type: SecuritySchemeType,
     val description: String? = null,
@@ -380,12 +340,6 @@ data class SecuritySchemeObject(
     val tokenUrl: String? = null,
     val scopes: Map<String, String>? = null,
 ) : SecuritySchemeOrReferenceObject
-
-@Serializable
-data class ExternalDocumentationObject(
-    val description: String? = null,
-    val url: String,
-)
 
 @Serializable
 data class BooleanObject(
@@ -457,10 +411,10 @@ data class ReferenceObject(
 object CallbacksObjectSerializer : KSerializer<CallbacksObject> {
 
     override val descriptor: SerialDescriptor =
-        MapSerializer(String.serializer(), PathItemObject.serializer()).descriptor
+        MapSerializer(String.serializer(), SwaggerPathItemObject.serializer()).descriptor
 
     override fun serialize(encoder: Encoder, value: CallbacksObject) {
-        val serializer = MapSerializer(String.serializer(), PathItemObject.serializer())
+        val serializer = MapSerializer(String.serializer(), SwaggerPathItemObject.serializer())
         encoder.encodeSerializableValue(serializer, value)
     }
 
@@ -470,7 +424,7 @@ object CallbacksObjectSerializer : KSerializer<CallbacksObject> {
         return CallbacksObject(
             tree.mapValues {
                 input.json.decodeFromJsonElement(
-                    PathItemObject.serializer(),
+                    SwaggerPathItemObject.serializer(),
                     it.value,
                 )
             }.entries,
