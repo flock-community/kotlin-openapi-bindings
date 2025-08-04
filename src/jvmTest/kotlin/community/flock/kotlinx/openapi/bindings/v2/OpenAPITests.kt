@@ -11,20 +11,42 @@ import kotlin.test.Test
 class OpenAPITests {
 
     @Test
-    fun petstore() = runTest("petstore.json")
+    fun petstore() {
+        swagger("petstore.json")
+        openApiV2("petstore.json")
+    }
 
     @Test
-    fun uber() = runTest("uber.json")
+    fun uber() {
+        swagger("uber.json")
+        openApiV2("uber.json")
+    }
 
     @Test
     fun `swagger is not valid`() {
+        val input = readFile("petstore.json", V3)
+        shouldThrow<IllegalStateException> {
+            Swagger.decodeFromString(input)
+        }.message shouldBe "No valid openapi v2 element 'swagger' is missing"
+    }
+
+    @Test
+    fun `openapi v3 is not valid`() {
         val input = readFile("petstore.json", V3)
         shouldThrow<IllegalStateException> {
             OpenAPI.decodeFromString(input)
         }.message shouldBe "No valid openapi v2 element 'swagger' is missing"
     }
 
-    private fun runTest(fileName: String) {
+    private fun swagger(fileName: String) {
+        readFile(fileName, V2).let {
+            it shouldEqualJson it
+                .let(Swagger::decodeFromString)
+                .let(Swagger::encodeToString)
+        }
+    }
+
+    private fun openApiV2(fileName: String) {
         readFile(fileName, V2).let {
             it shouldEqualJson it
                 .let(OpenAPI::decodeFromString)
