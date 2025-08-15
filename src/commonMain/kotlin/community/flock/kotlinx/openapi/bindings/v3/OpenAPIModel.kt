@@ -2,6 +2,22 @@
 
 package community.flock.kotlinx.openapi.bindings.v3
 
+import community.flock.kotlinx.openapi.bindings.common.CommonModel
+import community.flock.kotlinx.openapi.bindings.common.EncodingPropertyObject
+import community.flock.kotlinx.openapi.bindings.common.ExternalDocumentationObject
+import community.flock.kotlinx.openapi.bindings.common.HeaderOrReferenceObject
+import community.flock.kotlinx.openapi.bindings.common.InfoObject
+import community.flock.kotlinx.openapi.bindings.common.MediaType
+import community.flock.kotlinx.openapi.bindings.common.MediaTypeObject
+import community.flock.kotlinx.openapi.bindings.common.OperationObject
+import community.flock.kotlinx.openapi.bindings.common.Path
+import community.flock.kotlinx.openapi.bindings.common.PathItemObject
+import community.flock.kotlinx.openapi.bindings.common.Ref
+import community.flock.kotlinx.openapi.bindings.common.RequestBodyObject
+import community.flock.kotlinx.openapi.bindings.common.SchemaOrReferenceObject
+import community.flock.kotlinx.openapi.bindings.common.ServerObject
+import community.flock.kotlinx.openapi.bindings.common.StatusCode
+import community.flock.kotlinx.openapi.bindings.common.TagObject
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.KSerializer
@@ -23,19 +39,18 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.jsonObject
-import kotlin.jvm.JvmInline
 
 @Serializable(with = ResponseOrReferenceObjectSerializer::class)
 sealed interface ResponseOrReferenceObject
 
-@Serializable(with = HeaderOrReferenceObjectSerializer::class)
-sealed interface HeaderOrReferenceObject
+@Serializable(with = OpenAPIHeaderOrReferenceObjectSerializer::class)
+sealed interface OpenAPIHeaderOrReferenceObject : HeaderOrReferenceObject
 
 @Serializable(with = ParameterOrReferenceObjectSerializer::class)
 sealed interface ParameterOrReferenceObject
 
-@Serializable(with = SchemaOrReferenceObjectSerializer::class)
-sealed interface SchemaOrReferenceObject
+@Serializable(with = OpenAPISchemaOrReferenceObjectSerializer::class)
+sealed interface OpenAPISchemaOrReferenceObject : SchemaOrReferenceObject
 
 @Serializable(with = SchemaOrReferenceOrBooleanObjectSerializer::class)
 sealed interface SchemaOrReferenceOrBooleanObject
@@ -54,22 +69,6 @@ sealed interface RequestBodyOrReferenceObject
 
 @Serializable(with = SecuritySchemeOrReferenceObjectSerializer::class)
 sealed interface SecuritySchemeOrReferenceObject
-
-@JvmInline
-@Serializable
-value class Ref(val value: String)
-
-@JvmInline
-@Serializable
-value class Path(val value: String)
-
-@JvmInline
-@Serializable
-value class MediaType(val value: String)
-
-@JvmInline
-@Serializable
-value class StatusCode(val value: String)
 
 @Serializable
 enum class Style {
@@ -149,80 +148,63 @@ enum class SecuritySchemeType {
 @Serializable
 data class OpenAPIObject(
     val openapi: String,
-    val info: InfoObject,
     val servers: List<ServerObject>? = null,
-    val paths: Map<Path, PathItemObject>,
     val components: ComponentsObject? = null,
-    val security: List<Map<String, List<String>>>? = null,
-    val tags: List<TagObject>? = null,
-    val externalDocs: ExternalDocumentationObject? = null,
-    val xProperties: Map<String, JsonElement>? = null,
-)
+    override val info: InfoObject,
+    override val paths: Map<Path, OpenAPIPathItemObject>,
+    override val security: List<Map<String, List<String>>>? = null,
+    override val tags: List<TagObject>? = null,
+    override val externalDocs: ExternalDocumentationObject? = null,
+    override val xProperties: Map<String, JsonElement>? = null,
+) : CommonModel
 
 @Serializable
-data class TagObject(
-    val name: String,
-    val description: String? = null,
-    val externalDocs: ExternalDocumentationObject? = null,
-)
-
-@Serializable
-data class InfoObject(
-    val title: String,
-    val description: String? = null,
-    val termsOfService: String? = null,
-    val contact: ContactObject? = null,
-    val license: LicenseObject? = null,
-    val version: String,
-    val xProperties: Map<String, JsonElement>? = null,
-)
-
-@Serializable
-data class PathItemObject(
-    val ref: String? = null,
-    val summary: String? = null,
-    val description: String? = null,
-    val get: OperationObject? = null,
-    val put: OperationObject? = null,
-    val post: OperationObject? = null,
-    val delete: OperationObject? = null,
-    val options: OperationObject? = null,
-    val head: OperationObject? = null,
-    val patch: OperationObject? = null,
-    val trace: OperationObject? = null,
-    val servers: List<ServerObject>? = null,
+data class OpenAPIPathItemObject(
     val parameters: List<ParameterOrReferenceObject>? = null,
-    val xProperties: Map<String, JsonElement>? = null,
-)
+    override val ref: String? = null,
+    override val summary: String? = null,
+    override val description: String? = null,
+    override val get: OpenAPIOperationObject? = null,
+    override val put: OpenAPIOperationObject? = null,
+    override val post: OpenAPIOperationObject? = null,
+    override val delete: OpenAPIOperationObject? = null,
+    override val options: OpenAPIOperationObject? = null,
+    override val head: OpenAPIOperationObject? = null,
+    override val patch: OpenAPIOperationObject? = null,
+    override val trace: OpenAPIOperationObject? = null,
+    override val servers: List<ServerObject>? = null,
+    override val xProperties: Map<String, JsonElement>? = null,
+) : PathItemObject
 
 @Serializable
-data class OperationObject(
-    val tags: List<String?>? = null,
-    val summary: String? = null,
-    val description: String? = null,
-    val externalDocs: ExternalDocumentationObject? = null,
-    val operationId: String? = null,
+data class OpenAPIOperationObject(
     val parameters: List<ParameterOrReferenceObject>? = null,
     val requestBody: RequestBodyOrReferenceObject? = null,
     val responses: Map<StatusCode, ResponseOrReferenceObject>? = null,
     val callbacks: Map<String, CallbackOrReferenceObject>? = null,
-    val deprecated: Boolean? = null,
-    val security: List<Map<String, List<String>>>? = null,
-    val servers: List<ServerObject>? = null,
-    val xProperties: Map<String, JsonElement>? = null,
-)
+    override val tags: List<String?>? = null,
+    override val summary: String? = null,
+    override val description: String? = null,
+    override val externalDocs: ExternalDocumentationObject? = null,
+    override val operationId: String? = null,
+    override val deprecated: Boolean? = null,
+    override val security: List<Map<String, List<String>>>? = null,
+    override val servers: List<ServerObject>? = null,
+    override val xProperties: Map<String, JsonElement>? = null,
+) : OperationObject
 
 @Serializable
-data class RequestBodyObject(
-    val description: String? = null,
-    val content: Map<MediaType, MediaTypeObject>? = null,
-    val required: Boolean? = null,
-    val xProperties: Map<String, JsonElement>? = null,
-) : RequestBodyOrReferenceObject
+data class OpenAPIRequestBodyObject(
+    override val description: String? = null,
+    override val content: Map<MediaType, OpenAPIMediaTypeObject>? = null,
+    override val required: Boolean? = null,
+    override val xProperties: Map<String, JsonElement>? = null,
+) : RequestBodyObject,
+    RequestBodyOrReferenceObject
 
 @Serializable(with = CallbacksObjectSerializer::class)
-class CallbacksObject(override val entries: Set<Map.Entry<String, PathItemObject>>) :
-    AbstractMap<String, PathItemObject>(),
+class CallbacksObject(override val entries: Set<Map.Entry<String, OpenAPIPathItemObject>>) :
+    AbstractMap<String, OpenAPIPathItemObject>(),
     CallbackOrReferenceObject
 
 @Serializable(with = LinksObjectSerializer::class)
@@ -243,8 +225,8 @@ data class LinkObject(
 @Serializable
 data class ResponseObject(
     val description: String? = null,
-    val headers: Map<String, HeaderOrReferenceObject>? = null,
-    val content: Map<MediaType, MediaTypeObject>? = null,
+    val headers: Map<String, OpenAPIHeaderOrReferenceObject>? = null,
+    val content: Map<MediaType, OpenAPIMediaTypeObject>? = null,
     val links: LinksObject? = null,
     val xProperties: Map<String, JsonElement>? = null,
 ) : ResponseOrReferenceObject
@@ -258,12 +240,12 @@ data class HeaderObject(
     val style: Style? = null,
     val explode: Boolean? = null,
     val allowReserved: Boolean? = null,
-    val schema: SchemaOrReferenceObject? = null,
+    val schema: OpenAPISchemaOrReferenceObject? = null,
     val examples: Map<String, ExampleOrReferenceObject>? = null,
     val example: JsonElement? = null,
-    val content: Map<MediaType, MediaTypeObject>? = null,
+    val content: Map<MediaType, OpenAPIMediaTypeObject>? = null,
     val xProperties: Map<String, JsonElement>? = null,
-) : HeaderOrReferenceObject
+) : OpenAPIHeaderOrReferenceObject
 
 @Serializable
 data class ParameterObject(
@@ -274,31 +256,31 @@ data class ParameterObject(
     val style: Style? = null,
     val explode: Boolean? = null,
     val allowReserved: Boolean? = null,
-    val schema: SchemaOrReferenceObject? = null,
+    val schema: OpenAPISchemaOrReferenceObject? = null,
     val examples: Map<String, ExampleOrReferenceObject>? = null,
     val example: JsonElement? = null,
-    val content: Map<MediaType, MediaTypeObject>? = null,
+    val content: Map<MediaType, OpenAPIMediaTypeObject>? = null,
     val name: String,
     val `in`: ParameterLocation,
     val xProperties: Map<String, JsonElement>? = null,
 ) : ParameterOrReferenceObject
 
 @Serializable
-data class MediaTypeObject(
-    val schema: SchemaOrReferenceObject? = null,
-    val examples: Map<String, JsonElement>? = null,
-    val example: JsonElement? = null,
-    val encoding: Map<String, EncodingPropertyObject>? = null,
-)
+data class OpenAPIMediaTypeObject(
+    override val schema: OpenAPISchemaOrReferenceObject? = null,
+    override val examples: Map<String, JsonElement>? = null,
+    override val example: JsonElement? = null,
+    override val encoding: Map<String, OpenAPIEncodingPropertyObject>? = null,
+) : MediaTypeObject
 
 @Serializable
-data class EncodingPropertyObject(
-    val contentType: String? = null,
-    val headers: Map<String, HeaderOrReferenceObject>? = null,
-    val style: String? = null,
-    val explode: Boolean? = null,
-    val allowReserved: Boolean? = null,
-)
+data class OpenAPIEncodingPropertyObject(
+    override val contentType: String? = null,
+    override val headers: Map<String, OpenAPIHeaderOrReferenceObject>? = null,
+    override val style: String? = null,
+    override val explode: Boolean? = null,
+    override val allowReserved: Boolean? = null,
+) : EncodingPropertyObject
 
 @Serializable
 data class ExampleObject(
@@ -309,40 +291,13 @@ data class ExampleObject(
 ) : ExampleOrReferenceObject
 
 @Serializable
-data class ContactObject(
-    val name: String? = null,
-    val url: String? = null,
-    val email: String? = null,
-)
-
-@Serializable
-data class LicenseObject(
-    val name: String,
-    val url: String? = null,
-)
-
-@Serializable
-data class ServerObject(
-    val url: String,
-    val description: String? = null,
-    val variables: Map<String, ServerVariableObject>? = null,
-)
-
-@Serializable
-data class ServerVariableObject(
-    val enum: List<JsonPrimitive>? = null,
-    val default: JsonElement? = null,
-    val description: String? = null,
-)
-
-@Serializable
 data class ComponentsObject(
-    val schemas: Map<String, SchemaOrReferenceObject>? = null,
+    val schemas: Map<String, OpenAPISchemaOrReferenceObject>? = null,
     val responses: Map<String, ResponseOrReferenceObject>? = null,
     val parameters: Map<String, ParameterOrReferenceObject>? = null,
     val examples: Map<String, ExampleOrReferenceObject>? = null,
     val requestBodies: Map<String, RequestBodyOrReferenceObject>? = null,
-    val headers: Map<String, HeaderOrReferenceObject>? = null,
+    val headers: Map<String, OpenAPIHeaderOrReferenceObject>? = null,
     val securitySchemes: Map<String, SecuritySchemeOrReferenceObject>? = null,
     val links: Map<String, LinkOrReferenceObject>? = null,
     val callbacks: Map<String, CallbackOrReferenceObject>? = null,
@@ -377,12 +332,6 @@ data class OAuthFlowObject(
 )
 
 @Serializable
-data class ExternalDocumentationObject(
-    val description: String? = null,
-    val url: String,
-)
-
-@Serializable
 data class BooleanObject(
     val value: Boolean,
 ) : SchemaOrReferenceOrBooleanObject
@@ -400,12 +349,12 @@ data class SchemaObject(
     val deprecated: Boolean? = null,
 
     val type: Type? = null,
-    val allOf: List<SchemaOrReferenceObject>? = null,
-    val oneOf: List<SchemaOrReferenceObject>? = null,
-    val anyOf: List<SchemaOrReferenceObject>? = null,
-    val not: SchemaOrReferenceObject? = null,
-    val items: SchemaOrReferenceObject? = null,
-    val properties: Map<String, SchemaOrReferenceObject>? = null,
+    val allOf: List<OpenAPISchemaOrReferenceObject>? = null,
+    val oneOf: List<OpenAPISchemaOrReferenceObject>? = null,
+    val anyOf: List<OpenAPISchemaOrReferenceObject>? = null,
+    val not: OpenAPISchemaOrReferenceObject? = null,
+    val items: OpenAPISchemaOrReferenceObject? = null,
+    val properties: Map<String, OpenAPISchemaOrReferenceObject>? = null,
     val additionalProperties: SchemaOrReferenceOrBooleanObject? = null,
     val description: String? = null,
     val format: String? = null,
@@ -429,7 +378,7 @@ data class SchemaObject(
     val enum: List<JsonPrimitive>? = null,
 
     val xProperties: Map<String, JsonElement>? = null,
-) : SchemaOrReferenceObject,
+) : OpenAPISchemaOrReferenceObject,
     SchemaOrReferenceOrBooleanObject
 
 @Serializable
@@ -451,10 +400,10 @@ data class XmlObject(
 data class ReferenceObject(
     @SerialName("\$ref")
     val ref: Ref,
-) : SchemaOrReferenceObject,
+) : OpenAPISchemaOrReferenceObject,
     SchemaOrReferenceOrBooleanObject,
     ResponseOrReferenceObject,
-    HeaderOrReferenceObject,
+    OpenAPIHeaderOrReferenceObject,
     CallbackOrReferenceObject,
     LinkOrReferenceObject,
     ParameterOrReferenceObject,
@@ -465,10 +414,10 @@ data class ReferenceObject(
 object CallbacksObjectSerializer : KSerializer<CallbacksObject> {
 
     override val descriptor: SerialDescriptor =
-        MapSerializer(String.serializer(), PathItemObject.serializer()).descriptor
+        MapSerializer(String.serializer(), OpenAPIPathItemObject.serializer()).descriptor
 
     override fun serialize(encoder: Encoder, value: CallbacksObject) {
-        val serializer = MapSerializer(String.serializer(), PathItemObject.serializer())
+        val serializer = MapSerializer(String.serializer(), OpenAPIPathItemObject.serializer())
         encoder.encodeSerializableValue(serializer, value)
     }
 
@@ -478,7 +427,7 @@ object CallbacksObjectSerializer : KSerializer<CallbacksObject> {
         return CallbacksObject(
             tree.mapValues {
                 input.json.decodeFromJsonElement(
-                    PathItemObject.serializer(),
+                    OpenAPIPathItemObject.serializer(),
                     it.value,
                 )
             }.entries,
@@ -578,19 +527,19 @@ object CallbackOrReferenceObjectSerializer : KSerializer<CallbackOrReferenceObje
     }
 }
 
-object SchemaOrReferenceObjectSerializer : KSerializer<SchemaOrReferenceObject> {
+object OpenAPISchemaOrReferenceObjectSerializer : KSerializer<OpenAPISchemaOrReferenceObject> {
 
     override val descriptor: SerialDescriptor = buildSerialDescriptor("SchemaOrReferenceObject", PolymorphicKind.SEALED)
 
-    override fun serialize(encoder: Encoder, value: SchemaOrReferenceObject) {
+    override fun serialize(encoder: Encoder, value: OpenAPISchemaOrReferenceObject) {
         val serializer = when (value) {
             is SchemaObject -> SchemaObject.serializer()
             is ReferenceObject -> ReferenceObject.serializer()
-        } as SerializationStrategy<SchemaOrReferenceObject>
+        } as SerializationStrategy<OpenAPISchemaOrReferenceObject>
         encoder.encodeSerializableValue(serializer, value)
     }
 
-    override fun deserialize(decoder: Decoder): SchemaOrReferenceObject {
+    override fun deserialize(decoder: Decoder): OpenAPISchemaOrReferenceObject {
         val input = decoder as? JsonDecoder ?: throw SerializationException("This class can be loaded only by Json")
         val tree = input.decodeJsonElement().jsonObject
         return when {
@@ -600,19 +549,19 @@ object SchemaOrReferenceObjectSerializer : KSerializer<SchemaOrReferenceObject> 
     }
 }
 
-object HeaderOrReferenceObjectSerializer : KSerializer<HeaderOrReferenceObject> {
+object OpenAPIHeaderOrReferenceObjectSerializer : KSerializer<OpenAPIHeaderOrReferenceObject> {
 
     override val descriptor: SerialDescriptor = buildSerialDescriptor("HeaderOrReferenceObject", PolymorphicKind.SEALED)
 
-    override fun serialize(encoder: Encoder, value: HeaderOrReferenceObject) {
+    override fun serialize(encoder: Encoder, value: OpenAPIHeaderOrReferenceObject) {
         val serializer = when (value) {
             is HeaderObject -> HeaderObject.serializer()
             is ReferenceObject -> ReferenceObject.serializer()
-        } as SerializationStrategy<HeaderOrReferenceObject>
+        } as SerializationStrategy<OpenAPIHeaderOrReferenceObject>
         encoder.encodeSerializableValue(serializer, value)
     }
 
-    override fun deserialize(decoder: Decoder): HeaderOrReferenceObject {
+    override fun deserialize(decoder: Decoder): OpenAPIHeaderOrReferenceObject {
         val input = decoder as? JsonDecoder ?: throw SerializationException("This class can be loaded only by Json")
         val tree = input.decodeJsonElement().jsonObject
         return when {
@@ -675,7 +624,7 @@ object RequestBodyOrReferenceObjectSerializer : KSerializer<RequestBodyOrReferen
 
     override fun serialize(encoder: Encoder, value: RequestBodyOrReferenceObject) {
         val serializer = when (value) {
-            is RequestBodyObject -> RequestBodyObject.serializer()
+            is OpenAPIRequestBodyObject -> OpenAPIRequestBodyObject.serializer()
             is ReferenceObject -> ReferenceObject.serializer()
         } as SerializationStrategy<RequestBodyOrReferenceObject>
         encoder.encodeSerializableValue(serializer, value)
@@ -686,7 +635,7 @@ object RequestBodyOrReferenceObjectSerializer : KSerializer<RequestBodyOrReferen
         val tree = input.decodeJsonElement().jsonObject
         return when {
             tree.containsKey("\$ref") -> input.json.decodeFromJsonElement(ReferenceObject.serializer(), tree)
-            else -> input.json.decodeFromJsonElement(RequestBodyObject.serializer(), tree)
+            else -> input.json.decodeFromJsonElement(OpenAPIRequestBodyObject.serializer(), tree)
         }
     }
 }
