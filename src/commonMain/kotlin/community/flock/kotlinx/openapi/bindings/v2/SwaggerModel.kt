@@ -3,12 +3,20 @@
 package community.flock.kotlinx.openapi.bindings.v2
 
 import community.flock.kotlinx.openapi.bindings.common.CommonModel
+import community.flock.kotlinx.openapi.bindings.common.EncodingPropertyObject
 import community.flock.kotlinx.openapi.bindings.common.ExternalDocumentationObject
+import community.flock.kotlinx.openapi.bindings.common.HeaderOrReferenceObject
 import community.flock.kotlinx.openapi.bindings.common.InfoObject
+import community.flock.kotlinx.openapi.bindings.common.MediaType
+import community.flock.kotlinx.openapi.bindings.common.MediaTypeObject
 import community.flock.kotlinx.openapi.bindings.common.OperationObject
 import community.flock.kotlinx.openapi.bindings.common.Path
 import community.flock.kotlinx.openapi.bindings.common.PathItemObject
+import community.flock.kotlinx.openapi.bindings.common.Ref
+import community.flock.kotlinx.openapi.bindings.common.RequestBodyObject
+import community.flock.kotlinx.openapi.bindings.common.SchemaOrReferenceObject
 import community.flock.kotlinx.openapi.bindings.common.ServerObject
+import community.flock.kotlinx.openapi.bindings.common.StatusCode
 import community.flock.kotlinx.openapi.bindings.common.TagObject
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.InternalSerializationApi
@@ -31,19 +39,18 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.jsonObject
-import kotlin.jvm.JvmInline
 
 @Serializable(with = ResponseOrReferenceObjectSerializer::class)
 sealed interface ResponseOrReferenceObject
 
-@Serializable(with = HeaderOrReferenceObjectSerializer::class)
-sealed interface HeaderOrReferenceObject
+@Serializable(with = SwaggerHeaderOrReferenceObjectSerializer::class)
+sealed interface SwaggerHeaderOrReferenceObject : HeaderOrReferenceObject
 
 @Serializable(with = ParameterOrReferenceObjectSerializer::class)
 sealed interface ParameterOrReferenceObject
 
-@Serializable(with = SchemaOrReferenceObjectSerializer::class)
-sealed interface SchemaOrReferenceObject
+@Serializable(with = SwaggerSchemaOrReferenceObjectSerializer::class)
+sealed interface SwaggerSchemaOrReferenceObject : SchemaOrReferenceObject
 
 @Serializable(with = SchemaOrReferenceOrBooleanObjectSerializer::class)
 sealed interface SchemaOrReferenceOrBooleanObject
@@ -59,42 +66,6 @@ sealed interface RequestBodyOrReferenceObject
 
 @Serializable(with = SecuritySchemeOrReferenceObjectSerializer::class)
 sealed interface SecuritySchemeOrReferenceObject
-
-@JvmInline
-@Serializable
-value class Ref(val value: String)
-
-@JvmInline
-@Serializable
-value class MediaType(val value: String)
-
-@JvmInline
-@Serializable
-value class StatusCode(val value: String)
-
-@Serializable
-enum class Style {
-    @SerialName("matrix")
-    MATRIX,
-
-    @SerialName("label")
-    LABEL,
-
-    @SerialName("form")
-    FORM,
-
-    @SerialName("simple")
-    SIMPLE,
-
-    @SerialName("spaceDelimited")
-    SPACE_DELIMITED,
-
-    @SerialName("pipeDelimited")
-    PIPE_DELIMITED,
-
-    @SerialName("deepObject")
-    DEEP_OBJECT,
-}
 
 @Serializable
 enum class ParameterLocation {
@@ -172,7 +143,7 @@ data class SwaggerObject(
     val schemes: List<String>? = null,
     val consumes: List<String>? = null,
     val produces: List<String>? = null,
-    val definitions: Map<String, SchemaOrReferenceObject>? = null,
+    val definitions: Map<String, SwaggerSchemaOrReferenceObject>? = null,
     val parameters: Map<String, ParameterObject>? = null,
     val responses: Map<String, ResponseObject>? = null,
     val securityDefinitions: Map<String, SecuritySchemeObject>? = null,
@@ -222,12 +193,13 @@ data class SwaggerOperationObject(
 ) : OperationObject
 
 @Serializable
-data class RequestBodyObject(
-    val description: String? = null,
-    val content: Map<MediaType, MediaTypeObject>? = null,
-    val required: Boolean,
-    val xProperties: Map<String, JsonElement>? = null,
-) : RequestBodyOrReferenceObject
+data class SwaggerRequestBodyObject(
+    override val description: String? = null,
+    override val content: Map<MediaType, SwaggerMediaTypeObject>? = null,
+    override val required: Boolean,
+    override val xProperties: Map<String, JsonElement>? = null,
+) : RequestBodyObject,
+    RequestBodyOrReferenceObject
 
 @Serializable(with = CallbacksObjectSerializer::class)
 class CallbacksObject(override val entries: Set<Map.Entry<String, SwaggerPathItemObject>>) :
@@ -252,8 +224,8 @@ data class LinkObject(
 @Serializable
 data class ResponseObject(
     val description: String? = null,
-    val schema: SchemaOrReferenceObject? = null,
-    val headers: Map<String, HeaderOrReferenceObject>? = null,
+    val schema: SwaggerSchemaOrReferenceObject? = null,
+    val headers: Map<String, SwaggerHeaderOrReferenceObject>? = null,
     val links: LinksObject? = null,
     val examples: Map<String, JsonElement>? = null,
     val xProperties: Map<String, JsonElement>? = null,
@@ -264,7 +236,7 @@ data class HeaderObject(
     val description: String? = null,
     override val type: Type,
     override val format: String? = null,
-    val items: SchemaOrReferenceObject? = null,
+    val items: SwaggerSchemaOrReferenceObject? = null,
     val collectionFormat: String? = null,
     val default: JsonElement? = null,
     override val maximum: Double? = null,
@@ -281,7 +253,7 @@ data class HeaderObject(
     val multipleOf: Int? = null,
     val xProperties: Map<String, JsonElement>? = null,
 ) : BaseObject,
-    HeaderOrReferenceObject
+    SwaggerHeaderOrReferenceObject
 
 @Serializable
 data class ParameterObject(
@@ -289,9 +261,9 @@ data class ParameterObject(
     val `in`: ParameterLocation,
     val description: String? = null,
     val required: Boolean? = null,
-    val schema: SchemaOrReferenceObject? = null,
+    val schema: SwaggerSchemaOrReferenceObject? = null,
     override val type: Type? = null,
-    val items: SchemaOrReferenceObject? = null,
+    val items: SwaggerSchemaOrReferenceObject? = null,
     override val format: String? = null,
     val allowEmptyValue: Boolean? = null,
     val collectionFormat: String? = null,
@@ -313,21 +285,21 @@ data class ParameterObject(
     ParameterOrReferenceObject
 
 @Serializable
-data class MediaTypeObject(
-    val schema: SchemaOrReferenceObject? = null,
-    val examples: Map<String, JsonElement>? = null,
-    val example: JsonElement? = null,
-    val encoding: Map<String, EncodingPropertyObject>? = null,
-)
+data class SwaggerMediaTypeObject(
+    override val schema: SwaggerSchemaOrReferenceObject? = null,
+    override val examples: Map<String, JsonElement>? = null,
+    override val example: JsonElement? = null,
+    override val encoding: Map<String, SwaggerEncodingPropertyObject>? = null,
+) : MediaTypeObject
 
 @Serializable
-data class EncodingPropertyObject(
-    val contentType: String? = null,
-    val headers: Map<String, HeaderOrReferenceObject>? = null,
-    val style: String? = null,
-    val explode: Boolean? = null,
-    val allowReserved: Boolean? = null,
-)
+data class SwaggerEncodingPropertyObject(
+    override val contentType: String? = null,
+    override val headers: Map<String, SwaggerHeaderOrReferenceObject>? = null,
+    override val style: String? = null,
+    override val explode: Boolean? = null,
+    override val allowReserved: Boolean? = null,
+) : EncodingPropertyObject
 
 @Serializable
 data class SecuritySchemeObject(
@@ -374,14 +346,14 @@ data class SchemaObject(
     val enum: List<JsonPrimitive>? = null,
     override val type: Type? = null,
 
-    val items: SchemaOrReferenceObject? = null,
-    val allOf: List<SchemaOrReferenceObject>? = null,
-    val properties: Map<String, SchemaOrReferenceObject>? = null,
+    val items: SwaggerSchemaOrReferenceObject? = null,
+    val allOf: List<SwaggerSchemaOrReferenceObject>? = null,
+    val properties: Map<String, SwaggerSchemaOrReferenceObject>? = null,
     val additionalProperties: SchemaOrReferenceOrBooleanObject? = null,
 
     val xProperties: Map<String, JsonElement>? = null,
 ) : BaseObject,
-    SchemaOrReferenceObject,
+    SwaggerSchemaOrReferenceObject,
     SchemaOrReferenceOrBooleanObject
 
 @Serializable
@@ -398,10 +370,10 @@ data class ReferenceObject(
     @SerialName("\$ref")
     val ref: Ref,
     val xml: XmlObject? = null,
-) : SchemaOrReferenceObject,
+) : SwaggerHeaderOrReferenceObject,
+    SwaggerSchemaOrReferenceObject,
     SchemaOrReferenceOrBooleanObject,
     ResponseOrReferenceObject,
-    HeaderOrReferenceObject,
     CallbackOrReferenceObject,
     LinkOrReferenceObject,
     ParameterOrReferenceObject,
@@ -524,19 +496,19 @@ object CallbackOrReferenceObjectSerializer : KSerializer<CallbackOrReferenceObje
     }
 }
 
-object SchemaOrReferenceObjectSerializer : KSerializer<SchemaOrReferenceObject> {
+object SwaggerSchemaOrReferenceObjectSerializer : KSerializer<SwaggerSchemaOrReferenceObject> {
 
     override val descriptor: SerialDescriptor = buildSerialDescriptor("SchemaOrReferenceObject", PolymorphicKind.SEALED)
 
-    override fun serialize(encoder: Encoder, value: SchemaOrReferenceObject) {
+    override fun serialize(encoder: Encoder, value: SwaggerSchemaOrReferenceObject) {
         val serializer = when (value) {
             is SchemaObject -> SchemaObject.serializer()
             is ReferenceObject -> ReferenceObject.serializer()
-        } as SerializationStrategy<SchemaOrReferenceObject>
+        } as SerializationStrategy<SwaggerSchemaOrReferenceObject>
         encoder.encodeSerializableValue(serializer, value)
     }
 
-    override fun deserialize(decoder: Decoder): SchemaOrReferenceObject {
+    override fun deserialize(decoder: Decoder): SwaggerSchemaOrReferenceObject {
         val input = decoder as? JsonDecoder ?: throw SerializationException("This class can be loaded only by Json")
         val tree = input.decodeJsonElement().jsonObject
         return when {
@@ -546,19 +518,19 @@ object SchemaOrReferenceObjectSerializer : KSerializer<SchemaOrReferenceObject> 
     }
 }
 
-object HeaderOrReferenceObjectSerializer : KSerializer<HeaderOrReferenceObject> {
+object SwaggerHeaderOrReferenceObjectSerializer : KSerializer<SwaggerHeaderOrReferenceObject> {
 
     override val descriptor: SerialDescriptor = buildSerialDescriptor("HeaderOrReferenceObject", PolymorphicKind.SEALED)
 
-    override fun serialize(encoder: Encoder, value: HeaderOrReferenceObject) {
+    override fun serialize(encoder: Encoder, value: SwaggerHeaderOrReferenceObject) {
         val serializer = when (value) {
             is HeaderObject -> HeaderObject.serializer()
             is ReferenceObject -> ReferenceObject.serializer()
-        } as SerializationStrategy<HeaderOrReferenceObject>
+        } as SerializationStrategy<SwaggerHeaderOrReferenceObject>
         encoder.encodeSerializableValue(serializer, value)
     }
 
-    override fun deserialize(decoder: Decoder): HeaderOrReferenceObject {
+    override fun deserialize(decoder: Decoder): SwaggerHeaderOrReferenceObject {
         val input = decoder as? JsonDecoder ?: throw SerializationException("This class can be loaded only by Json")
         val tree = input.decodeJsonElement().jsonObject
         return when {
@@ -598,7 +570,7 @@ object RequestBodyOrReferenceObjectSerializer : KSerializer<RequestBodyOrReferen
 
     override fun serialize(encoder: Encoder, value: RequestBodyOrReferenceObject) {
         val serializer = when (value) {
-            is RequestBodyObject -> RequestBodyObject.serializer()
+            is SwaggerRequestBodyObject -> SwaggerRequestBodyObject.serializer()
             is ReferenceObject -> ReferenceObject.serializer()
         } as SerializationStrategy<RequestBodyOrReferenceObject>
         encoder.encodeSerializableValue(serializer, value)
@@ -609,7 +581,7 @@ object RequestBodyOrReferenceObjectSerializer : KSerializer<RequestBodyOrReferen
         val tree = input.decodeJsonElement().jsonObject
         return when {
             tree.containsKey("\$ref") -> input.json.decodeFromJsonElement(ReferenceObject.serializer(), tree)
-            else -> input.json.decodeFromJsonElement(RequestBodyObject.serializer(), tree)
+            else -> input.json.decodeFromJsonElement(SwaggerRequestBodyObject.serializer(), tree)
         }
     }
 }

@@ -9,6 +9,25 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 import kotlin.jvm.JvmInline
 
+interface HeaderOrReferenceObject
+interface SchemaOrReferenceObject
+
+@JvmInline
+@Serializable
+value class Ref(val value: String)
+
+@JvmInline
+@Serializable
+value class MediaType(val value: String)
+
+@JvmInline
+@Serializable
+value class StatusCode(val value: String)
+
+@JvmInline
+@Serializable
+value class Path(val value: String)
+
 interface CommonModel {
     val info: InfoObject
     val paths: Map<Path, PathItemObject>
@@ -28,10 +47,6 @@ data class InfoObject(
     val version: String,
     val xProperties: Map<String, JsonElement>? = null,
 )
-
-@JvmInline
-@Serializable
-value class Path(val value: String)
 
 interface PathItemObject {
     val ref: String?
@@ -73,6 +88,28 @@ interface OperationObject {
     val security: List<Map<String, List<String>>>?
     val servers: List<ServerObject>?
     val xProperties: Map<String, JsonElement>?
+}
+
+interface RequestBodyObject {
+    val description: String?
+    val content: Map<MediaType, MediaTypeObject>?
+    val required: Boolean?
+    val xProperties: Map<String, JsonElement>?
+}
+
+interface MediaTypeObject {
+    val schema: SchemaOrReferenceObject?
+    val examples: Map<String, JsonElement>?
+    val example: JsonElement?
+    val encoding: Map<String, EncodingPropertyObject>?
+}
+
+interface EncodingPropertyObject {
+    val contentType: String?
+    val headers: Map<String, HeaderOrReferenceObject>?
+    val style: String?
+    val explode: Boolean?
+    val allowReserved: Boolean?
 }
 
 @Serializable
