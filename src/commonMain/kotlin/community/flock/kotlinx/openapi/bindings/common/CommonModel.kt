@@ -9,8 +9,16 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 import kotlin.jvm.JvmInline
 
-interface HeaderOrReferenceObject
-interface SchemaOrReferenceObject
+interface ResponseOrReference
+interface HeaderOrReference
+interface ParameterOrReference
+interface SchemaOrReference
+interface SchemaOrReferenceOrBoolean
+interface CallbackOrReference
+interface LinkOrReference
+interface ExampleOrReference
+interface RequestBodyOrReference
+interface SecuritySchemeOrReference
 
 @JvmInline
 @Serializable
@@ -30,10 +38,10 @@ value class Path(val value: String)
 
 interface CommonModel {
     val info: InfoObject
-    val paths: Map<Path, PathItemObject>
+    val paths: Map<Path, PathItem>
     val security: List<Map<String, List<String>>>?
     val tags: List<TagObject>?
-    val externalDocs: ExternalDocumentationObject?
+    val externalDocs: ExternalDocumentation?
     val xProperties: Map<String, JsonElement>?
 }
 
@@ -48,24 +56,24 @@ data class InfoObject(
     val xProperties: Map<String, JsonElement>? = null,
 )
 
-interface PathItemObject {
+interface PathItem {
     val ref: String?
     val summary: String?
     val description: String?
-    val get: OperationObject?
-    val put: OperationObject?
-    val post: OperationObject?
-    val delete: OperationObject?
-    val options: OperationObject?
-    val head: OperationObject?
-    val patch: OperationObject?
-    val trace: OperationObject?
-    val servers: List<ServerObject>?
+    val get: Operation?
+    val put: Operation?
+    val post: Operation?
+    val delete: Operation?
+    val options: Operation?
+    val head: Operation?
+    val patch: Operation?
+    val trace: Operation?
+    val servers: List<Server>?
     val xProperties: Map<String, JsonElement>?
 }
 
 @Serializable
-data class ServerObject(
+data class Server(
     val url: String,
     val description: String? = null,
     val variables: Map<String, ServerVariableObject>? = null,
@@ -78,19 +86,19 @@ data class ServerVariableObject(
     val description: String? = null,
 )
 
-interface OperationObject {
+interface Operation {
     val tags: List<String?>?
     val summary: String?
     val description: String?
-    val externalDocs: ExternalDocumentationObject?
+    val externalDocs: ExternalDocumentation?
     val operationId: String?
     val deprecated: Boolean?
     val security: List<Map<String, List<String>>>?
-    val servers: List<ServerObject>?
+    val servers: List<Server>?
     val xProperties: Map<String, JsonElement>?
 }
 
-interface RequestBodyObject {
+interface RequestBody {
     val description: String?
     val content: Map<MediaType, MediaTypeObject>?
     val required: Boolean?
@@ -98,15 +106,15 @@ interface RequestBodyObject {
 }
 
 interface MediaTypeObject {
-    val schema: SchemaOrReferenceObject?
+    val schema: SchemaOrReference?
     val examples: Map<String, JsonElement>?
     val example: JsonElement?
-    val encoding: Map<String, EncodingPropertyObject>?
+    val encoding: Map<String, EncodingProperty>?
 }
 
-interface EncodingPropertyObject {
+interface EncodingProperty {
     val contentType: String?
-    val headers: Map<String, HeaderOrReferenceObject>?
+    val headers: Map<String, HeaderOrReference>?
     val style: String?
     val explode: Boolean?
     val allowReserved: Boolean?
@@ -116,11 +124,11 @@ interface EncodingPropertyObject {
 data class TagObject(
     val name: String,
     val description: String? = null,
-    val externalDocs: ExternalDocumentationObject? = null,
+    val externalDocs: ExternalDocumentation? = null,
 )
 
 @Serializable
-data class ExternalDocumentationObject(
+data class ExternalDocumentation(
     val description: String? = null,
     val url: String,
 )
@@ -137,3 +145,5 @@ data class LicenseObject(
     val name: String,
     val url: String? = null,
 )
+
+inline val <reified T> T.simpleName get() = T::class.simpleName!!

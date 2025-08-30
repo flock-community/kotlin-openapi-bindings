@@ -12,15 +12,15 @@ import kotlinx.serialization.json.encodeToJsonElement
 open class Swagger(
     val json: Json = Json { prettyPrint = true },
 ) : CommonSpecification {
-    fun decodeFromString(string: String): SwaggerObject = json
+    fun decodeFromString(string: String): SwaggerModel = json
         .decodeFromString<JsonObject>(string)
         .decode(V2)
         .let(json::decodeFromJsonElement)
 
-    fun encodeToString(value: SwaggerObject): String = json
+    fun encodeToString(value: SwaggerModel): String = json
         .encodeToJsonElement(value)
         .encode()
         .let(json::encodeToString)
 
-    companion object Default : Swagger()
+    companion object : Swagger()
 }

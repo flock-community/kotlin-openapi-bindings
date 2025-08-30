@@ -13,15 +13,15 @@ open class OpenAPI(
     val json: Json = Json { prettyPrint = true },
 ) : CommonSpecification {
 
-    fun decodeFromString(string: String): OpenAPIObject = json
+    fun decodeFromJsonString(string: String): OpenAPIModel = json
         .decodeFromString<JsonObject>(string)
         .decode(V3)
         .let(json::decodeFromJsonElement)
 
-    fun encodeToString(value: OpenAPIObject): String = json
+    fun encodeToString(value: OpenAPIModel): String = json
         .encodeToJsonElement(value)
         .encode()
         .let(json::encodeToString)
 
-    companion object Default : OpenAPI()
+    companion object : OpenAPI()
 }

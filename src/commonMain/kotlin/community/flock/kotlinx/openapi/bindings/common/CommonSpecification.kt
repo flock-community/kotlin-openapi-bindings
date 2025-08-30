@@ -39,18 +39,18 @@ private fun JsonObject.validate(version: Version) = apply {
     }
 }
 
-private fun JsonObject.encodeExtensions(path: String): JsonObject = toList()
+private fun JsonObject.encodeExtensions(path: String) = toList()
     .partition { (key, _) -> !regex.hasMatchedRegex("$path$key|") }
     .let { (known, unknown) -> known.toMap() + unknown.toXProperties() }
     .let(::JsonObject)
 
 private fun List<Pair<String, JsonElement>>.toXProperties() = takeIf { it.isNotEmpty() }
     ?.let { mapOf("xProperties" to JsonObject(it.toMap())) }
-    ?: emptyMap()
+    .orEmpty()
 
 private fun JsonObject.decodeExtensions() = JsonObject(filter { it.key != "xProperties" } + (get("xProperties")?.jsonObject ?: emptyMap()))
 
-private fun List<Regex>.hasMatchedRegex(path: String): Boolean = find { regex -> regex.containsMatchIn(path) }.found()
+private fun List<Regex>.hasMatchedRegex(path: String) = find { it.containsMatchIn(path) }.found()
 
 private fun Any?.found() = this?.let { true } ?: false
 
