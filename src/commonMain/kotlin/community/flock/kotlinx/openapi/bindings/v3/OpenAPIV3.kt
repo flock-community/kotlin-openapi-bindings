@@ -9,19 +9,19 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
 
-open class OpenAPI(
+open class OpenAPIV3(
     val json: Json = Json { prettyPrint = true },
 ) : CommonSpecification {
 
-    fun decodeFromJsonString(string: String): OpenAPIModel = json
+    fun decodeFromJsonString(string: String): OpenAPIV3Model = json
         .decodeFromString<JsonObject>(string)
         .decode(V3)
         .let(json::decodeFromJsonElement)
 
-    fun encodeToString(value: OpenAPIModel): String = json
+    fun encodeToString(value: OpenAPIV3Model): String = json
         .encodeToJsonElement(value)
         .encode()
         .let(json::encodeToString)
 
-    companion object : OpenAPI()
+    companion object : OpenAPIV3()
 }

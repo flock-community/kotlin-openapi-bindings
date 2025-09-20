@@ -32,35 +32,35 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 
-@Serializable(with = SwaggerResponseOrReferenceSerializer::class)
-sealed interface SwaggerResponseOrReference : ResponseOrReference
+@Serializable(with = OpenAPIV2ResponseOrReferenceSerializer::class)
+sealed interface OpenAPIV2ResponseOrReference : ResponseOrReference
 
-@Serializable(with = SwaggerHeaderOrReferenceSerializer::class)
-sealed interface SwaggerHeaderOrReference : HeaderOrReference
+@Serializable(with = OpenAPIV2HeaderOrReferenceSerializer::class)
+sealed interface OpenAPIV2HeaderOrReference : HeaderOrReference
 
-@Serializable(with = SwaggerParameterOrReferenceSerializer::class)
-sealed interface SwaggerParameterOrReference : ParameterOrReference
+@Serializable(with = OpenAPIV2ParameterOrReferenceSerializer::class)
+sealed interface OpenAPIV2ParameterOrReference : ParameterOrReference
 
-@Serializable(with = SwaggerSchemaOrReferenceSerializer::class)
-sealed interface SwaggerSchemaOrReference : SchemaOrReference
+@Serializable(with = OpenAPIV2SchemaOrReferenceSerializer::class)
+sealed interface OpenAPIV2SchemaOrReference : SchemaOrReference
 
-@Serializable(with = SwaggerSchemaOrReferenceOrBooleanSerializer::class)
-sealed interface SwaggerSchemaOrReferenceOrBoolean : SchemaOrReferenceOrBoolean
+@Serializable(with = OpenAPIV2SchemaOrReferenceOrBooleanSerializer::class)
+sealed interface OpenAPIV2SchemaOrReferenceOrBoolean : SchemaOrReferenceOrBoolean
 
-@Serializable(with = SwaggerCallbackOrReferenceSerializer::class)
-sealed interface SwaggerCallbackOrReference : CallbackOrReference
+@Serializable(with = OpenAPIV2CallbackOrReferenceSerializer::class)
+sealed interface OpenAPIV2CallbackOrReference : CallbackOrReference
 
-@Serializable(with = SwaggerLinkOrReferenceSerializer::class)
-sealed interface SwaggerLinkOrReference : LinkOrReference
+@Serializable(with = OpenAPIV2LinkOrReferenceSerializer::class)
+sealed interface OpenAPIV2LinkOrReference : LinkOrReference
 
-@Serializable(with = SwaggerRequestBodyOrReferenceSerializer::class)
-sealed interface SwaggerRequestBodyOrReference : RequestBodyOrReference
+@Serializable(with = OpenAPIV2RequestBodyOrReferenceSerializer::class)
+sealed interface OpenAPIV2RequestBodyOrReference : RequestBodyOrReference
 
-@Serializable(with = SwaggerSecuritySchemeOrReferenceSerializer::class)
-sealed interface SwaggerSecuritySchemeOrReference : SecuritySchemeOrReference
+@Serializable(with = OpenAPIV2SecuritySchemeOrReferenceSerializer::class)
+sealed interface OpenAPIV2SecuritySchemeOrReference : SecuritySchemeOrReference
 
 @Serializable
-enum class SwaggerParameterLocation {
+enum class OpenAPIV2ParameterLocation {
     @SerialName("query")
     QUERY,
 
@@ -78,7 +78,7 @@ enum class SwaggerParameterLocation {
 }
 
 @Serializable
-enum class SwaggerType {
+enum class OpenAPIV2Type {
     @SerialName("string")
     STRING,
 
@@ -102,7 +102,7 @@ enum class SwaggerType {
 }
 
 @Serializable
-enum class SwaggerSecuritySchemeType {
+enum class OpenAPIV2SecuritySchemeType {
     @SerialName("basic")
     BASIC,
 
@@ -113,8 +113,8 @@ enum class SwaggerSecuritySchemeType {
     OAUTH2,
 }
 
-interface SwaggerBase {
-    val type: SwaggerType?
+interface OpenAPIV2Base {
+    val type: OpenAPIV2Type?
     val format: String?
     val pattern: String?
     val maximum: Double?
@@ -128,19 +128,19 @@ interface SwaggerBase {
 }
 
 @Serializable
-data class SwaggerModel(
+data class OpenAPIV2Model(
     val swagger: String,
     val host: String? = null,
     val basePath: String? = null,
     val schemes: List<String>? = null,
     val consumes: List<String>? = null,
     val produces: List<String>? = null,
-    val definitions: Map<String, SwaggerSchemaOrReference>? = null,
-    val parameters: Map<String, SwaggerParameter>? = null,
-    val responses: Map<String, SwaggerResponse>? = null,
-    val securityDefinitions: Map<String, SwaggerSecurityScheme>? = null,
+    val definitions: Map<String, OpenAPIV2SchemaOrReference>? = null,
+    val parameters: Map<String, OpenAPIV2Parameter>? = null,
+    val responses: Map<String, OpenAPIV2Response>? = null,
+    val securityDefinitions: Map<String, OpenAPIV2SecurityScheme>? = null,
     override val info: InfoObject,
-    override val paths: Map<Path, SwaggerPathItem>,
+    override val paths: Map<Path, OpenAPIV2PathItem>,
     override val security: List<Map<String, List<String>>>? = null,
     override val tags: List<TagObject>? = null,
     override val externalDocs: ExternalDocumentation? = null,
@@ -148,31 +148,31 @@ data class SwaggerModel(
 ) : CommonModel
 
 @Serializable
-data class SwaggerPathItem(
-    val parameters: List<SwaggerParameterOrReference>? = null,
+data class OpenAPIV2PathItem(
+    val parameters: List<OpenAPIV2ParameterOrReference>? = null,
     override val ref: String? = null,
     override val summary: String? = null,
     override val description: String? = null,
-    override val get: SwaggerOperation? = null,
-    override val put: SwaggerOperation? = null,
-    override val post: SwaggerOperation? = null,
-    override val delete: SwaggerOperation? = null,
-    override val options: SwaggerOperation? = null,
-    override val head: SwaggerOperation? = null,
-    override val patch: SwaggerOperation? = null,
-    override val trace: SwaggerOperation? = null,
+    override val get: OpenAPIV2Operation? = null,
+    override val put: OpenAPIV2Operation? = null,
+    override val post: OpenAPIV2Operation? = null,
+    override val delete: OpenAPIV2Operation? = null,
+    override val options: OpenAPIV2Operation? = null,
+    override val head: OpenAPIV2Operation? = null,
+    override val patch: OpenAPIV2Operation? = null,
+    override val trace: OpenAPIV2Operation? = null,
     override val servers: List<Server>? = null,
     override val xProperties: Map<String, JsonElement>? = null,
 ) : PathItem
 
 @Serializable
-data class SwaggerOperation(
+data class OpenAPIV2Operation(
     val consumes: List<String>? = null,
     val produces: List<String>? = null,
-    val parameters: List<SwaggerParameterOrReference>? = null,
-    val requestBody: SwaggerRequestBodyOrReference? = null,
-    val responses: Map<StatusCode, SwaggerResponseOrReference>? = null,
-    val callbacks: Map<String, SwaggerCallbackOrReference>? = null,
+    val parameters: List<OpenAPIV2ParameterOrReference>? = null,
+    val requestBody: OpenAPIV2RequestBodyOrReference? = null,
+    val responses: Map<StatusCode, OpenAPIV2ResponseOrReference>? = null,
+    val callbacks: Map<String, OpenAPIV2CallbackOrReference>? = null,
     override val tags: List<String?>? = null,
     override val summary: String? = null,
     override val description: String? = null,
@@ -185,50 +185,50 @@ data class SwaggerOperation(
 ) : Operation
 
 @Serializable
-data class SwaggerRequestBody(
+data class OpenAPIV2RequestBody(
     override val description: String? = null,
-    override val content: Map<MediaType, SwaggerMediaType>? = null,
+    override val content: Map<MediaType, OpenAPIV2MediaType>? = null,
     override val required: Boolean,
     override val xProperties: Map<String, JsonElement>? = null,
 ) : RequestBody,
-    SwaggerRequestBodyOrReference
+    OpenAPIV2RequestBodyOrReference
 
-@Serializable(with = SwaggerCallbacksSerializer::class)
-class SwaggerCallbacks(override val entries: Set<Map.Entry<String, SwaggerPathItem>>) :
-    AbstractMap<String, SwaggerPathItem>(),
-    SwaggerCallbackOrReference
+@Serializable(with = OpenAPIV2CallbacksSerializer::class)
+class OpenAPIV2Callbacks(override val entries: Set<Map.Entry<String, OpenAPIV2PathItem>>) :
+    AbstractMap<String, OpenAPIV2PathItem>(),
+    OpenAPIV2CallbackOrReference
 
-@Serializable(with = SwaggerLinksSerializer::class)
-class SwaggerLinks(
-    override val entries: Set<Map.Entry<String, SwaggerLinkOrReference>>,
-) : AbstractMap<String, SwaggerLinkOrReference>()
+@Serializable(with = OpenAPIV2LinksSerializer::class)
+class OpenAPIV2Links(
+    override val entries: Set<Map.Entry<String, OpenAPIV2LinkOrReference>>,
+) : AbstractMap<String, OpenAPIV2LinkOrReference>()
 
 @Serializable
-data class SwaggerLink(
+data class OpenAPIV2Link(
     val operationRef: String? = null,
     val operationId: String? = null,
     val parameters: Map<String, JsonElement>? = null,
     val requestBody: JsonElement? = null,
     val description: String? = null,
     val server: Server? = null,
-) : SwaggerLinkOrReference
+) : OpenAPIV2LinkOrReference
 
 @Serializable
-data class SwaggerResponse(
+data class OpenAPIV2Response(
     val description: String? = null,
-    val schema: SwaggerSchemaOrReference? = null,
-    val headers: Map<String, SwaggerHeaderOrReference>? = null,
-    val links: SwaggerLinks? = null,
+    val schema: OpenAPIV2SchemaOrReference? = null,
+    val headers: Map<String, OpenAPIV2HeaderOrReference>? = null,
+    val links: OpenAPIV2Links? = null,
     val examples: Map<String, JsonElement>? = null,
     val xProperties: Map<String, JsonElement>? = null,
-) : SwaggerResponseOrReference
+) : OpenAPIV2ResponseOrReference
 
 @Serializable
-data class SwaggerHeader(
+data class OpenAPIV2Header(
     val description: String? = null,
-    override val type: SwaggerType,
+    override val type: OpenAPIV2Type,
     override val format: String? = null,
-    val items: SwaggerSchemaOrReference? = null,
+    val items: OpenAPIV2SchemaOrReference? = null,
     val collectionFormat: String? = null,
     val default: JsonElement? = null,
     override val maximum: Double? = null,
@@ -244,18 +244,18 @@ data class SwaggerHeader(
     val enum: List<JsonPrimitive>? = null,
     val multipleOf: Int? = null,
     val xProperties: Map<String, JsonElement>? = null,
-) : SwaggerBase,
-    SwaggerHeaderOrReference
+) : OpenAPIV2Base,
+    OpenAPIV2HeaderOrReference
 
 @Serializable
-data class SwaggerParameter(
+data class OpenAPIV2Parameter(
     val name: String,
-    val `in`: SwaggerParameterLocation,
+    val `in`: OpenAPIV2ParameterLocation,
     val description: String? = null,
     val required: Boolean? = null,
-    val schema: SwaggerSchemaOrReference? = null,
-    override val type: SwaggerType? = null,
-    val items: SwaggerSchemaOrReference? = null,
+    val schema: OpenAPIV2SchemaOrReference? = null,
+    override val type: OpenAPIV2Type? = null,
+    val items: OpenAPIV2SchemaOrReference? = null,
     override val format: String? = null,
     val allowEmptyValue: Boolean? = null,
     val collectionFormat: String? = null,
@@ -273,29 +273,29 @@ data class SwaggerParameter(
     val enum: List<JsonPrimitive>? = null,
     val multipleOf: Int? = null,
     val xProperties: Map<String, JsonElement>? = null,
-) : SwaggerBase,
-    SwaggerParameterOrReference
+) : OpenAPIV2Base,
+    OpenAPIV2ParameterOrReference
 
 @Serializable
-data class SwaggerMediaType(
-    override val schema: SwaggerSchemaOrReference? = null,
+data class OpenAPIV2MediaType(
+    override val schema: OpenAPIV2SchemaOrReference? = null,
     override val examples: Map<String, JsonElement>? = null,
     override val example: JsonElement? = null,
-    override val encoding: Map<String, SwaggerEncodingProperty>? = null,
+    override val encoding: Map<String, OpenAPIV2EncodingProperty>? = null,
 ) : MediaTypeObject
 
 @Serializable
-data class SwaggerEncodingProperty(
+data class OpenAPIV2EncodingProperty(
     override val contentType: String? = null,
-    override val headers: Map<String, SwaggerHeaderOrReference>? = null,
+    override val headers: Map<String, OpenAPIV2HeaderOrReference>? = null,
     override val style: String? = null,
     override val explode: Boolean? = null,
     override val allowReserved: Boolean? = null,
 ) : EncodingProperty
 
 @Serializable
-data class SwaggerSecurityScheme(
-    val type: SwaggerSecuritySchemeType,
+data class OpenAPIV2SecurityScheme(
+    val type: OpenAPIV2SecuritySchemeType,
     val description: String? = null,
     val name: String? = null,
     val `in`: String? = null,
@@ -303,18 +303,18 @@ data class SwaggerSecurityScheme(
     val authorizationUrl: String? = null,
     val tokenUrl: String? = null,
     val scopes: Map<String, String>? = null,
-) : SwaggerSecuritySchemeOrReference
+) : OpenAPIV2SecuritySchemeOrReference
 
 @Serializable
-data class SwaggerBoolean(
+data class OpenAPIV2Boolean(
     val value: Boolean,
-) : SwaggerSchemaOrReferenceOrBoolean
+) : OpenAPIV2SchemaOrReferenceOrBoolean
 
 @Serializable
-data class SwaggerSchema(
+data class OpenAPIV2Schema(
     val discriminator: String? = null,
     val readOnly: Boolean? = null,
-    val xml: SwaggerXml? = null,
+    val xml: OpenAPIV2Xml? = null,
     val externalDocs: ExternalDocumentation? = null,
     val example: JsonElement? = null,
     override val format: String? = null,
@@ -336,20 +336,20 @@ data class SwaggerSchema(
     val minProperties: Int? = null,
     val required: List<String>? = null,
     val enum: List<JsonPrimitive>? = null,
-    override val type: SwaggerType? = null,
+    override val type: OpenAPIV2Type? = null,
 
-    val items: SwaggerSchemaOrReference? = null,
-    val allOf: List<SwaggerSchemaOrReference>? = null,
-    val properties: Map<String, SwaggerSchemaOrReference>? = null,
-    val additionalProperties: SwaggerSchemaOrReferenceOrBoolean? = null,
+    val items: OpenAPIV2SchemaOrReference? = null,
+    val allOf: List<OpenAPIV2SchemaOrReference>? = null,
+    val properties: Map<String, OpenAPIV2SchemaOrReference>? = null,
+    val additionalProperties: OpenAPIV2SchemaOrReferenceOrBoolean? = null,
 
     val xProperties: Map<String, JsonElement>? = null,
-) : SwaggerBase,
-    SwaggerSchemaOrReference,
-    SwaggerSchemaOrReferenceOrBoolean
+) : OpenAPIV2Base,
+    OpenAPIV2SchemaOrReference,
+    OpenAPIV2SchemaOrReferenceOrBoolean
 
 @Serializable
-data class SwaggerXml(
+data class OpenAPIV2Xml(
     val name: String? = null,
     val namespace: String? = null,
     val prefix: String? = null,
@@ -358,16 +358,16 @@ data class SwaggerXml(
 )
 
 @Serializable
-data class SwaggerReference(
+data class OpenAPIV2Reference(
     @SerialName("\$ref")
     val ref: Ref,
-    val xml: SwaggerXml? = null,
-) : SwaggerHeaderOrReference,
-    SwaggerSchemaOrReference,
-    SwaggerSchemaOrReferenceOrBoolean,
-    SwaggerResponseOrReference,
-    SwaggerCallbackOrReference,
-    SwaggerLinkOrReference,
-    SwaggerParameterOrReference,
-    SwaggerRequestBodyOrReference,
-    SwaggerSecuritySchemeOrReference
+    val xml: OpenAPIV2Xml? = null,
+) : OpenAPIV2HeaderOrReference,
+    OpenAPIV2SchemaOrReference,
+    OpenAPIV2SchemaOrReferenceOrBoolean,
+    OpenAPIV2ResponseOrReference,
+    OpenAPIV2CallbackOrReference,
+    OpenAPIV2LinkOrReference,
+    OpenAPIV2ParameterOrReference,
+    OpenAPIV2RequestBodyOrReference,
+    OpenAPIV2SecuritySchemeOrReference

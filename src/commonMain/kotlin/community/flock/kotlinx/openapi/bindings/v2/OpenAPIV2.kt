@@ -9,18 +9,18 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
 
-open class Swagger(
+open class OpenAPIV2(
     val json: Json = Json { prettyPrint = true },
 ) : CommonSpecification {
-    fun decodeFromString(string: String): SwaggerModel = json
+    fun decodeFromString(string: String): OpenAPIV2Model = json
         .decodeFromString<JsonObject>(string)
         .decode(V2)
         .let(json::decodeFromJsonElement)
 
-    fun encodeToString(value: SwaggerModel): String = json
+    fun encodeToString(value: OpenAPIV2Model): String = json
         .encodeToJsonElement(value)
         .encode()
         .let(json::encodeToString)
 
-    companion object : Swagger()
+    companion object : OpenAPIV2()
 }

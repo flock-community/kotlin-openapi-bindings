@@ -8,7 +8,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
-class OpenAPITests {
+class OpenAPIV3Tests {
 
     @Test
     fun api_with_examples() = runTest("api-with-examples.json")
@@ -47,15 +47,15 @@ class OpenAPITests {
     fun `openapi is not valid`() {
         val input = readFile("petstore.json", V2)
         shouldThrow<IllegalStateException> {
-            OpenAPI.decodeFromJsonString(input)
+            OpenAPIV3.decodeFromJsonString(input)
         }.message shouldBe "No valid openapi v3 element 'openapi' is missing"
     }
 
     private fun runTest(fileName: String) {
         readFile(fileName, V3).let {
             it shouldEqualJson it
-                .let(OpenAPI::decodeFromJsonString)
-                .let(OpenAPI::encodeToString)
+                .let(OpenAPIV3::decodeFromJsonString)
+                .let(OpenAPIV3::encodeToString)
         }
     }
 }
