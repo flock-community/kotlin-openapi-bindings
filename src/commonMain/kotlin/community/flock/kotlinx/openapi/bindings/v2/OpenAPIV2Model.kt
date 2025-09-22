@@ -2,29 +2,38 @@
 
 package community.flock.kotlinx.openapi.bindings.v2
 
+import community.flock.kotlinx.openapi.bindings.common.BooleanValue
 import community.flock.kotlinx.openapi.bindings.common.CallbackOrReference
 import community.flock.kotlinx.openapi.bindings.common.CommonModel
 import community.flock.kotlinx.openapi.bindings.common.EncodingProperty
 import community.flock.kotlinx.openapi.bindings.common.ExternalDocumentation
+import community.flock.kotlinx.openapi.bindings.common.Header
 import community.flock.kotlinx.openapi.bindings.common.HeaderOrReference
 import community.flock.kotlinx.openapi.bindings.common.InfoObject
+import community.flock.kotlinx.openapi.bindings.common.Link
 import community.flock.kotlinx.openapi.bindings.common.LinkOrReference
 import community.flock.kotlinx.openapi.bindings.common.MediaType
 import community.flock.kotlinx.openapi.bindings.common.MediaTypeObject
 import community.flock.kotlinx.openapi.bindings.common.Operation
+import community.flock.kotlinx.openapi.bindings.common.Parameter
 import community.flock.kotlinx.openapi.bindings.common.ParameterOrReference
 import community.flock.kotlinx.openapi.bindings.common.Path
 import community.flock.kotlinx.openapi.bindings.common.PathItem
 import community.flock.kotlinx.openapi.bindings.common.Ref
+import community.flock.kotlinx.openapi.bindings.common.Reference
 import community.flock.kotlinx.openapi.bindings.common.RequestBody
 import community.flock.kotlinx.openapi.bindings.common.RequestBodyOrReference
+import community.flock.kotlinx.openapi.bindings.common.Response
 import community.flock.kotlinx.openapi.bindings.common.ResponseOrReference
+import community.flock.kotlinx.openapi.bindings.common.Schema
 import community.flock.kotlinx.openapi.bindings.common.SchemaOrReference
 import community.flock.kotlinx.openapi.bindings.common.SchemaOrReferenceOrBoolean
+import community.flock.kotlinx.openapi.bindings.common.SecurityScheme
 import community.flock.kotlinx.openapi.bindings.common.SecuritySchemeOrReference
 import community.flock.kotlinx.openapi.bindings.common.Server
 import community.flock.kotlinx.openapi.bindings.common.StatusCode
 import community.flock.kotlinx.openapi.bindings.common.TagObject
+import community.flock.kotlinx.openapi.bindings.common.XML
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.SerialName
@@ -149,7 +158,7 @@ data class OpenAPIV2Model(
 
 @Serializable
 data class OpenAPIV2PathItem(
-    val parameters: List<OpenAPIV2ParameterOrReference>? = null,
+    override val parameters: List<OpenAPIV2ParameterOrReference>? = null,
     override val ref: String? = null,
     override val summary: String? = null,
     override val description: String? = null,
@@ -169,10 +178,10 @@ data class OpenAPIV2PathItem(
 data class OpenAPIV2Operation(
     val consumes: List<String>? = null,
     val produces: List<String>? = null,
-    val parameters: List<OpenAPIV2ParameterOrReference>? = null,
-    val requestBody: OpenAPIV2RequestBodyOrReference? = null,
-    val responses: Map<StatusCode, OpenAPIV2ResponseOrReference>? = null,
-    val callbacks: Map<String, OpenAPIV2CallbackOrReference>? = null,
+    override val parameters: List<OpenAPIV2ParameterOrReference>? = null,
+    override val requestBody: OpenAPIV2RequestBodyOrReference? = null,
+    override val responses: Map<StatusCode, OpenAPIV2ResponseOrReference>? = null,
+    override val callbacks: Map<String, OpenAPIV2CallbackOrReference>? = null,
     override val tags: List<String?>? = null,
     override val summary: String? = null,
     override val description: String? = null,
@@ -199,33 +208,33 @@ class OpenAPIV2Callbacks(override val entries: Set<Map.Entry<String, OpenAPIV2Pa
     OpenAPIV2CallbackOrReference
 
 @Serializable(with = OpenAPIV2LinksSerializer::class)
-class OpenAPIV2Links(
-    override val entries: Set<Map.Entry<String, OpenAPIV2LinkOrReference>>,
-) : AbstractMap<String, OpenAPIV2LinkOrReference>()
+class OpenAPIV2Links(override val entries: Set<Map.Entry<String, OpenAPIV2LinkOrReference>>) : AbstractMap<String, OpenAPIV2LinkOrReference>()
 
 @Serializable
 data class OpenAPIV2Link(
-    val operationRef: String? = null,
-    val operationId: String? = null,
-    val parameters: Map<String, JsonElement>? = null,
-    val requestBody: JsonElement? = null,
-    val description: String? = null,
-    val server: Server? = null,
-) : OpenAPIV2LinkOrReference
+    override val operationRef: String? = null,
+    override val operationId: String? = null,
+    override val parameters: Map<String, JsonElement>? = null,
+    override val requestBody: JsonElement? = null,
+    override val description: String? = null,
+    override val server: Server? = null,
+) : Link,
+    OpenAPIV2LinkOrReference
 
 @Serializable
 data class OpenAPIV2Response(
-    val description: String? = null,
     val schema: OpenAPIV2SchemaOrReference? = null,
-    val headers: Map<String, OpenAPIV2HeaderOrReference>? = null,
-    val links: OpenAPIV2Links? = null,
     val examples: Map<String, JsonElement>? = null,
-    val xProperties: Map<String, JsonElement>? = null,
-) : OpenAPIV2ResponseOrReference
+    override val description: String? = null,
+    override val headers: Map<String, OpenAPIV2HeaderOrReference>? = null,
+    override val links: OpenAPIV2Links? = null,
+    override val xProperties: Map<String, JsonElement>? = null,
+) : Response,
+    OpenAPIV2ResponseOrReference
 
 @Serializable
 data class OpenAPIV2Header(
-    val description: String? = null,
+    override val description: String? = null,
     override val type: OpenAPIV2Type,
     override val format: String? = null,
     val items: OpenAPIV2SchemaOrReference? = null,
@@ -243,17 +252,15 @@ data class OpenAPIV2Header(
     val uniqueItems: Boolean? = null,
     val enum: List<JsonPrimitive>? = null,
     val multipleOf: Int? = null,
-    val xProperties: Map<String, JsonElement>? = null,
-) : OpenAPIV2Base,
+    override val xProperties: Map<String, JsonElement>? = null,
+) : Header,
+    OpenAPIV2Base,
     OpenAPIV2HeaderOrReference
 
 @Serializable
 data class OpenAPIV2Parameter(
-    val name: String,
-    val `in`: OpenAPIV2ParameterLocation,
     val description: String? = null,
     val required: Boolean? = null,
-    val schema: OpenAPIV2SchemaOrReference? = null,
     override val type: OpenAPIV2Type? = null,
     val items: OpenAPIV2SchemaOrReference? = null,
     override val format: String? = null,
@@ -272,8 +279,12 @@ data class OpenAPIV2Parameter(
     val uniqueItems: Boolean? = null,
     val enum: List<JsonPrimitive>? = null,
     val multipleOf: Int? = null,
-    val xProperties: Map<String, JsonElement>? = null,
-) : OpenAPIV2Base,
+    val `in`: OpenAPIV2ParameterLocation,
+    override val schema: OpenAPIV2SchemaOrReference? = null,
+    override val name: String,
+    override val xProperties: Map<String, JsonElement>? = null,
+) : Parameter,
+    OpenAPIV2Base,
     OpenAPIV2ParameterOrReference
 
 @Serializable
@@ -296,32 +307,45 @@ data class OpenAPIV2EncodingProperty(
 @Serializable
 data class OpenAPIV2SecurityScheme(
     val type: OpenAPIV2SecuritySchemeType,
-    val description: String? = null,
-    val name: String? = null,
-    val `in`: String? = null,
     val flow: String? = null,
     val authorizationUrl: String? = null,
     val tokenUrl: String? = null,
     val scopes: Map<String, String>? = null,
-) : OpenAPIV2SecuritySchemeOrReference
+    override val description: String? = null,
+    override val name: String? = null,
+    override val `in`: String? = null,
+) : SecurityScheme,
+    OpenAPIV2SecuritySchemeOrReference
 
 @Serializable
 data class OpenAPIV2Boolean(
-    val value: Boolean,
-) : OpenAPIV2SchemaOrReferenceOrBoolean
+    override val value: Boolean,
+) : BooleanValue,
+    OpenAPIV2SchemaOrReferenceOrBoolean
 
 @Serializable
 data class OpenAPIV2Schema(
     val discriminator: String? = null,
-    val readOnly: Boolean? = null,
-    val xml: OpenAPIV2Xml? = null,
-    val externalDocs: ExternalDocumentation? = null,
-    val example: JsonElement? = null,
+    override val type: OpenAPIV2Type? = null,
+    override val example: JsonElement? = null,
+    override val readOnly: Boolean? = null,
+    override val xml: XML? = null,
+    override val externalDocs: ExternalDocumentation? = null,
+    override val title: String? = null,
+    override val description: String? = null,
+    override val default: JsonElement? = null,
+    override val multipleOf: Double? = null,
+    override val uniqueItems: Boolean? = null,
+    override val maxProperties: Int? = null,
+    override val minProperties: Int? = null,
+    override val required: List<String>? = null,
+    override val enum: List<JsonPrimitive>? = null,
+    override val items: OpenAPIV2SchemaOrReference? = null,
+    override val allOf: List<OpenAPIV2SchemaOrReference>? = null,
+    override val properties: Map<String, OpenAPIV2SchemaOrReference>? = null,
+    override val additionalProperties: OpenAPIV2SchemaOrReferenceOrBoolean? = null,
+    override val xProperties: Map<String, JsonElement>? = null,
     override val format: String? = null,
-    val title: String? = null,
-    val description: String? = null,
-    val default: JsonElement? = null,
-    val multipleOf: Double? = null,
     override val maximum: Double? = null,
     override val exclusiveMaximum: Boolean? = null,
     override val minimum: Double? = null,
@@ -331,38 +355,18 @@ data class OpenAPIV2Schema(
     override val pattern: String? = null,
     override val maxItems: Int? = null,
     override val minItems: Int? = null,
-    val uniqueItems: Boolean? = null,
-    val maxProperties: Int? = null,
-    val minProperties: Int? = null,
-    val required: List<String>? = null,
-    val enum: List<JsonPrimitive>? = null,
-    override val type: OpenAPIV2Type? = null,
-
-    val items: OpenAPIV2SchemaOrReference? = null,
-    val allOf: List<OpenAPIV2SchemaOrReference>? = null,
-    val properties: Map<String, OpenAPIV2SchemaOrReference>? = null,
-    val additionalProperties: OpenAPIV2SchemaOrReferenceOrBoolean? = null,
-
-    val xProperties: Map<String, JsonElement>? = null,
-) : OpenAPIV2Base,
+) : Schema,
+    OpenAPIV2Base,
     OpenAPIV2SchemaOrReference,
     OpenAPIV2SchemaOrReferenceOrBoolean
 
 @Serializable
-data class OpenAPIV2Xml(
-    val name: String? = null,
-    val namespace: String? = null,
-    val prefix: String? = null,
-    val attribute: Boolean? = null,
-    val wrapped: Boolean? = null,
-)
-
-@Serializable
 data class OpenAPIV2Reference(
     @SerialName("\$ref")
-    val ref: Ref,
-    val xml: OpenAPIV2Xml? = null,
-) : OpenAPIV2HeaderOrReference,
+    override val ref: Ref,
+    val xml: XML? = null,
+) : Reference,
+    OpenAPIV2HeaderOrReference,
     OpenAPIV2SchemaOrReference,
     OpenAPIV2SchemaOrReferenceOrBoolean,
     OpenAPIV2ResponseOrReference,

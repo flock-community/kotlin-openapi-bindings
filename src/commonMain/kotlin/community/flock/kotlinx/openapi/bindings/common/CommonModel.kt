@@ -57,6 +57,7 @@ data class InfoObject(
 )
 
 interface PathItem {
+    val parameters: List<ParameterOrReference>?
     val ref: String?
     val summary: String?
     val description: String?
@@ -87,6 +88,10 @@ data class ServerVariableObject(
 )
 
 interface Operation {
+    val parameters: List<ParameterOrReference>?
+    val requestBody: RequestBodyOrReference?
+    val responses: Map<StatusCode, ResponseOrReference>?
+    val callbacks: Map<String, CallbackOrReference>?
     val tags: List<String?>?
     val summary: String?
     val description: String?
@@ -120,6 +125,78 @@ interface EncodingProperty {
     val allowReserved: Boolean?
 }
 
+interface Link {
+    val operationRef: String?
+    val operationId: String?
+    val parameters: Map<String, JsonElement>?
+    val requestBody: JsonElement?
+    val description: String?
+    val server: Server?
+}
+
+interface Response {
+    val description: String?
+    val headers: Map<String, HeaderOrReference>?
+    val links: Map<String, LinkOrReference>?
+    val xProperties: Map<String, JsonElement>?
+}
+
+interface Header {
+    val description: String?
+    val xProperties: Map<String, JsonElement>?
+}
+
+interface Parameter {
+    val schema: SchemaOrReference?
+    val name: String
+    val xProperties: Map<String, JsonElement>?
+}
+
+interface SecurityScheme {
+    val description: String?
+    val name: String?
+    val `in`: String?
+}
+
+interface BooleanValue {
+    val value: Boolean
+}
+
+interface Schema {
+    val example: JsonElement?
+    val readOnly: Boolean?
+    val xml: XML?
+    val externalDocs: ExternalDocumentation?
+    val title: String?
+    val description: String?
+    val default: JsonElement?
+    val multipleOf: Double?
+    val uniqueItems: Boolean?
+    val maxProperties: Int?
+    val minProperties: Int?
+    val required: List<String>?
+    val enum: List<JsonPrimitive>?
+    val items: SchemaOrReference?
+    val allOf: List<SchemaOrReference>?
+    val properties: Map<String, SchemaOrReference>?
+    val additionalProperties: SchemaOrReferenceOrBoolean?
+    val xProperties: Map<String, JsonElement>?
+    val format: String?
+    val maximum: Double?
+    val exclusiveMaximum: Boolean?
+    val minimum: Double?
+    val exclusiveMinimum: Boolean?
+    val maxLength: Int?
+    val minLength: Int?
+    val pattern: String?
+    val maxItems: Int?
+    val minItems: Int?
+}
+
+interface Reference {
+    val ref: Ref
+}
+
 @Serializable
 data class TagObject(
     val name: String,
@@ -144,6 +221,15 @@ data class ContactObject(
 data class LicenseObject(
     val name: String,
     val url: String? = null,
+)
+
+@Serializable
+data class XML(
+    val name: String? = null,
+    val namespace: String? = null,
+    val prefix: String? = null,
+    val attribute: Boolean? = null,
+    val wrapped: Boolean? = null,
 )
 
 inline val <reified T> T.simpleName get() = T::class.simpleName!!

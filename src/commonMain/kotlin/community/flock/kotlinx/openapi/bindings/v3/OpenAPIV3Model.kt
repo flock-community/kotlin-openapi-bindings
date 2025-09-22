@@ -2,30 +2,39 @@
 
 package community.flock.kotlinx.openapi.bindings.v3
 
+import community.flock.kotlinx.openapi.bindings.common.BooleanValue
 import community.flock.kotlinx.openapi.bindings.common.CallbackOrReference
 import community.flock.kotlinx.openapi.bindings.common.CommonModel
 import community.flock.kotlinx.openapi.bindings.common.EncodingProperty
 import community.flock.kotlinx.openapi.bindings.common.ExampleOrReference
 import community.flock.kotlinx.openapi.bindings.common.ExternalDocumentation
+import community.flock.kotlinx.openapi.bindings.common.Header
 import community.flock.kotlinx.openapi.bindings.common.HeaderOrReference
 import community.flock.kotlinx.openapi.bindings.common.InfoObject
+import community.flock.kotlinx.openapi.bindings.common.Link
 import community.flock.kotlinx.openapi.bindings.common.LinkOrReference
 import community.flock.kotlinx.openapi.bindings.common.MediaType
 import community.flock.kotlinx.openapi.bindings.common.MediaTypeObject
 import community.flock.kotlinx.openapi.bindings.common.Operation
+import community.flock.kotlinx.openapi.bindings.common.Parameter
 import community.flock.kotlinx.openapi.bindings.common.ParameterOrReference
 import community.flock.kotlinx.openapi.bindings.common.Path
 import community.flock.kotlinx.openapi.bindings.common.PathItem
 import community.flock.kotlinx.openapi.bindings.common.Ref
+import community.flock.kotlinx.openapi.bindings.common.Reference
 import community.flock.kotlinx.openapi.bindings.common.RequestBody
 import community.flock.kotlinx.openapi.bindings.common.RequestBodyOrReference
+import community.flock.kotlinx.openapi.bindings.common.Response
 import community.flock.kotlinx.openapi.bindings.common.ResponseOrReference
+import community.flock.kotlinx.openapi.bindings.common.Schema
 import community.flock.kotlinx.openapi.bindings.common.SchemaOrReference
 import community.flock.kotlinx.openapi.bindings.common.SchemaOrReferenceOrBoolean
+import community.flock.kotlinx.openapi.bindings.common.SecurityScheme
 import community.flock.kotlinx.openapi.bindings.common.SecuritySchemeOrReference
 import community.flock.kotlinx.openapi.bindings.common.Server
 import community.flock.kotlinx.openapi.bindings.common.StatusCode
 import community.flock.kotlinx.openapi.bindings.common.TagObject
+import community.flock.kotlinx.openapi.bindings.common.XML
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.SerialName
@@ -153,7 +162,7 @@ data class OpenAPIV3Model(
 
 @Serializable
 data class OpenAPIV3PathItem(
-    val parameters: List<OpenAPIV3ParameterOrReference>? = null,
+    override val parameters: List<OpenAPIV3ParameterOrReference>? = null,
     override val ref: String? = null,
     override val summary: String? = null,
     override val description: String? = null,
@@ -171,10 +180,10 @@ data class OpenAPIV3PathItem(
 
 @Serializable
 data class OpenAPIV3Operation(
-    val parameters: List<OpenAPIV3ParameterOrReference>? = null,
-    val requestBody: OpenAPIV3RequestBodyOrReference? = null,
-    val responses: Map<StatusCode, OpenAPIV3ResponseOrReference>? = null,
-    val callbacks: Map<String, OpenAPIV3CallbackOrReference>? = null,
+    override val parameters: List<OpenAPIV3ParameterOrReference>? = null,
+    override val requestBody: OpenAPIV3RequestBodyOrReference? = null,
+    override val responses: Map<StatusCode, OpenAPIV3ResponseOrReference>? = null,
+    override val callbacks: Map<String, OpenAPIV3CallbackOrReference>? = null,
     override val tags: List<String?>? = null,
     override val summary: String? = null,
     override val description: String? = null,
@@ -201,32 +210,32 @@ class OpenAPIV3Callbacks(override val entries: Set<Map.Entry<String, OpenAPIV3Pa
     OpenAPIV3CallbackOrReference
 
 @Serializable(with = OpenAPIV3LinksSerializer::class)
-class OpenAPIV3Links(
-    override val entries: Set<Map.Entry<String, OpenAPIV3LinkOrReference>>,
-) : AbstractMap<String, OpenAPIV3LinkOrReference>()
+class OpenAPIV3Links(override val entries: Set<Map.Entry<String, OpenAPIV3LinkOrReference>>) : AbstractMap<String, OpenAPIV3LinkOrReference>()
 
 @Serializable
 data class OpenAPIV3Link(
-    val operationRef: String? = null,
-    val operationId: String? = null,
-    val parameters: Map<String, JsonElement>? = null,
-    val requestBody: JsonElement? = null,
-    val description: String? = null,
-    val server: Server? = null,
-) : OpenAPIV3LinkOrReference
+    override val operationRef: String? = null,
+    override val operationId: String? = null,
+    override val parameters: Map<String, JsonElement>? = null,
+    override val requestBody: JsonElement? = null,
+    override val description: String? = null,
+    override val server: Server? = null,
+) : Link,
+    OpenAPIV3LinkOrReference
 
 @Serializable
 data class OpenAPIV3Response(
-    val description: String? = null,
-    val headers: Map<String, OpenAPIV3HeaderOrReference>? = null,
     val content: Map<MediaType, OpenAPIV3MediaType>? = null,
-    val links: OpenAPIV3Links? = null,
-    val xProperties: Map<String, JsonElement>? = null,
-) : OpenAPIV3ResponseOrReference
+    override val description: String? = null,
+    override val headers: Map<String, OpenAPIV3HeaderOrReference>? = null,
+    override val links: OpenAPIV3Links? = null,
+    override val xProperties: Map<String, JsonElement>? = null,
+) : Response,
+    OpenAPIV3ResponseOrReference
 
 @Serializable
 data class OpenAPIV3Header(
-    val description: String? = null,
+    override val description: String? = null,
     val required: Boolean? = null,
     val deprecated: Boolean? = null,
     val allowEmptyValue: Boolean? = null,
@@ -237,8 +246,9 @@ data class OpenAPIV3Header(
     val examples: Map<String, OpenAPIV3ExampleOrReference>? = null,
     val example: JsonElement? = null,
     val content: Map<MediaType, OpenAPIV3MediaType>? = null,
-    val xProperties: Map<String, JsonElement>? = null,
-) : OpenAPIV3HeaderOrReference
+    override val xProperties: Map<String, JsonElement>? = null,
+) : Header,
+    OpenAPIV3HeaderOrReference
 
 @Serializable
 data class OpenAPIV3Parameter(
@@ -249,14 +259,15 @@ data class OpenAPIV3Parameter(
     val style: OpenAPIV3Style? = null,
     val explode: Boolean? = null,
     val allowReserved: Boolean? = null,
-    val schema: OpenAPIV3SchemaOrReference? = null,
     val examples: Map<String, OpenAPIV3ExampleOrReference>? = null,
     val example: JsonElement? = null,
     val content: Map<MediaType, OpenAPIV3MediaType>? = null,
-    val name: String,
     val `in`: OpenAPIV3ParameterLocation,
-    val xProperties: Map<String, JsonElement>? = null,
-) : OpenAPIV3ParameterOrReference
+    override val schema: OpenAPIV3SchemaOrReference? = null,
+    override val name: String,
+    override val xProperties: Map<String, JsonElement>? = null,
+) : Parameter,
+    OpenAPIV3ParameterOrReference
 
 @Serializable
 data class OpenAPIV3MediaType(
@@ -299,14 +310,15 @@ data class OpenAPIV3Components(
 @Serializable
 data class OpenAPIV3SecurityScheme(
     val type: OpenAPIV3SecuritySchemeType,
-    val description: String? = null,
-    val name: String? = null,
-    val `in`: String? = null,
     val scheme: String? = null,
     val bearerFormat: String? = null,
     val flows: OpenAPIV3OAuthFlows? = null,
     val openIdConnectUrl: String? = null,
-) : OpenAPIV3SecuritySchemeOrReference
+    override val description: String? = null,
+    override val name: String? = null,
+    override val `in`: String? = null,
+) : SecurityScheme,
+    OpenAPIV3SecuritySchemeOrReference
 
 @Serializable
 data class OpenAPIV3OAuthFlows(
@@ -326,52 +338,51 @@ data class OpenAPIV3OAuthFlow(
 
 @Serializable
 data class OpenAPIV3Boolean(
-    val value: Boolean,
-) : OpenAPIV3SchemaOrReferenceOrBoolean
+    override val value: Boolean,
+) : BooleanValue,
+    OpenAPIV3SchemaOrReferenceOrBoolean
 
 @Serializable
 data class OpenAPIV3Schema(
     val nullable: Boolean? = null,
-    val discriminator: OpenAPIV3Discriminator? = null,
-    val readOnly: Boolean? = null,
-    val writeOnly: Boolean? = null,
-    val xml: OpenAPIV3Xml? = null,
-    val externalDocs: ExternalDocumentation? = null,
-    val example: JsonElement? = null,
-    val examples: List<JsonElement>? = null,
     val deprecated: Boolean? = null,
-
-    val type: OpenAPIV3Type? = null,
-    val allOf: List<OpenAPIV3SchemaOrReference>? = null,
+    val not: OpenAPIV3SchemaOrReference? = null,
     val oneOf: List<OpenAPIV3SchemaOrReference>? = null,
     val anyOf: List<OpenAPIV3SchemaOrReference>? = null,
-    val not: OpenAPIV3SchemaOrReference? = null,
-    val items: OpenAPIV3SchemaOrReference? = null,
-    val properties: Map<String, OpenAPIV3SchemaOrReference>? = null,
-    val additionalProperties: OpenAPIV3SchemaOrReferenceOrBoolean? = null,
-    val description: String? = null,
-    val format: String? = null,
-    val default: JsonElement? = null,
-
-    val title: String? = null,
-    val multipleOf: Double? = null,
-    val maximum: Double? = null,
-    val exclusiveMaximum: Boolean? = null,
-    val minimum: Double? = null,
-    val exclusiveMinimum: Boolean? = null,
-    val maxLength: Int? = null,
-    val minLength: Int? = null,
-    val pattern: String? = null,
-    val maxItems: Int? = null,
-    val minItems: Int? = null,
-    val uniqueItems: Boolean? = null,
-    val maxProperties: Int? = null,
-    val minProperties: Int? = null,
-    val required: List<String>? = null,
-    val enum: List<JsonPrimitive>? = null,
-
-    val xProperties: Map<String, JsonElement>? = null,
-) : OpenAPIV3SchemaOrReference,
+    val discriminator: OpenAPIV3Discriminator? = null,
+    val writeOnly: Boolean? = null,
+    val type: OpenAPIV3Type? = null,
+    val examples: List<JsonElement>? = null,
+    override val example: JsonElement? = null,
+    override val readOnly: Boolean? = null,
+    override val xml: XML? = null,
+    override val externalDocs: ExternalDocumentation? = null,
+    override val title: String? = null,
+    override val description: String? = null,
+    override val default: JsonElement? = null,
+    override val multipleOf: Double? = null,
+    override val uniqueItems: Boolean? = null,
+    override val maxProperties: Int? = null,
+    override val minProperties: Int? = null,
+    override val required: List<String>? = null,
+    override val enum: List<JsonPrimitive>? = null,
+    override val items: OpenAPIV3SchemaOrReference? = null,
+    override val allOf: List<OpenAPIV3SchemaOrReference>? = null,
+    override val properties: Map<String, OpenAPIV3SchemaOrReference>? = null,
+    override val additionalProperties: OpenAPIV3SchemaOrReferenceOrBoolean? = null,
+    override val xProperties: Map<String, JsonElement>? = null,
+    override val format: String? = null,
+    override val maximum: Double? = null,
+    override val exclusiveMaximum: Boolean? = null,
+    override val minimum: Double? = null,
+    override val exclusiveMinimum: Boolean? = null,
+    override val maxLength: Int? = null,
+    override val minLength: Int? = null,
+    override val pattern: String? = null,
+    override val maxItems: Int? = null,
+    override val minItems: Int? = null,
+) : Schema,
+    OpenAPIV3SchemaOrReference,
     OpenAPIV3SchemaOrReferenceOrBoolean
 
 @Serializable
@@ -381,19 +392,11 @@ data class OpenAPIV3Discriminator(
 )
 
 @Serializable
-data class OpenAPIV3Xml(
-    val name: String? = null,
-    val namespace: String? = null,
-    val prefix: String? = null,
-    val attribute: Boolean? = null,
-    val wrapped: Boolean? = null,
-)
-
-@Serializable
 data class OpenAPIV3Reference(
     @SerialName("\$ref")
-    val ref: Ref,
-) : OpenAPIV3SchemaOrReference,
+    override val ref: Ref,
+) : Reference,
+    OpenAPIV3SchemaOrReference,
     OpenAPIV3SchemaOrReferenceOrBoolean,
     OpenAPIV3ResponseOrReference,
     OpenAPIV3HeaderOrReference,
