@@ -122,7 +122,7 @@ data class OpenAPIV2Model(
     override val tags: List<TagObject>? = null,
     override val externalDocs: ExternalDocumentation? = null,
     override val xProperties: Map<String, JsonElement>? = null,
-) : CommonModel
+) : OpenAPIModel
 
 @Serializable
 data class OpenAPIV2PathItem(

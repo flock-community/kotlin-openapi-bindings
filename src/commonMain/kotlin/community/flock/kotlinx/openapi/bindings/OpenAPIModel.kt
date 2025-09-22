@@ -20,23 +20,7 @@ sealed interface ExampleOrReference
 sealed interface RequestBodyOrReference
 sealed interface SecuritySchemeOrReference
 
-@JvmInline
-@Serializable
-value class Ref(val value: String)
-
-@JvmInline
-@Serializable
-value class MediaType(val value: String)
-
-@JvmInline
-@Serializable
-value class StatusCode(val value: String)
-
-@JvmInline
-@Serializable
-value class Path(val value: String)
-
-sealed interface CommonModel {
+sealed interface OpenAPIModel {
     val info: InfoObject
     val paths: Map<Path, PathItem>
     val security: List<Map<String, List<String>>>?
@@ -44,17 +28,6 @@ sealed interface CommonModel {
     val externalDocs: ExternalDocumentation?
     val xProperties: Map<String, JsonElement>?
 }
-
-@Serializable
-data class InfoObject(
-    val title: String,
-    val description: String? = null,
-    val termsOfService: String? = null,
-    val contact: ContactObject? = null,
-    val license: LicenseObject? = null,
-    val version: String,
-    val xProperties: Map<String, JsonElement>? = null,
-)
 
 sealed interface PathItem {
     val parameters: List<ParameterOrReference>?
@@ -72,20 +45,6 @@ sealed interface PathItem {
     val servers: List<Server>?
     val xProperties: Map<String, JsonElement>?
 }
-
-@Serializable
-data class Server(
-    val url: String,
-    val description: String? = null,
-    val variables: Map<String, ServerVariableObject>? = null,
-)
-
-@Serializable
-data class ServerVariableObject(
-    val enum: List<JsonPrimitive>? = null,
-    val default: JsonElement? = null,
-    val description: String? = null,
-)
 
 sealed interface Operation {
     val parameters: List<ParameterOrReference>?
@@ -196,6 +155,47 @@ sealed interface Schema {
 sealed interface Reference {
     val ref: Ref
 }
+
+@Serializable
+data class InfoObject(
+    val title: String,
+    val description: String? = null,
+    val termsOfService: String? = null,
+    val contact: ContactObject? = null,
+    val license: LicenseObject? = null,
+    val version: String,
+    val xProperties: Map<String, JsonElement>? = null,
+)
+
+@JvmInline
+@Serializable
+value class Ref(val value: String)
+
+@JvmInline
+@Serializable
+value class MediaType(val value: String)
+
+@JvmInline
+@Serializable
+value class StatusCode(val value: String)
+
+@JvmInline
+@Serializable
+value class Path(val value: String)
+
+@Serializable
+data class Server(
+    val url: String,
+    val description: String? = null,
+    val variables: Map<String, ServerVariableObject>? = null,
+)
+
+@Serializable
+data class ServerVariableObject(
+    val enum: List<JsonPrimitive>? = null,
+    val default: JsonElement? = null,
+    val description: String? = null,
+)
 
 @Serializable
 data class TagObject(

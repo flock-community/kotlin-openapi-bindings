@@ -10,7 +10,7 @@ import kotlinx.serialization.json.encodeToJsonElement
 
 open class OpenAPIV3(
     val json: Json = Json { prettyPrint = true },
-) : CommonSpecification {
+) : OpenAPISpecification {
 
     fun decodeFromJsonString(string: String): OpenAPIV3Model = json
         .decodeFromString<JsonObject>(string)

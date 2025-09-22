@@ -23,7 +23,7 @@ private val regex = """
    \|paths\|[^\|]*\|[^\|]*\|x-[^\|]*\|$
 """.trimIndent().split("\n").map { it.toRegex() }
 
-sealed interface CommonSpecification {
+sealed interface OpenAPISpecification {
 
     fun JsonObject.decode(version: Version): JsonElement = validate(version)
         .traverse { path, obj -> obj.encodeExtensions(path) }
