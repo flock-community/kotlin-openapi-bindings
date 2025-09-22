@@ -1,7 +1,6 @@
-package community.flock.kotlinx.openapi.bindings.v2
+package community.flock.kotlinx.openapi.bindings
 
-import community.flock.kotlinx.openapi.bindings.Version.V2
-import community.flock.kotlinx.openapi.bindings.common.CommonSpecification
+import community.flock.kotlinx.openapi.bindings.Version.V3
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -9,18 +8,19 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
 
-open class OpenAPIV2(
+open class OpenAPIV3(
     val json: Json = Json { prettyPrint = true },
 ) : CommonSpecification {
-    fun decodeFromString(string: String): OpenAPIV2Model = json
+
+    fun decodeFromJsonString(string: String): OpenAPIV3Model = json
         .decodeFromString<JsonObject>(string)
-        .decode(V2)
+        .decode(V3)
         .let(json::decodeFromJsonElement)
 
-    fun encodeToString(value: OpenAPIV2Model): String = json
+    fun encodeToString(value: OpenAPIV3Model): String = json
         .encodeToJsonElement(value)
         .encode()
         .let(json::encodeToString)
 
-    companion object : OpenAPIV2()
+    companion object : OpenAPIV3()
 }

@@ -1,6 +1,5 @@
-package community.flock.kotlinx.openapi.bindings.common
+package community.flock.kotlinx.openapi.bindings
 
-import community.flock.kotlinx.openapi.bindings.Version
 import community.flock.kotlinx.openapi.bindings.Version.V2
 import community.flock.kotlinx.openapi.bindings.Version.V3
 import kotlinx.serialization.json.JsonArray
@@ -24,7 +23,7 @@ private val regex = """
    \|paths\|[^\|]*\|[^\|]*\|x-[^\|]*\|$
 """.trimIndent().split("\n").map { it.toRegex() }
 
-interface CommonSpecification {
+sealed interface CommonSpecification {
 
     fun JsonObject.decode(version: Version): JsonElement = validate(version)
         .traverse { path, obj -> obj.encodeExtensions(path) }

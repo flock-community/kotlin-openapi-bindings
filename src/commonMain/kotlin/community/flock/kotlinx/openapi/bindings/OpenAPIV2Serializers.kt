@@ -1,8 +1,7 @@
 @file:OptIn(ExperimentalSerializationApi::class, InternalSerializationApi::class)
 
-package community.flock.kotlinx.openapi.bindings.v2
+package community.flock.kotlinx.openapi.bindings
 
-import community.flock.kotlinx.openapi.bindings.common.simpleName
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.KSerializer

@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalSerializationApi::class, InternalSerializationApi::class)
 
-package community.flock.kotlinx.openapi.bindings.common
+package community.flock.kotlinx.openapi.bindings
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.InternalSerializationApi
@@ -9,16 +9,16 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 import kotlin.jvm.JvmInline
 
-interface ResponseOrReference
-interface HeaderOrReference
-interface ParameterOrReference
-interface SchemaOrReference
-interface SchemaOrReferenceOrBoolean
-interface CallbackOrReference
-interface LinkOrReference
-interface ExampleOrReference
-interface RequestBodyOrReference
-interface SecuritySchemeOrReference
+sealed interface ResponseOrReference
+sealed interface HeaderOrReference
+sealed interface ParameterOrReference
+sealed interface SchemaOrReference
+sealed interface SchemaOrReferenceOrBoolean
+sealed interface CallbackOrReference
+sealed interface LinkOrReference
+sealed interface ExampleOrReference
+sealed interface RequestBodyOrReference
+sealed interface SecuritySchemeOrReference
 
 @JvmInline
 @Serializable
@@ -36,7 +36,7 @@ value class StatusCode(val value: String)
 @Serializable
 value class Path(val value: String)
 
-interface CommonModel {
+sealed interface CommonModel {
     val info: InfoObject
     val paths: Map<Path, PathItem>
     val security: List<Map<String, List<String>>>?
@@ -56,7 +56,7 @@ data class InfoObject(
     val xProperties: Map<String, JsonElement>? = null,
 )
 
-interface PathItem {
+sealed interface PathItem {
     val parameters: List<ParameterOrReference>?
     val ref: String?
     val summary: String?
@@ -87,7 +87,7 @@ data class ServerVariableObject(
     val description: String? = null,
 )
 
-interface Operation {
+sealed interface Operation {
     val parameters: List<ParameterOrReference>?
     val requestBody: RequestBodyOrReference?
     val responses: Map<StatusCode, ResponseOrReference>?
@@ -103,21 +103,21 @@ interface Operation {
     val xProperties: Map<String, JsonElement>?
 }
 
-interface RequestBody {
+sealed interface RequestBody {
     val description: String?
     val content: Map<MediaType, MediaTypeObject>?
     val required: Boolean?
     val xProperties: Map<String, JsonElement>?
 }
 
-interface MediaTypeObject {
+sealed interface MediaTypeObject {
     val schema: SchemaOrReference?
     val examples: Map<String, JsonElement>?
     val example: JsonElement?
     val encoding: Map<String, EncodingProperty>?
 }
 
-interface EncodingProperty {
+sealed interface EncodingProperty {
     val contentType: String?
     val headers: Map<String, HeaderOrReference>?
     val style: String?
@@ -125,7 +125,7 @@ interface EncodingProperty {
     val allowReserved: Boolean?
 }
 
-interface Link {
+sealed interface Link {
     val operationRef: String?
     val operationId: String?
     val parameters: Map<String, JsonElement>?
@@ -134,35 +134,35 @@ interface Link {
     val server: Server?
 }
 
-interface Response {
+sealed interface Response {
     val description: String?
     val headers: Map<String, HeaderOrReference>?
     val links: Map<String, LinkOrReference>?
     val xProperties: Map<String, JsonElement>?
 }
 
-interface Header {
+sealed interface Header {
     val description: String?
     val xProperties: Map<String, JsonElement>?
 }
 
-interface Parameter {
+sealed interface Parameter {
     val schema: SchemaOrReference?
     val name: String
     val xProperties: Map<String, JsonElement>?
 }
 
-interface SecurityScheme {
+sealed interface SecurityScheme {
     val description: String?
     val name: String?
     val `in`: String?
 }
 
-interface BooleanValue {
+sealed interface BooleanValue {
     val value: Boolean
 }
 
-interface Schema {
+sealed interface Schema {
     val example: JsonElement?
     val readOnly: Boolean?
     val xml: XML?
@@ -193,7 +193,7 @@ interface Schema {
     val minItems: Int?
 }
 
-interface Reference {
+sealed interface Reference {
     val ref: Ref
 }
 
