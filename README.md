@@ -56,8 +56,8 @@ dependencies {
 ### OpenAPI v3
 
 ```kotlin
-// Using community.flock.kotlinx.openapi.bindings.v3.OpenAPI
-// and community.flock.kotlinx.openapi.bindings.v3.OpenAPIObject
+// Using community.flock.kotlinx.openapi.bindings.OpenAPIV3
+// and community.flock.kotlinx.openapi.bindings.OpenAPIV3Model
 
 val json = """
 {
@@ -93,17 +93,17 @@ val json = """
 """
 
 // Parse OpenAPI JSON to Kotlin object
-val obj: OpenAPIObject = OpenAPI.decodeFromString(json)
+val obj: OpenAPIV3Model = OpenAPIV3.decodeFromString(json)
 
-// Serialize Kotlin object back to JSON
-val str: String = OpenAPI.encodeToString(obj)
+// Serialize a Kotlin object back to JSON
+val str: String = OpenAPIV3.encodeToString(obj)
 ```
 
 ### OpenAPI v2 (Swagger)
 
 ```kotlin
-// Using community.flock.kotlinx.openapi.bindings.v2.OpenAPI
-// and community.flock.kotlinx.openapi.bindings.v2.OpenAPIObject
+// Using community.flock.kotlinx.openapi.bindings.OpenAPIV2
+// and community.flock.kotlinx.openapi.bindings.OpenAPIV2Model
 
 val json = """
 {
@@ -135,10 +135,10 @@ val json = """
 """
 
 // Parse Swagger JSON to Kotlin object
-val obj: OpenAPIObject = OpenAPI.decodeFromString(json)
+val obj: OpenAPIV2Model = OpenAPIV2.decodeFromString(json)
 
-// Serialize Kotlin object back to JSON
-val str: String = OpenAPI.encodeToString(obj)
+// Serialize a Kotlin object back to JSON
+val str: String = OpenAPIV2.encodeToString(obj)
 ```
 
 ### Handling x-properties

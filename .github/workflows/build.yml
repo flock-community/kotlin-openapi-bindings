@@ -2,6 +2,17 @@ name: Build
 
 on:
   push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to deploy'
+        required: true
+        type: string
 
 jobs:
   build:
@@ -13,10 +24,22 @@ jobs:
       GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
       GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
+
     steps:
       - name: Checkout project sources
         uses: actions/checkout@v2
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
+
+      - name: Set version from input
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+
+      - name: Set version from release
+        if: github.event_name == 'release'
+        run: |
+          echo "VERSION=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+
       - name: Run build with Gradle Wrapper
         run: ./gradlew build publishToSonatype closeSonatypeStagingRepository

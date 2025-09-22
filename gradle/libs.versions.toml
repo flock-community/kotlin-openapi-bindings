@@ -1,5 +1,5 @@
 [versions]
-default = "0.1.4"
+default = "0.0.0-SNAPSHOT"
 from_env = "VERSION"
 group_id = "community.flock.kotlinx.openapi.bindings"
 java = "17"
