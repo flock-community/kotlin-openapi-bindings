@@ -3,10 +3,12 @@ package community.flock.kotlinx.openapi.bindings
 import java.io.File
 
 object IO {
-    fun readFile(fileName: String, version: Version): String {
-        val dir = "examples/${version.name.lowercase()}/$fileName"
-        val path = javaClass.classLoader.getResource(dir)?.path
-        requireNotNull(path) { "No resource found for $dir" }
-        return File(path).readText()
+    fun readFile(fileName: String, version: Version): String = toURL("examples/${version.name.lowercase()}/$fileName")
+        .path
+        .let(::File)
+        .readText()
+
+    private fun toURL(dir: String) = requireNotNull(javaClass.classLoader.getResource(dir)) {
+        "No resource found for $dir"
     }
 }
