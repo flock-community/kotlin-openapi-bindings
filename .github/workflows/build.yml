@@ -42,4 +42,4 @@ jobs:
           echo "VERSION=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
 
       - name: Run build with Gradle Wrapper
-        run: ./gradlew build publishToSonatype closeSonatypeStagingRepository
+        run: ./gradlew build publishToSonatype closeAndReleaseSonatypeStagingRepository
