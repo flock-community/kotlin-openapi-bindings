@@ -47,14 +47,14 @@ class OpenAPIV3Tests {
     fun `openapi v2 is not valid`() {
         val input = readFile("petstore.json", V2)
         shouldThrow<IllegalStateException> {
-            OpenAPIV3.decodeFromJsonString(input)
+            OpenAPIV3.decodeFromString(input)
         }.message shouldBe "No valid openapi v3 element 'openapi' is missing"
     }
 
     private fun openAPIv3(fileName: String) {
         readFile(fileName, V3).let {
             it shouldEqualJson it
-                .let(OpenAPIV3::decodeFromJsonString)
+                .let(OpenAPIV3::decodeFromString)
                 .let(OpenAPIV3::encodeToString)
         }
     }

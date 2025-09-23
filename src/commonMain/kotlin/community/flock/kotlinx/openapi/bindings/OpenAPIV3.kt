@@ -12,7 +12,7 @@ open class OpenAPIV3(
     val json: Json = Json { prettyPrint = true },
 ) : OpenAPISpecification {
 
-    fun decodeFromJsonString(string: String): OpenAPIV3Model = json
+    fun decodeFromString(string: String): OpenAPIV3Model = json
         .decodeFromString<JsonObject>(string)
         .decode(V3)
         .let(json::decodeFromJsonElement)
