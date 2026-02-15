@@ -97,7 +97,17 @@ enum class OpenAPIV3Type {
 
     @SerialName("object")
     OBJECT,
+
+    @SerialName("null")
+    NULL,
 }
+
+@Serializable(with = OpenAPIV3TypeDefinitionSerializer::class)
+sealed interface OpenAPIV3TypeDefinition
+
+data class OpenAPIV3SingleType(val value: OpenAPIV3Type) : OpenAPIV3TypeDefinition
+
+data class OpenAPIV3TypeArray(val values: List<OpenAPIV3Type>) : OpenAPIV3TypeDefinition
 
 @Serializable
 enum class OpenAPIV3SecuritySchemeType {
@@ -318,7 +328,7 @@ data class OpenAPIV3Schema(
     val anyOf: List<OpenAPIV3SchemaOrReference>? = null,
     val discriminator: OpenAPIV3Discriminator? = null,
     val writeOnly: Boolean? = null,
-    val type: OpenAPIV3Type? = null,
+    val type: OpenAPIV3TypeDefinition? = null,
     val examples: List<JsonElement>? = null,
     override val example: JsonElement? = null,
     override val readOnly: Boolean? = null,
@@ -337,6 +347,7 @@ data class OpenAPIV3Schema(
     override val allOf: List<OpenAPIV3SchemaOrReference>? = null,
     override val properties: Map<String, OpenAPIV3SchemaOrReference>? = null,
     override val additionalProperties: OpenAPIV3SchemaOrReferenceOrBoolean? = null,
+    val propertyNames: OpenAPIV3SchemaOrReference? = null,
     override val xProperties: Map<String, JsonElement>? = null,
     override val format: String? = null,
     override val maximum: Double? = null,
@@ -362,6 +373,10 @@ data class OpenAPIV3Discriminator(
 data class OpenAPIV3Reference(
     @SerialName("\$ref")
     override val ref: Ref,
+    val summary: String? = null,
+    val description: String? = null,
+    val type: OpenAPIV3TypeDefinition? = null,
+    val default: JsonElement? = null,
 ) : Reference,
     OpenAPIV3SchemaOrReference,
     OpenAPIV3SchemaOrReferenceOrBoolean,

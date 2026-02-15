@@ -7,6 +7,7 @@ import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.SerializationStrategy
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.descriptors.PolymorphicKind
@@ -16,10 +17,12 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonDecoder
+import kotlinx.serialization.json.JsonEncoder
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 object OpenAPIV3CallbacksSerializer : KSerializer<OpenAPIV3Callbacks> {
 
@@ -301,6 +304,34 @@ object OpenAPIV3SchemaOrReferenceOrBooleanSerializer : KSerializer<OpenAPIV3Sche
                 tree.containsKey("\$ref") -> input.json.decodeFromJsonElement(OpenAPIV3Reference.serializer(), tree)
                 else -> input.json.decodeFromJsonElement(OpenAPIV3Schema.serializer(), tree)
             }
+        }
+    }
+}
+
+object OpenAPIV3TypeDefinitionSerializer : KSerializer<OpenAPIV3TypeDefinition> {
+
+    override val descriptor: SerialDescriptor =
+        buildSerialDescriptor("OpenAPIV3TypeDefinition", PolymorphicKind.SEALED)
+
+    override fun serialize(encoder: Encoder, value: OpenAPIV3TypeDefinition) {
+        val output = encoder as? JsonEncoder ?: throw SerializationException("This class can be saved only by Json")
+        when (value) {
+            is OpenAPIV3SingleType -> output.encodeSerializableValue(OpenAPIV3Type.serializer(), value.value)
+            is OpenAPIV3TypeArray -> output.encodeSerializableValue(ListSerializer(OpenAPIV3Type.serializer()), value.values)
+        }
+    }
+
+    override fun deserialize(decoder: Decoder): OpenAPIV3TypeDefinition {
+        val input = decoder as? JsonDecoder ?: throw SerializationException("This class can be loaded only by Json")
+        val element = input.decodeJsonElement()
+        return when (element) {
+            is JsonPrimitive -> OpenAPIV3SingleType(
+                input.json.decodeFromJsonElement(OpenAPIV3Type.serializer(), element),
+            )
+            is JsonArray -> OpenAPIV3TypeArray(
+                element.map { input.json.decodeFromJsonElement(OpenAPIV3Type.serializer(), it.jsonPrimitive) },
+            )
+            else -> throw SerializationException("Expected string or array for type, got: $element")
         }
     }
 }

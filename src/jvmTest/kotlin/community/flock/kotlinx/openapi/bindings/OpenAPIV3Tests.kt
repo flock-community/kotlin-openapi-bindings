@@ -44,6 +44,9 @@ class OpenAPIV3Tests {
     fun `tempo-core`() = openAPIv3("tempo-core.json")
 
     @Test
+    fun mastodon() = openAPIv3("mastodon.json")
+
+    @Test
     fun `openapi v2 is not valid`() {
         val input = readFile("petstore.json", V2)
         shouldThrow<IllegalStateException> {
