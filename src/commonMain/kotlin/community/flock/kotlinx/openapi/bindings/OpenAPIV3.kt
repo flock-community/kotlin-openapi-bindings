@@ -25,7 +25,7 @@ open class OpenAPIV3(
         val decoded = tree.decode(version)
         return when (version) {
             V30 -> json.decodeFromJsonElement<OpenAPIV30Model>(decoded)
-            V31 -> TODO("V31 dispatch — Task 8")
+            V31 -> json.decodeFromJsonElement<OpenAPIV31Model>(decoded)
             V32 -> TODO("V32 dispatch — Task 13")
             V2 -> error("V2 documents are not supported by OpenAPIV3")
         }

@@ -39,6 +39,9 @@ sealed interface OpenAPIV31RequestBodyOrReference : RequestBodyOrReference
 @Serializable(with = OpenAPIV31SecuritySchemeOrReferenceSerializer::class)
 sealed interface OpenAPIV31SecuritySchemeOrReference : SecuritySchemeOrReference
 
+@Serializable(with = OpenAPIV31PathItemOrReferenceSerializer::class)
+sealed interface OpenAPIV31PathItemOrReference : PathItemOrReference
+
 @Serializable
 enum class OpenAPIV31Style {
     @SerialName("matrix")
@@ -127,6 +130,8 @@ enum class OpenAPIV31SecuritySchemeType {
 @Serializable
 data class OpenAPIV31Model(
     override val openapi: String,
+    val jsonSchemaDialect: String? = null,
+    val webhooks: Map<String, OpenAPIV31PathItemOrReference>? = null,
     val servers: List<Server>? = null,
     val components: OpenAPIV31Components? = null,
     override val info: InfoObject,
@@ -154,7 +159,8 @@ data class OpenAPIV31PathItem(
     override val trace: OpenAPIV31Operation? = null,
     override val servers: List<Server>? = null,
     override val xProperties: Map<String, JsonElement>? = null,
-) : PathItem
+) : PathItem,
+    OpenAPIV31PathItemOrReference
 
 @Serializable
 data class OpenAPIV31Operation(
@@ -283,6 +289,7 @@ data class OpenAPIV31Components(
     val securitySchemes: Map<String, OpenAPIV31SecuritySchemeOrReference>? = null,
     val links: Map<String, OpenAPIV31LinkOrReference>? = null,
     val callbacks: Map<String, OpenAPIV31CallbackOrReference>? = null,
+    val pathItems: Map<String, OpenAPIV31PathItemOrReference>? = null,
 )
 
 @Serializable
@@ -398,4 +405,5 @@ data class OpenAPIV31Reference(
     OpenAPIV31ParameterOrReference,
     OpenAPIV31ExampleOrReference,
     OpenAPIV31RequestBodyOrReference,
-    OpenAPIV31SecuritySchemeOrReference
+    OpenAPIV31SecuritySchemeOrReference,
+    OpenAPIV31PathItemOrReference

@@ -19,6 +19,7 @@ sealed interface LinkOrReference
 sealed interface ExampleOrReference
 sealed interface RequestBodyOrReference
 sealed interface SecuritySchemeOrReference
+sealed interface PathItemOrReference
 
 sealed interface OpenAPIModel {
     val info: InfoObject

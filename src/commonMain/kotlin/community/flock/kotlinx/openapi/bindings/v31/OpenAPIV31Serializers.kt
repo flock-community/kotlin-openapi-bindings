@@ -308,6 +308,29 @@ object OpenAPIV31SchemaOrReferenceOrBooleanSerializer : KSerializer<OpenAPIV31Sc
     }
 }
 
+object OpenAPIV31PathItemOrReferenceSerializer : KSerializer<OpenAPIV31PathItemOrReference> {
+
+    override val descriptor: SerialDescriptor =
+        buildSerialDescriptor(OpenAPIV31PathItemOrReference.simpleName, PolymorphicKind.SEALED)
+
+    override fun serialize(encoder: Encoder, value: OpenAPIV31PathItemOrReference) {
+        val serializer = when (value) {
+            is OpenAPIV31PathItem -> OpenAPIV31PathItem.serializer()
+            is OpenAPIV31Reference -> OpenAPIV31Reference.serializer()
+        } as SerializationStrategy<OpenAPIV31PathItemOrReference>
+        encoder.encodeSerializableValue(serializer, value)
+    }
+
+    override fun deserialize(decoder: Decoder): OpenAPIV31PathItemOrReference {
+        val input = decoder as? JsonDecoder ?: throw SerializationException("This class can be loaded only by Json")
+        val tree = input.decodeJsonElement().jsonObject
+        return when {
+            tree.containsKey("\$ref") -> input.json.decodeFromJsonElement(OpenAPIV31Reference.serializer(), tree)
+            else -> input.json.decodeFromJsonElement(OpenAPIV31PathItem.serializer(), tree)
+        }
+    }
+}
+
 object OpenAPIV31TypeDefinitionSerializer : KSerializer<OpenAPIV31TypeDefinition> {
 
     override val descriptor: SerialDescriptor =
