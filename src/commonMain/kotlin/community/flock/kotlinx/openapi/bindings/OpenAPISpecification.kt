@@ -23,6 +23,13 @@ private val regex = """
    \|properties\|[^\|]*\|[^\|]*\|x-[^\|]*\|$
    \|parameters\|[^\|]*\|x-[^\|]*\|$
    \|paths\|[^\|]*\|[^\|]*\|x-[^\|]*\|$
+   \|webhooks\|[^\|]*\|x-[^\|]*\|$
+   \|webhooks\|[^\|]*\|[^\|]*\|x-[^\|]*\|$
+   \|components\|pathItems\|[^\|]*\|x-[^\|]*\|$
+   \|components\|pathItems\|[^\|]*\|[^\|]*\|x-[^\|]*\|$
+   \|prefixItems\|[^\|]*\|x-[^\|]*\|$
+   \|dependentSchemas\|[^\|]*\|x-[^\|]*\|$
+   \|\${'$'}defs\|[^\|]*\|x-[^\|]*\|$
 """.trimIndent().split("\n").map { it.toRegex() }
 
 sealed interface OpenAPISpecification {
