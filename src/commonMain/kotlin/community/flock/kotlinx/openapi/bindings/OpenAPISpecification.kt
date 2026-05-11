@@ -30,6 +30,7 @@ private val regex = """
    \|prefixItems\|[^\|]*\|x-[^\|]*\|$
    \|dependentSchemas\|[^\|]*\|x-[^\|]*\|$
    \|\${'$'}defs\|[^\|]*\|x-[^\|]*\|$
+   \|paths\|[^\|]*\|additionalOperations\|[^\|]*\|x-[^\|]*\|$
 """.trimIndent().split("\n").map { it.toRegex() }
 
 sealed interface OpenAPISpecification {

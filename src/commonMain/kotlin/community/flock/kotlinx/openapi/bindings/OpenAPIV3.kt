@@ -26,7 +26,7 @@ open class OpenAPIV3(
         return when (version) {
             V30 -> json.decodeFromJsonElement<OpenAPIV30Model>(decoded)
             V31 -> json.decodeFromJsonElement<OpenAPIV31Model>(decoded)
-            V32 -> TODO("V32 dispatch — Task 13")
+            V32 -> json.decodeFromJsonElement<OpenAPIV32Model>(decoded)
             V2 -> error("V2 documents are not supported by OpenAPIV3")
         }
     }

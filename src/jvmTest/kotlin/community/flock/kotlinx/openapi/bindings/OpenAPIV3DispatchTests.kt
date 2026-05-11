@@ -20,9 +20,9 @@ class OpenAPIV3DispatchTests {
     }
 
     @Test
-    fun `3 dot 2 doc throws NotImplementedError until Task 13 wires V32`() {
+    fun `3 dot 2 doc decodes to OpenAPIV32Model`() {
         val doc = """{"openapi":"3.2.0","info":{"title":"t","version":"1"}}"""
-        shouldThrow<NotImplementedError> { OpenAPIV3.decodeFromString(doc) }
+        OpenAPIV3.decodeFromString(doc).shouldBeInstanceOf<OpenAPIV32Model>()
     }
 
     @Test

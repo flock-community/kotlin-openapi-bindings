@@ -1,0 +1,26 @@
+{
+  "openapi": "3.2.0",
+  "info": {
+    "title": "Feature coverage",
+    "summary": "Exercises every modeled 3.2 addition",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "child",
+      "summary": "a tag",
+      "description": "describes the child tag",
+      "parent": "root",
+      "kind": "nav"
+    }
+  ],
+  "paths": {
+    "/things": {
+      "get": { "responses": { "200": { "description": "ok" } } },
+      "query": { "responses": { "200": { "description": "ok" } } },
+      "additionalOperations": {
+        "PURGE": { "responses": { "204": { "description": "purged" } } }
+      }
+    }
+  }
+}
