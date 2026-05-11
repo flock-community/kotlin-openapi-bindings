@@ -35,6 +35,7 @@ object OpenAPIV3ModelSerializer : KSerializer<OpenAPIV3Model> {
         @Suppress("UNCHECKED_CAST")
         val strategy: SerializationStrategy<OpenAPIV3Model> = when (value) {
             is OpenAPIV30Model -> OpenAPIV30Model.serializer()
+            is OpenAPIV31Model -> OpenAPIV31Model.serializer()
         } as SerializationStrategy<OpenAPIV3Model>
         encoder.encodeSerializableValue(strategy, value)
     }
