@@ -5,7 +5,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
-class OpenAPIV2Tests {
+class OpenAPIV20Tests {
 
     @Test
     fun petstore() {

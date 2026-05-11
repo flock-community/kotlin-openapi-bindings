@@ -12,12 +12,12 @@ open class OpenAPIV2(
     val json: Json = Json { prettyPrint = true },
 ) : OpenAPISpecification {
 
-    fun decodeFromString(string: String): OpenAPIV2Model = json
+    fun decodeFromString(string: String): OpenAPIV20Model = json
         .decodeFromString<JsonObject>(string)
         .decode(V20)
         .let(json::decodeFromJsonElement)
 
-    fun encodeToString(value: OpenAPIV2Model): String = json
+    fun encodeToString(value: OpenAPIV20Model): String = json
         .encodeToJsonElement(value)
         .encode()
         .let(json::encodeToString)
