@@ -8,7 +8,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
-class OpenAPIV3Tests {
+class OpenAPIV30Tests {
 
     @Test
     fun api_with_examples() = openAPIv3("api-with-examples.json")
