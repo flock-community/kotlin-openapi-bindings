@@ -1,7 +1,9 @@
 package community.flock.kotlinx.openapi.bindings
 
 import community.flock.kotlinx.openapi.bindings.Version.V2
-import community.flock.kotlinx.openapi.bindings.Version.V3
+import community.flock.kotlinx.openapi.bindings.Version.V30
+import community.flock.kotlinx.openapi.bindings.Version.V31
+import community.flock.kotlinx.openapi.bindings.Version.V32
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
@@ -34,7 +36,7 @@ sealed interface OpenAPISpecification {
 private fun JsonObject.validate(version: Version) = apply {
     when (version) {
         V2 -> check("swagger" in keys) { "No valid openapi v2 element 'swagger' is missing" }
-        V3 -> check("openapi" in keys) { "No valid openapi v3 element 'openapi' is missing" }
+        V30, V31, V32 -> check("openapi" in keys) { "No valid openapi v3 element 'openapi' is missing" }
     }
 }
 

@@ -2,7 +2,7 @@ package community.flock.kotlinx.openapi.bindings
 
 import community.flock.kotlinx.openapi.bindings.IO.readFile
 import community.flock.kotlinx.openapi.bindings.Version.V2
-import community.flock.kotlinx.openapi.bindings.Version.V3
+import community.flock.kotlinx.openapi.bindings.Version.V30
 import io.kotest.assertions.json.shouldEqualJson
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -55,7 +55,7 @@ class OpenAPIV3Tests {
     }
 
     private fun openAPIv3(fileName: String) {
-        readFile(fileName, V3).let {
+        readFile(fileName, V30).let {
             it shouldEqualJson it
                 .let(OpenAPIV3::decodeFromString)
                 .let(OpenAPIV3::encodeToString)

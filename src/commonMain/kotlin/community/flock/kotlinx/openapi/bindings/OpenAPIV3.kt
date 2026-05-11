@@ -1,6 +1,6 @@
 package community.flock.kotlinx.openapi.bindings
 
-import community.flock.kotlinx.openapi.bindings.Version.V3
+import community.flock.kotlinx.openapi.bindings.Version.V30
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -14,7 +14,7 @@ open class OpenAPIV3(
 
     fun decodeFromString(string: String): OpenAPIV3Model = json
         .decodeFromString<JsonObject>(string)
-        .decode(V3)
+        .decode(V30)
         .let(json::decodeFromJsonElement)
 
     fun encodeToString(value: OpenAPIV3Model): String = json

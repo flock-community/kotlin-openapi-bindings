@@ -19,7 +19,7 @@ class OpenAPIV2Tests {
 
     @Test
     fun `openapi v3 is not valid`() {
-        val input = IO.readFile("petstore.json", Version.V3)
+        val input = IO.readFile("petstore.json", Version.V30)
         shouldThrow<IllegalStateException> {
             OpenAPIV2.decodeFromString(input)
         }.message shouldBe "No valid openapi v2 element 'swagger' is missing"
