@@ -157,6 +157,8 @@ data class OpenAPIV32PathItem(
     override val head: OpenAPIV32Operation? = null,
     override val patch: OpenAPIV32Operation? = null,
     override val trace: OpenAPIV32Operation? = null,
+    val query: OpenAPIV32Operation? = null,
+    val additionalOperations: Map<String, OpenAPIV32Operation>? = null,
     override val servers: List<Server>? = null,
     override val xProperties: Map<String, JsonElement>? = null,
 ) : PathItem,
