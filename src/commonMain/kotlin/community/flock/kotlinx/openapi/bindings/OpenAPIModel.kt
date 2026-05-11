@@ -142,9 +142,7 @@ sealed interface Schema {
     val xProperties: Map<String, JsonElement>?
     val format: String?
     val maximum: Double?
-    val exclusiveMaximum: Boolean?
     val minimum: Double?
-    val exclusiveMinimum: Boolean?
     val maxLength: Int?
     val minLength: Int?
     val pattern: String?

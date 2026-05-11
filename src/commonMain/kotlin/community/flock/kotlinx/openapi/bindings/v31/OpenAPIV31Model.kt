@@ -322,7 +322,6 @@ data class OpenAPIV31Boolean(
 
 @Serializable
 data class OpenAPIV31Schema(
-    val nullable: Boolean? = null,
     val deprecated: Boolean? = null,
     val not: OpenAPIV31SchemaOrReference? = null,
     val oneOf: List<OpenAPIV31SchemaOrReference>? = null,
@@ -352,9 +351,9 @@ data class OpenAPIV31Schema(
     override val xProperties: Map<String, JsonElement>? = null,
     override val format: String? = null,
     override val maximum: Double? = null,
-    override val exclusiveMaximum: Boolean? = null,
+    val exclusiveMaximum: Double? = null,
     override val minimum: Double? = null,
-    override val exclusiveMinimum: Boolean? = null,
+    val exclusiveMinimum: Double? = null,
     override val maxLength: Int? = null,
     override val minLength: Int? = null,
     override val pattern: String? = null,
