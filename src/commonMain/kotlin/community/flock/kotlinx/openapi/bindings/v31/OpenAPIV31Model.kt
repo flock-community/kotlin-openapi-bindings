@@ -359,6 +359,17 @@ data class OpenAPIV31Schema(
     override val pattern: String? = null,
     override val maxItems: Int? = null,
     override val minItems: Int? = null,
+    val const: JsonElement? = null,
+    val prefixItems: List<OpenAPIV31SchemaOrReference>? = null,
+    val contentEncoding: String? = null,
+    val contentMediaType: String? = null,
+    val contentSchema: OpenAPIV31SchemaOrReference? = null,
+    val dependentRequired: Map<String, List<String>>? = null,
+    val dependentSchemas: Map<String, OpenAPIV31SchemaOrReference>? = null,
+    val unevaluatedProperties: OpenAPIV31SchemaOrReferenceOrBoolean? = null,
+    val unevaluatedItems: OpenAPIV31SchemaOrReference? = null,
+    @SerialName("\$defs")
+    val defs: Map<String, OpenAPIV31SchemaOrReference>? = null,
 ) : Schema,
     OpenAPIV31SchemaOrReference,
     OpenAPIV31SchemaOrReferenceOrBoolean
