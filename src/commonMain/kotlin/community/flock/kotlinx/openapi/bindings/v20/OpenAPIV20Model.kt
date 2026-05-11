@@ -106,7 +106,7 @@ interface OpenAPIV20Base {
 
 @Serializable
 data class OpenAPIV20Model(
-    val swagger: String,
+    override val swagger: String,
     val host: String? = null,
     val basePath: String? = null,
     val schemes: List<String>? = null,
@@ -122,7 +122,8 @@ data class OpenAPIV20Model(
     override val tags: List<TagObject>? = null,
     override val externalDocs: ExternalDocumentation? = null,
     override val xProperties: Map<String, JsonElement>? = null,
-) : OpenAPIModel
+) : OpenAPIModel,
+    OpenAPIV2Model
 
 @Serializable
 data class OpenAPIV20PathItem(

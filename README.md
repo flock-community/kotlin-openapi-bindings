@@ -94,44 +94,34 @@ val roundtripped: String = OpenAPIV3.encodeToString(decoded)
 
 ### OpenAPI v2 (Swagger)
 
+`OpenAPIV2` mirrors the V3 shape for consistency: it reads the `swagger`
+version string and returns a sealed `OpenAPIV2Model` whose variant
+(`OpenAPIV20Model`) carries the version-specific fields typed. Today
+only Swagger 2.0 is published, so there is one variant; the sealed
+shape leaves room for future minors without breaking the public API.
+
 ```kotlin
-// Using community.flock.kotlinx.openapi.bindings.OpenAPIV2
-// and community.flock.kotlinx.openapi.bindings.OpenAPIV2Model
+import community.flock.kotlinx.openapi.bindings.OpenAPIV2
+import community.flock.kotlinx.openapi.bindings.OpenAPIV2Model
+import community.flock.kotlinx.openapi.bindings.OpenAPIV20Model
 
 val json = """
 {
   "swagger": "2.0",
-  "info": {
-    "title": "My API",
-    "version": "1.0.0"
-  },
+  "info": { "title": "My API", "version": "1.0.0" },
   "paths": {
-    "/": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+    "/": { "get": { "responses": { "200": { "description": "OK" } } } }
   }
 }
 """
 
-// Parse Swagger JSON to Kotlin object
-val obj: OpenAPIV2Model = OpenAPIV2.decodeFromString(json)
+val decoded: OpenAPIV2Model = OpenAPIV2.decodeFromString(json)
 
-// Serialize a Kotlin object back to JSON
-val str: String = OpenAPIV2.encodeToString(obj)
+when (decoded) {
+    is OpenAPIV20Model -> println(decoded.host)
+}
+
+val roundtripped: String = OpenAPIV2.encodeToString(decoded)
 ```
 
 ### Handling x-properties
@@ -142,12 +132,13 @@ The library automatically handles x-properties (extensions) in OpenAPI specifica
 
 The 3.1 / 3.2 support release breaks the OpenAPI v3 surface (the library is still pre-1.0). Specifically:
 
-1. **`OpenAPIV3Model` is now a sealed interface.** Reads against the interface still compile; instantiation and `copy()` move to `OpenAPIV30Model`, `OpenAPIV31Model`, or `OpenAPIV32Model`.
-2. **`Version.V3` is replaced** by `Version.V30`, `Version.V31`, `Version.V32` (with a new `Version.fromOpenApiString` parser).
-3. **`OpenAPIV3.decodeFromString` now dispatches by the `openapi` string.** A `3.1.0` document previously decoded into the same data class as 3.0 (silently dropping 3.1-only fields); it now decodes into `OpenAPIV31Model` and surfaces those fields typed.
+1. **`OpenAPIV3Model` and `OpenAPIV2Model` are now sealed interfaces.** Reads against either still compile; instantiation and `copy()` move to the per-minor data classes — `OpenAPIV20Model`, `OpenAPIV30Model`, `OpenAPIV31Model`, `OpenAPIV32Model`.
+2. **`Version.V2` and `Version.V3` are replaced** by `Version.V20`, `V30`, `V31`, `V32`, with `Version.fromSwaggerString` and `Version.fromOpenApiString` parsers.
+3. **`OpenAPIV3.decodeFromString` and `OpenAPIV2.decodeFromString` now dispatch by version string.** A `3.1.0` document previously decoded into the same data class as 3.0 (silently dropping 3.1-only fields); it now decodes into `OpenAPIV31Model` and surfaces those fields typed.
 4. **`Schema.exclusiveMinimum` / `Schema.exclusiveMaximum` are no longer on the shared `Schema` interface.** `OpenAPIV30Schema` has them as `Boolean?` and `OpenAPIV31Schema` / `OpenAPIV32Schema` as `Double?` — matching each version's spec.
-5. **`OpenAPIModel.paths` is now nullable** (3.1 made it non-required). All concrete subclasses' `paths` are nullable too.
-6. **Strict mode is unchanged for 3.0 docs;** for 3.1/3.2 it newly rejects unmodeled JSON Schema 2020-12 keywords (`$id`, `$anchor`, `$dynamicRef`, `$dynamicAnchor`, `$schema`, `$comment`). If you hit one in the wild, please open an issue.
+5. **`OpenAPIModel.paths` is now nullable** (3.1 made it non-required). All concrete V3 subclasses' `paths` are nullable too; `OpenAPIV20Model.paths` stays non-null because Swagger 2.0 requires it.
+6. **All `OpenAPIV2X` type names are renamed `OpenAPIV20X`** (Schema, Reference, Parameter, etc.). The directory layout moved files under `v20/`, `v30/`, `v31/`, `v32/` but the Kotlin package stays flat as `community.flock.kotlinx.openapi.bindings`.
+7. **Strict mode is unchanged for 2.0 and 3.0 docs;** for 3.1/3.2 it newly rejects unmodeled JSON Schema 2020-12 keywords (`$id`, `$anchor`, `$dynamicRef`, `$dynamicAnchor`, `$schema`, `$comment`). If you hit one in the wild, please open an issue.
 
 The OpenAPI 3.1/3.2 keywords that *are* modeled (and roundtrip losslessly):
 
