@@ -159,6 +159,7 @@ sealed interface Reference {
 @Serializable
 data class InfoObject(
     val title: String,
+    val summary: String? = null,
     val description: String? = null,
     val termsOfService: String? = null,
     val contact: ContactObject? = null,
@@ -220,6 +221,7 @@ data class ContactObject(
 @Serializable
 data class LicenseObject(
     val name: String,
+    val identifier: String? = null,
     val url: String? = null,
 )
 
