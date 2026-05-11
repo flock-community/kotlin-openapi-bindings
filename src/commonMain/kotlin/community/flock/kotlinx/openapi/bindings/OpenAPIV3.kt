@@ -1,24 +1,38 @@
 package community.flock.kotlinx.openapi.bindings
 
+import community.flock.kotlinx.openapi.bindings.Version.V2
 import community.flock.kotlinx.openapi.bindings.Version.V30
+import community.flock.kotlinx.openapi.bindings.Version.V31
+import community.flock.kotlinx.openapi.bindings.Version.V32
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
+import kotlinx.serialization.json.jsonPrimitive
 
 open class OpenAPIV3(
     val json: Json = Json { prettyPrint = true },
 ) : OpenAPISpecification {
 
-    fun decodeFromString(string: String): OpenAPIV30Model = json
-        .decodeFromString<JsonObject>(string)
-        .decode(V30)
-        .let(json::decodeFromJsonElement)
+    fun decodeFromString(string: String): OpenAPIV3Model {
+        val tree = json.decodeFromString<JsonObject>(string)
+        val openapi = tree["openapi"]?.jsonPrimitive?.contentOrNull
+            ?: error("No valid openapi v3 element 'openapi' is missing")
+        val version = Version.fromOpenApiString(openapi)
+        val decoded = tree.decode(version)
+        return when (version) {
+            V30 -> json.decodeFromJsonElement<OpenAPIV30Model>(decoded)
+            V31 -> TODO("V31 dispatch — Task 8")
+            V32 -> TODO("V32 dispatch — Task 13")
+            V2 -> error("V2 documents are not supported by OpenAPIV3")
+        }
+    }
 
-    fun encodeToString(value: OpenAPIV30Model): String = json
-        .encodeToJsonElement(value)
+    fun encodeToString(value: OpenAPIV3Model): String = json
+        .encodeToJsonElement(OpenAPIV3ModelSerializer, value)
         .encode()
         .let(json::encodeToString)
 

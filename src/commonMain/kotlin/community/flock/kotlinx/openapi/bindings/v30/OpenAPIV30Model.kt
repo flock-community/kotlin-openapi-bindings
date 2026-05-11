@@ -126,16 +126,17 @@ enum class OpenAPIV30SecuritySchemeType {
 
 @Serializable
 data class OpenAPIV30Model(
-    val openapi: String,
+    override val openapi: String,
     val servers: List<Server>? = null,
     val components: OpenAPIV30Components? = null,
     override val info: InfoObject,
-    override val paths: Map<Path, OpenAPIV30PathItem>,
+    override val paths: Map<Path, OpenAPIV30PathItem>? = null,
     override val security: List<Map<String, List<String>>>? = null,
     override val tags: List<TagObject>? = null,
     override val externalDocs: ExternalDocumentation? = null,
     override val xProperties: Map<String, JsonElement>? = null,
-) : OpenAPIModel
+) : OpenAPIModel,
+    OpenAPIV3Model
 
 @Serializable
 data class OpenAPIV30PathItem(

@@ -43,8 +43,7 @@ class OpenAPIV30Tests {
     @Test
     fun `tempo-core`() = openAPIv3("tempo-core.json")
 
-    @Test
-    fun mastodon() = openAPIv3("mastodon.json")
+    // mastodon.json is a 3.1.0 doc — moved to V31 in Task 9.
 
     @Test
     fun `openapi v2 is not valid`() {

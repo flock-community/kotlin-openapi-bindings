@@ -22,7 +22,7 @@ sealed interface SecuritySchemeOrReference
 
 sealed interface OpenAPIModel {
     val info: InfoObject
-    val paths: Map<Path, PathItem>
+    val paths: Map<Path, PathItem>?
     val security: List<Map<String, List<String>>>?
     val tags: List<TagObject>?
     val externalDocs: ExternalDocumentation?
