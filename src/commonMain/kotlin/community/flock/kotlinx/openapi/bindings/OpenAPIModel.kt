@@ -200,8 +200,11 @@ data class ServerVariableObject(
 @Serializable
 data class TagObject(
     val name: String,
+    val summary: String? = null,
     val description: String? = null,
     val externalDocs: ExternalDocumentation? = null,
+    val parent: String? = null,
+    val kind: String? = null,
 )
 
 @Serializable
