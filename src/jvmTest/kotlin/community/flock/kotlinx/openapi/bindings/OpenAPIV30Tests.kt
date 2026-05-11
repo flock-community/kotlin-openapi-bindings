@@ -1,7 +1,7 @@
 package community.flock.kotlinx.openapi.bindings
 
 import community.flock.kotlinx.openapi.bindings.IO.readFile
-import community.flock.kotlinx.openapi.bindings.Version.V2
+import community.flock.kotlinx.openapi.bindings.Version.V20
 import community.flock.kotlinx.openapi.bindings.Version.V30
 import io.kotest.assertions.json.shouldEqualJson
 import io.kotest.assertions.throwables.shouldThrow
@@ -47,7 +47,7 @@ class OpenAPIV30Tests {
 
     @Test
     fun `openapi v2 is not valid`() {
-        val input = readFile("petstore.json", V2)
+        val input = readFile("petstore.json", V20)
         shouldThrow<IllegalStateException> {
             OpenAPIV3.decodeFromString(input)
         }.message shouldBe "No valid openapi v3 element 'openapi' is missing"

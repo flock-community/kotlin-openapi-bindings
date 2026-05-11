@@ -26,7 +26,7 @@ class OpenAPIV2Tests {
     }
 
     private fun openAPIv2(fileName: String) {
-        IO.readFile(fileName, Version.V2).let {
+        IO.readFile(fileName, Version.V20).let {
             it shouldEqualJson it
                 .let(OpenAPIV2::decodeFromString)
                 .let(OpenAPIV2::encodeToString)

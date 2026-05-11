@@ -1,6 +1,6 @@
 package community.flock.kotlinx.openapi.bindings
 
-import community.flock.kotlinx.openapi.bindings.Version.V2
+import community.flock.kotlinx.openapi.bindings.Version.V20
 import community.flock.kotlinx.openapi.bindings.Version.V30
 import community.flock.kotlinx.openapi.bindings.Version.V31
 import community.flock.kotlinx.openapi.bindings.Version.V32
@@ -27,7 +27,7 @@ open class OpenAPIV3(
             V30 -> json.decodeFromJsonElement<OpenAPIV30Model>(decoded)
             V31 -> json.decodeFromJsonElement<OpenAPIV31Model>(decoded)
             V32 -> json.decodeFromJsonElement<OpenAPIV32Model>(decoded)
-            V2 -> error("V2 documents are not supported by OpenAPIV3")
+            V20 -> error("V2 documents are not supported by OpenAPIV3")
         }
     }
 
