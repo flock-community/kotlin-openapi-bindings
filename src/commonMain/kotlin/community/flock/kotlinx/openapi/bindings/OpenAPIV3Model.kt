@@ -41,8 +41,7 @@ object OpenAPIV3ModelSerializer : KSerializer<OpenAPIV3Model> {
         encoder.encodeSerializableValue(strategy, value)
     }
 
-    override fun deserialize(decoder: Decoder): OpenAPIV3Model =
-        throw SerializationException(
-            "OpenAPIV3Model is dispatched by version string; call OpenAPIV3.decodeFromString instead.",
-        )
+    override fun deserialize(decoder: Decoder): OpenAPIV3Model = throw SerializationException(
+        "OpenAPIV3Model is dispatched by version string; call OpenAPIV3.decodeFromString instead.",
+    )
 }
