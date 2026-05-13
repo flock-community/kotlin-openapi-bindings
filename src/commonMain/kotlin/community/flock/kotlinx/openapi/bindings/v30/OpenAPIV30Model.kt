@@ -135,8 +135,7 @@ data class OpenAPIV30Model(
     override val tags: List<TagObject>? = null,
     override val externalDocs: ExternalDocumentation? = null,
     override val xProperties: Map<String, JsonElement>? = null,
-) : OpenAPIModel,
-    OpenAPIV3Model
+) : OpenAPIV3Model
 
 @Serializable
 data class OpenAPIV30PathItem(

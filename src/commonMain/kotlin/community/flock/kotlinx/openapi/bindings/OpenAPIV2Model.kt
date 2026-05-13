@@ -23,7 +23,7 @@ import kotlinx.serialization.encoding.Encoder
  * version string at parse time — see [OpenAPIV2.decodeFromString].
  */
 @Serializable(with = OpenAPIV2ModelSerializer::class)
-sealed interface OpenAPIV2Model {
+sealed interface OpenAPIV2Model : OpenAPIModel {
     val swagger: String
 }
 
