@@ -1,7 +1,9 @@
 package community.flock.kotlinx.openapi.bindings
 
-import community.flock.kotlinx.openapi.bindings.Version.V2
-import community.flock.kotlinx.openapi.bindings.Version.V3
+import community.flock.kotlinx.openapi.bindings.Version.V20
+import community.flock.kotlinx.openapi.bindings.Version.V30
+import community.flock.kotlinx.openapi.bindings.Version.V31
+import community.flock.kotlinx.openapi.bindings.Version.V32
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
@@ -21,6 +23,14 @@ private val regex = """
    \|properties\|[^\|]*\|[^\|]*\|x-[^\|]*\|$
    \|parameters\|[^\|]*\|x-[^\|]*\|$
    \|paths\|[^\|]*\|[^\|]*\|x-[^\|]*\|$
+   \|webhooks\|[^\|]*\|x-[^\|]*\|$
+   \|webhooks\|[^\|]*\|[^\|]*\|x-[^\|]*\|$
+   \|components\|pathItems\|[^\|]*\|x-[^\|]*\|$
+   \|components\|pathItems\|[^\|]*\|[^\|]*\|x-[^\|]*\|$
+   \|prefixItems\|[^\|]*\|x-[^\|]*\|$
+   \|dependentSchemas\|[^\|]*\|x-[^\|]*\|$
+   \|\${'$'}defs\|[^\|]*\|x-[^\|]*\|$
+   \|paths\|[^\|]*\|additionalOperations\|[^\|]*\|x-[^\|]*\|$
 """.trimIndent().split("\n").map { it.toRegex() }
 
 sealed interface OpenAPISpecification {
@@ -33,8 +43,8 @@ sealed interface OpenAPISpecification {
 
 private fun JsonObject.validate(version: Version) = apply {
     when (version) {
-        V2 -> check("swagger" in keys) { "No valid openapi v2 element 'swagger' is missing" }
-        V3 -> check("openapi" in keys) { "No valid openapi v3 element 'openapi' is missing" }
+        V20 -> check("swagger" in keys) { "No valid openapi v2 element 'swagger' is missing" }
+        V30, V31, V32 -> check("openapi" in keys) { "No valid openapi v3 element 'openapi' is missing" }
     }
 }
 

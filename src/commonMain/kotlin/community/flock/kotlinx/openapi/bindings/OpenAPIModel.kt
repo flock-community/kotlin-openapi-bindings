@@ -19,10 +19,11 @@ sealed interface LinkOrReference
 sealed interface ExampleOrReference
 sealed interface RequestBodyOrReference
 sealed interface SecuritySchemeOrReference
+sealed interface PathItemOrReference
 
 sealed interface OpenAPIModel {
     val info: InfoObject
-    val paths: Map<Path, PathItem>
+    val paths: Map<Path, PathItem>?
     val security: List<Map<String, List<String>>>?
     val tags: List<TagObject>?
     val externalDocs: ExternalDocumentation?
@@ -142,9 +143,7 @@ sealed interface Schema {
     val xProperties: Map<String, JsonElement>?
     val format: String?
     val maximum: Double?
-    val exclusiveMaximum: Boolean?
     val minimum: Double?
-    val exclusiveMinimum: Boolean?
     val maxLength: Int?
     val minLength: Int?
     val pattern: String?
@@ -159,6 +158,7 @@ sealed interface Reference {
 @Serializable
 data class InfoObject(
     val title: String,
+    val summary: String? = null,
     val description: String? = null,
     val termsOfService: String? = null,
     val contact: ContactObject? = null,
@@ -200,8 +200,11 @@ data class ServerVariableObject(
 @Serializable
 data class TagObject(
     val name: String,
+    val summary: String? = null,
     val description: String? = null,
     val externalDocs: ExternalDocumentation? = null,
+    val parent: String? = null,
+    val kind: String? = null,
 )
 
 @Serializable
@@ -220,6 +223,7 @@ data class ContactObject(
 @Serializable
 data class LicenseObject(
     val name: String,
+    val identifier: String? = null,
     val url: String? = null,
 )
 

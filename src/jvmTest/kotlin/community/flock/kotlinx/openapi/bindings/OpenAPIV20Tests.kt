@@ -5,7 +5,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
-class OpenAPIV2Tests {
+class OpenAPIV20Tests {
 
     @Test
     fun petstore() {
@@ -19,14 +19,14 @@ class OpenAPIV2Tests {
 
     @Test
     fun `openapi v3 is not valid`() {
-        val input = IO.readFile("petstore.json", Version.V3)
+        val input = IO.readFile("petstore.json", Version.V30)
         shouldThrow<IllegalStateException> {
             OpenAPIV2.decodeFromString(input)
         }.message shouldBe "No valid openapi v2 element 'swagger' is missing"
     }
 
     private fun openAPIv2(fileName: String) {
-        IO.readFile(fileName, Version.V2).let {
+        IO.readFile(fileName, Version.V20).let {
             it shouldEqualJson it
                 .let(OpenAPIV2::decodeFromString)
                 .let(OpenAPIV2::encodeToString)
