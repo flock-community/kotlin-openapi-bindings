@@ -128,7 +128,7 @@ enum class OpenAPIV30SecuritySchemeType {
 data class OpenAPIV30Model(
     override val openapi: String,
     val servers: List<Server>? = null,
-    val components: OpenAPIV30Components? = null,
+    override val components: OpenAPIV30Components? = null,
     override val info: InfoObject,
     override val paths: Map<Path, OpenAPIV30PathItem>? = null,
     override val security: List<Map<String, List<String>>>? = null,
@@ -273,16 +273,16 @@ data class OpenAPIV30Example(
 
 @Serializable
 data class OpenAPIV30Components(
-    val schemas: Map<String, OpenAPIV30SchemaOrReference>? = null,
-    val responses: Map<String, OpenAPIV30ResponseOrReference>? = null,
-    val parameters: Map<String, OpenAPIV30ParameterOrReference>? = null,
-    val examples: Map<String, OpenAPIV30ExampleOrReference>? = null,
-    val requestBodies: Map<String, OpenAPIV30RequestBodyOrReference>? = null,
-    val headers: Map<String, OpenAPIV30HeaderOrReference>? = null,
-    val securitySchemes: Map<String, OpenAPIV30SecuritySchemeOrReference>? = null,
-    val links: Map<String, OpenAPIV30LinkOrReference>? = null,
-    val callbacks: Map<String, OpenAPIV30CallbackOrReference>? = null,
-)
+    override val schemas: Map<String, OpenAPIV30SchemaOrReference>? = null,
+    override val responses: Map<String, OpenAPIV30ResponseOrReference>? = null,
+    override val parameters: Map<String, OpenAPIV30ParameterOrReference>? = null,
+    override val examples: Map<String, OpenAPIV30ExampleOrReference>? = null,
+    override val requestBodies: Map<String, OpenAPIV30RequestBodyOrReference>? = null,
+    override val headers: Map<String, OpenAPIV30HeaderOrReference>? = null,
+    override val securitySchemes: Map<String, OpenAPIV30SecuritySchemeOrReference>? = null,
+    override val links: Map<String, OpenAPIV30LinkOrReference>? = null,
+    override val callbacks: Map<String, OpenAPIV30CallbackOrReference>? = null,
+) : Components
 
 @Serializable
 data class OpenAPIV30SecurityScheme(

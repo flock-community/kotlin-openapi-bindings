@@ -155,6 +155,18 @@ sealed interface Reference {
     val ref: Ref
 }
 
+sealed interface Components {
+    val schemas: Map<String, SchemaOrReference>?
+    val responses: Map<String, ResponseOrReference>?
+    val parameters: Map<String, ParameterOrReference>?
+    val examples: Map<String, ExampleOrReference>?
+    val requestBodies: Map<String, RequestBodyOrReference>?
+    val headers: Map<String, HeaderOrReference>?
+    val securitySchemes: Map<String, SecuritySchemeOrReference>?
+    val links: Map<String, LinkOrReference>?
+    val callbacks: Map<String, CallbackOrReference>?
+}
+
 @Serializable
 data class InfoObject(
     val title: String,

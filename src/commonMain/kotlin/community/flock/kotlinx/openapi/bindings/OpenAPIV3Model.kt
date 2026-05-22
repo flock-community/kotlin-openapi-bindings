@@ -24,6 +24,7 @@ import kotlinx.serialization.encoding.Encoder
 @Serializable(with = OpenAPIV3ModelSerializer::class)
 sealed interface OpenAPIV3Model : OpenAPIModel {
     val openapi: String
+    val components: Components?
 }
 
 object OpenAPIV3ModelSerializer : KSerializer<OpenAPIV3Model> {

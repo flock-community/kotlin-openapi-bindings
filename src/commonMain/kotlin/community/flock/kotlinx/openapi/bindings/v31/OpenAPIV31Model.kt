@@ -133,7 +133,7 @@ data class OpenAPIV31Model(
     val jsonSchemaDialect: String? = null,
     val webhooks: Map<String, OpenAPIV31PathItemOrReference>? = null,
     val servers: List<Server>? = null,
-    val components: OpenAPIV31Components? = null,
+    override val components: OpenAPIV31Components? = null,
     override val info: InfoObject,
     override val paths: Map<Path, OpenAPIV31PathItem>? = null,
     override val security: List<Map<String, List<String>>>? = null,
@@ -279,17 +279,17 @@ data class OpenAPIV31Example(
 
 @Serializable
 data class OpenAPIV31Components(
-    val schemas: Map<String, OpenAPIV31SchemaOrReference>? = null,
-    val responses: Map<String, OpenAPIV31ResponseOrReference>? = null,
-    val parameters: Map<String, OpenAPIV31ParameterOrReference>? = null,
-    val examples: Map<String, OpenAPIV31ExampleOrReference>? = null,
-    val requestBodies: Map<String, OpenAPIV31RequestBodyOrReference>? = null,
-    val headers: Map<String, OpenAPIV31HeaderOrReference>? = null,
-    val securitySchemes: Map<String, OpenAPIV31SecuritySchemeOrReference>? = null,
-    val links: Map<String, OpenAPIV31LinkOrReference>? = null,
-    val callbacks: Map<String, OpenAPIV31CallbackOrReference>? = null,
+    override val schemas: Map<String, OpenAPIV31SchemaOrReference>? = null,
+    override val responses: Map<String, OpenAPIV31ResponseOrReference>? = null,
+    override val parameters: Map<String, OpenAPIV31ParameterOrReference>? = null,
+    override val examples: Map<String, OpenAPIV31ExampleOrReference>? = null,
+    override val requestBodies: Map<String, OpenAPIV31RequestBodyOrReference>? = null,
+    override val headers: Map<String, OpenAPIV31HeaderOrReference>? = null,
+    override val securitySchemes: Map<String, OpenAPIV31SecuritySchemeOrReference>? = null,
+    override val links: Map<String, OpenAPIV31LinkOrReference>? = null,
+    override val callbacks: Map<String, OpenAPIV31CallbackOrReference>? = null,
     val pathItems: Map<String, OpenAPIV31PathItemOrReference>? = null,
-)
+) : Components
 
 @Serializable
 data class OpenAPIV31SecurityScheme(
