@@ -25,6 +25,15 @@ import kotlinx.serialization.encoding.Encoder
 @Serializable(with = OpenAPIV2ModelSerializer::class)
 sealed interface OpenAPIV2Model : OpenAPIModel {
     val swagger: String
+    val host: String?
+    val basePath: String?
+    val schemes: List<String>?
+    val consumes: List<String>?
+    val produces: List<String>?
+    val definitions: Map<String, SchemaOrReference>?
+    val parameters: Map<String, Parameter>?
+    val responses: Map<String, Response>?
+    val securityDefinitions: Map<String, SecurityScheme>?
 }
 
 object OpenAPIV2ModelSerializer : KSerializer<OpenAPIV2Model> {
